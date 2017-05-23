@@ -3,8 +3,8 @@ from django.contrib import admin
 from maintenance.models import UsuarioComp,Compania,Clasificacion_maquina,Maquina,Detalle_Maquina
 
 class UsuarioCompAdmin(admin.ModelAdmin):
-    list_display = ('user','tipo')
-    list_filter = ['user','tipo']
+    list_display = ('user','tipo','compania')
+    list_filter = ['user','tipo','compania']
 
 class CompaniaAdmin(admin.ModelAdmin):
     list_display = ('nombre','numero')

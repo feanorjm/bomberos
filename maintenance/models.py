@@ -2,19 +2,7 @@ from django.db import models
 from smart_selects.db_fields import ChainedForeignKey
 from django.contrib.auth.models import User
 
-TIPO_USER_CHOICES = (
-    ('0', 'Teniente de máquina'),
-    ('1', 'OBAC'),
-    ('2', 'Inspector general de máquina'),
-    ('3', 'Comandante')
-)
 
-class UsuarioComp(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    tipo = models.CharField(max_length=1, choices=TIPO_USER_CHOICES)
-
-    def __str__(self):
-        return self.tipo
 
 class Compania(models.Model):
     numero = models.IntegerField()
@@ -51,4 +39,19 @@ class Detalle_Maquina(models.Model):
     venc_rev_tec = models.DateField()       #vencimiento revicion tecnica
     costo_rev_tec = models.IntegerField()   #costo revision tecnica
     costo_seg_auto = models.IntegerField()  #costo seguro automotriz
+
+TIPO_USER_CHOICES = (
+    ('0', 'Teniente de máquina'),
+    ('1', 'OBAC'),
+    ('2', 'Inspector general de máquina'),
+    ('3', 'Comandante')
+)
+
+class UsuarioComp(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    tipo = models.CharField(max_length=1, choices=TIPO_USER_CHOICES)
+    compania = models.ForeignKey(Compania, null=True)
+
+    def __str__(self):
+        return self.tipo
 
