@@ -53,5 +53,5 @@ class UsuarioComp(models.Model):
     compania = models.ForeignKey(Compania, null=True)
 
     def __str__(self):
-        return self.tipo
+        return self.first_name
 

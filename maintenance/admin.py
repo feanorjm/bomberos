@@ -4,7 +4,7 @@ from maintenance.models import UsuarioComp,Compania,Clasificacion_maquina,Maquin
 
 class UsuarioCompAdmin(admin.ModelAdmin):
     list_display = ('user','tipo','compania')
-    list_filter = ['user','tipo','compania']
+    list_filter = ['tipo','compania']
 
 class CompaniaAdmin(admin.ModelAdmin):
     list_display = ('nombre','numero')
