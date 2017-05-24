@@ -3,7 +3,6 @@ from smart_selects.db_fields import ChainedForeignKey
 from django.contrib.auth.models import User
 
 
-
 class Compania(models.Model):
     numero = models.IntegerField()
     nombre = models.CharField(max_length=45)
@@ -19,6 +18,12 @@ class Clasificacion_maquina(models.Model):
     def __str__(self):
         return self.nombre
 
+class Conductor(models.Model):
+    rut = models.CharField(max_length=12)
+    nombre = models.CharField(max_length=45)
+    num_licencia = models.CharField(max_length=12)
+    venc_lic = models.DateField()
+
 class Maquina(models.Model):
     nombre = models.CharField(max_length=45)
     clasificacion = models.ForeignKey(Clasificacion_maquina)
@@ -27,6 +32,7 @@ class Maquina(models.Model):
     numero_chasis = models.CharField(max_length=45)
     bin = models.CharField(max_length=45)
     patente = models.CharField(max_length=10)
+    conductor = models.ForeignKey(Conductor ,null=True, blank=True)
 
     def __str__(self):
         return self.nombre
@@ -39,6 +45,7 @@ class Detalle_Maquina(models.Model):
     venc_rev_tec = models.DateField()       #vencimiento revicion tecnica
     costo_rev_tec = models.IntegerField()   #costo revision tecnica
     costo_seg_auto = models.IntegerField()  #costo seguro automotriz
+
 
 TIPO_USER_CHOICES = (
     ('0', 'Teniente de máquina'),
@@ -54,4 +61,23 @@ class UsuarioComp(models.Model):
 
     def __str__(self):
         return self.first_name
+
+class Servicentro(models.Model):
+    nombre = models.CharField(max_length=45)
+    direccion = models.CharField(max_length=100)
+
+class Taller(models.Model):
+    tipo = models.CharField(max_length=45)
+    razon_social = models.CharField(max_length=45)
+    rut = models.CharField(max_length=12)
+    telefono = models.IntegerField()
+    contacto = models.CharField(max_length=45)
+    tel_contacto = models.IntegerField()
+    direccion = models.CharField(max_length=60)
+    correo = models.EmailField(max_length=45)
+
+
+
+
+
 
