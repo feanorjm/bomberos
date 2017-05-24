@@ -24,6 +24,9 @@ class Conductor(models.Model):
     num_licencia = models.CharField(max_length=12)
     venc_lic = models.DateField()
 
+    def __str__(self):
+        return self.nombre
+
 class Maquina(models.Model):
     nombre = models.CharField(max_length=45)
     clasificacion = models.ForeignKey(Clasificacion_maquina)
@@ -66,6 +69,9 @@ class Servicentro(models.Model):
     nombre = models.CharField(max_length=45)
     direccion = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.nombre
+
 class Taller(models.Model):
     tipo = models.CharField(max_length=45)
     razon_social = models.CharField(max_length=45)
@@ -75,6 +81,9 @@ class Taller(models.Model):
     tel_contacto = models.IntegerField()
     direccion = models.CharField(max_length=60)
     correo = models.EmailField(max_length=45)
+
+    def __str__(self):
+        return self.razon_social
 
 
 
