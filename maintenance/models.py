@@ -182,6 +182,12 @@ class CambioNeumatico(models.Model):
     valor = models.IntegerField()
     responsable = models.CharField(max_length=45)
 
+    def __str__(self):
+        return str(self.compania) +' - '+ str(self.maquina)+' - '+ str(self.fecha)
+
+    def get_absolute_url(self):
+        return "/cambioneumatico/%i/" % self.id
+
 
 
 

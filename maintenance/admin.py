@@ -14,7 +14,8 @@ from maintenance.models import (UsuarioComp,
                                 Mantencion,
                                 DetalleMantencion,
                                 RepuestoDetalleMantencion,
-                                Bitacora)
+                                Bitacora,
+                                CambioNeumatico)
 
 class UsuarioCompAdmin(admin.ModelAdmin):
     list_display = ('user','tipo','compania')
@@ -72,6 +73,10 @@ class BitacoraAdmin(admin.ModelAdmin):
     list_display = ('compania', 'maquina', 'conductor','clave','cliente','fecha','observciones')
     list_filter = ['compania', 'maquina']
 
+class CambioNeumaticoAdmin(admin.ModelAdmin):
+    list_display = ('compania', 'maquina', 'fecha', 'kilometraje','marca','modelo','proveedor')
+    list_filter = ['compania', 'maquina', 'fecha']
+
 
 admin.site.register(UsuarioComp,UsuarioCompAdmin)
 admin.site.register(Compania,CompaniaAdmin)
@@ -87,5 +92,6 @@ admin.site.register(Mantencion,MantencionAdmin)
 admin.site.register(DetalleMantencion,DetalleMantencionAdmin)
 admin.site.register(RepuestoDetalleMantencion,RepuestoDetalleMantencionAdmin)
 admin.site.register(Bitacora,BitacoraAdmin)
+admin.site.register(CambioNeumatico,CambioNeumaticoAdmin)
 
 
