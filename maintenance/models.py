@@ -19,6 +19,7 @@ class Clasificacion_maquina(models.Model):
         return self.nombre
 
 class Conductor(models.Model):
+    compania = models.ForeignKey(Compania,null=True)
     rut = models.CharField(max_length=12)
     nombre = models.CharField(max_length=45)
     num_licencia = models.CharField(max_length=12)
@@ -36,6 +37,8 @@ class Maquina(models.Model):
     bin = models.CharField(max_length=45)
     patente = models.CharField(max_length=10)
     conductor = models.ForeignKey(Conductor ,null=True, blank=True)
+    kilometraje = models.IntegerField(null=True, blank=True)
+    hodometro = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.nombre
@@ -85,7 +88,99 @@ class Taller(models.Model):
     def __str__(self):
         return self.razon_social
 
+class Carguios_combustible(models.Model):
+    maquina = models.ForeignKey(Maquina)
+    litros = models.IntegerField()
+    servicentro = models.ForeignKey(Servicentro)
+    kilometraje = models.IntegerField()
+    hodometro = models.IntegerField()
+    valor = models.IntegerField()
+    conductor = models.ForeignKey(Conductor)
+    obac = models.ForeignKey(User)
 
+    def __str__(self):
+        return str(self.maquina)
+
+class TipoMantencion(models.Model):
+    nombre = models.CharField(max_length=45)
+    descripcion = models.TextField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
+class ServicioMantencion(models.Model):
+    tipo_mantencion = models.ForeignKey(TipoMantencion)
+    nombre = models.CharField(max_length=45)
+    descripcion = models.CharField(max_length=75, null=True, blank=True)
+
+    def __str__(self):
+        return self.nombre
+
+class Mantencion(models.Model):
+    fecha = models.DateField()
+    maquina = models.ForeignKey(Maquina)
+    kilometraje = models.IntegerField()
+    hodometro = models.IntegerField()
+    tipo_mantencion = models.ForeignKey(TipoMantencion)
+    cod_man = models.CharField(max_length=45)
+    servicio = ChainedForeignKey(ServicioMantencion,chained_field="tipo_mantencion",chained_model_field="tipo_mantencion")
+    observacion = models.TextField(max_length=200)
+    num_factura = models.IntegerField()
+    valor = models.IntegerField()
+    taller = models.ForeignKey(Taller)
+    responsable = models.CharField(max_length=45)
+
+    def __str__(self):
+        return str(self.maquina) +'-'+ str(self.tipo_mantencion)+'-'+ str(self.servicio)
+
+class DetalleMantencion(models.Model):
+    mantencion = models.ForeignKey(Mantencion)
+    detalle = models.CharField(max_length=45)
+    des_detalle = models.TextField(max_length=150)
+    hodometro_prox_man = models.IntegerField()
+
+    def __str__(self):
+        return self.detalle
+
+
+class RepuestoDetalleMantencion(models.Model):
+    mantencion = models.ForeignKey(Mantencion)
+    detalle_mantencion = ChainedForeignKey(DetalleMantencion,chained_field="mantencion",chained_model_field="mantencion")
+    repuesto = models.CharField(max_length=45)
+
+    def __str__(self):
+        return self.repuesto
+
+class Bitacora(models.Model):
+    compania = models.ForeignKey(Compania)
+    maquina = ChainedForeignKey(Maquina,chained_field="compania",chained_model_field="compania")
+    conductor = ChainedForeignKey(Conductor,chained_field="compania",chained_model_field="compania",default=1)
+    cliente = models.CharField(max_length=45,null=True)
+    fecha = models.DateField(auto_now=True,null=True)
+    hora_salida = models.TimeField(null=True)
+    hora_llegada = models.TimeField(null=True)
+    clave = models.CharField(max_length=45,null=True)
+    kilometraje_salida = models.IntegerField(null=True)
+    kilometraje_llegada = models.IntegerField(null=True)
+    hodometro_salida = models.IntegerField(null=True)
+    hodometro_llegada = models.IntegerField(null=True)
+    observciones = models.TextField(max_length=300,null=True)
+
+    def __str__(self):
+        return str(self.compania) +' - '+ str(self.maquina)+' - '+ str(self.fecha)+' - '+ str(self.clave)
+
+class CambioNeumatico(models.Model):
+    compania = models.ForeignKey(Compania)
+    maquina = ChainedForeignKey(Maquina,chained_field="compania",chained_model_field="compania")
+    fecha = models.DateField()
+    kilometraje = models.IntegerField()
+    hodometro = models.IntegerField()
+    marca = models.CharField(max_length=45)
+    modelo = models.CharField(max_length=45)
+    medidas = models.CharField(max_length=45)
+    proveedor = models.ForeignKey(Taller)
+    valor = models.IntegerField()
+    responsable = models.CharField(max_length=45)
 
 
 
