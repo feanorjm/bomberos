@@ -1,0 +1,53 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Bomberos Osorno</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
+  </head>
+
+  <body style="background:#F7F7F7;">
+    <div class="">
+      <a class="hiddenanchor" id="toregister"></a>
+      <a class="hiddenanchor" id="tologin"></a>
+
+      <div id="wrapper">
+        <div id="login" class=" form">
+          <section class="login_content">
+            <form method="post">{% csrf_token %}
+              <h1>Identificación</h1>
+              {{form.as_p}}
+              <div>
+              <button type="submit" class="btn btn-default submit">Entrar</button>
+                {% if message %}
+                  <b>{{ message }}</b>
+                {% endif %}
+              </div>
+              <div class="clearfix"></div>
+              <div class="separator">
+                <div class="clearfix"></div>
+                <br />
+                <div>
+                  <h1><i class="fa fa-paw" style="font-size: 26px;"></i> Bomberos Osorno</h1>
+
+                  <p>©2017 All Rights Reserved. Bomberos Osorno!</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
