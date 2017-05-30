@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load staticfiles %}
+    <div class="right_col" role="main">
+      <div class="">
+
+        <!--<div class="page-title">
+          <div class="title_left">
+            <h3>TRANSACCIONES</h3>
+          </div>
+        </div>-->
+        <div class="clearfix"></div>
+        <div class="row">
+            <div <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Nueva Transaccion <small>Ingresos y Gastos</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="" method="post">{% csrf_token %}
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ tipo_transaccion.id_for_label }}">Tipo Transacción </label>
+                            <div class="col-md-4">
+                                {{ form.tipo_transaccion }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form.tipo_transaccion.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ consumidor.id_for_label }}">Consumidor </label>
+                            <div class="col-md-4">
+                                {{ form.consumidor }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form.consumidor.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ monto.id_for_label }}">Monto </label>
+                            <div class="col-md-4">
+                                {{ form.monto }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form.monto.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ nombre_entrada.id_for_label }}">Tipo Entrada </label>
+                            <div class="col-md-4">
+                                {{ form.nombre_entrada }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form.nombre_entrada.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ fecha.id_for_label }}">Fecha </label>
+                            <div class="col-md-4">
+                                {{ form.fecha }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form.fecha.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ descripcion.id_for_label }}">Descripcion </label>
+                            <div class="col-md-4">
+                                {{ form.descripcion }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form.descripcion.errors }}
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button id="boton_tipo" type="submit" class="btn btn-success">{{ accion }}</button>
+                          <button type="button" id="limpiar" class="btn btn-default">Limpiar</button>
+                        </div>
+                      </div>
+                        <div class="form-group" id="respuesta">
+                            {% if mensaje != "None" %}
+                                <div class="alert alert-success alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                {{ mensaje }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </form>
+                  </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+        <!-- /page content -->
+
+    <!-- jQuery -->
+    <!--<script type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>-->
+    <!--<script type="text/javascript" src="{% static 'smart-selects/admin/js/chainedfk.js' %}"></script>-->
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <!-- FastClick -->
+    <script type="text/javascript" src="{% static 'vendors/fastclick/lib/fastclick.js' %}"></script>
+    <!-- NProgress -->
+    <script type="text/javascript" src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
+    <!-- bootstrap-progressbar -->
+    <script type="text/javascript" src="{% static 'vendors/bootstrap-progressbar/bootstrap-progressbar.min.js' %}"></script>
+    <!-- iCheck -->
+    <script type="text/javascript" src="{% static 'vendors/iCheck/icheck.min.js' %}"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script type="text/javascript" src="{% static 'js/moment/moment.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/datepicker/daterangepicker.js' %}"></script>
+    <!-- bootstrap-wysiwyg -->
+    <script type="text/javascript" src="{% static 'vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/jquery.hotkeys/jquery.hotkeys.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/google-code-prettify/src/prettify.js' %}"></script>
+    <!-- jQuery Tags Input -->
+    <script type="text/javascript" src="{% static 'vendors/jquery.tagsinput/src/jquery.tagsinput.js' %}"></script>
+    <!-- Switchery -->
+    <script type="text/javascript" src="{% static 'vendors/switchery/dist/switchery.min.js' %}"></script>
+    <!-- Select2 -->
+    <script type="text/javascript" src="{% static 'vendors/select2/dist/js/select2.full.min.js' %}"></script>
+    <!-- Parsley -->
+    <script type="text/javascript" src="{% static 'vendors/parsleyjs/dist/parsley.min.js' %}"></script>
+    <!-- Autosize -->
+    <script type="text/javascript" src="{% static 'vendors/autosize/dist/autosize.min.js' %}"></script>
+    <!-- jQuery autocomplete -->
+    <script type="text/javascript" src="{% static 'vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js' %}"></script>
+    <!-- starrr -->
+    <script type="text/javascript" src="{% static 'vendors/starrr/dist/starrr.js' %}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/jquery.price_format.2.0.min.js' %}"></script>
+
+    <!-- bootstrap-daterangepicker -->
+    <script>
+      $(document).ready(function() {
+        $('#birthday').daterangepicker({
+          singleDatePicker: true,
+          calender_style: "picker_4",
+            format: "YYYY-MM-DD"
+        }, function(start, end, label) {
+          console.log(start.toISOString(), end.toISOString(), label);
+        });
+      });
+    </script>
+
+
+    <!-- Autosize -->
+    <script>
+      $(document).ready(function() {
+        autosize($('.resizable_textarea'));
+      });
+    </script>
+    <!-- /Autosize -->
+
+    <script>
+        $(document).ready(function(){
+            $('#id_nombre_entrada').addClass('form-control');
+        });
+    </script>
+    <script>
+    /*$('#id_monto').priceFormat({
+        prefix: '',
+        centsSeparator: ',',
+        thousandsSeparator: '.',
+        centsLimit: 0
+    });*/
+    </script>
+
+    <script>
+        /*$(document).on('submit', '#demo-form2', function(e){
+            e.preventDefault();
+            var id = $('#boton_tipo').html();
+            if (id == 'Agregar'){
+                var url_post = '{% url 'contabilidad.views.transaccion_crear' %}';
+            }
+            $.ajax({
+                type: 'POST',
+                url: url_post,
+                data:
+                    $('#demo-form2').serialize() + "&csrfmiddlewaretoken=" + $('input[name=csrfmiddlewaretoken]').val()
+                    //csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                ,
+                success:function(response){
+                    var resp = $(response).find('#respuesta').html();
+                    $('#respuesta').html(resp);
+                }
+            });
+        });*/
+    </script>
+    <script>
+        /*$('#boton_tipo').click(function() {
+            console.log("click");
+            a=$('#boton_tipo').html();
+            console.log(a);
+            if (id == 'Agregar'){
+                var url_post = '{% url 'contabilidad.views.transaccion_crear' %}';
+            }
+            $.ajax({
+                method: 'POST',
+                url: url_post,
+                data: {
+                    $('#demo-form2').serialize() + "&csrfmiddlewaretoken=" + $('input[name=csrfmiddlewaretoken]').val()
+                },
+                dataType: "json",
+                success: function(response) {
+                    //$('#outputR').val(response.mensaje);
+                    console.log(response.mensaje)
+                }
+            });
+        });*/
+    </script>
+
+    <script>
+        $('#limpiar').click(function(){
+            $('#demo-form2')[0].reset();
+        });
+    </script>
+{% endblock %}
