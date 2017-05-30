@@ -31,3 +31,10 @@ class LoginView(View):
         return render(request, self.template_name, {'message': message,'form': form})
 
 login_view = LoginView.as_view()
+
+class LogoutView(View):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('/login/')
+
+logout_view = LogoutView.as_view()

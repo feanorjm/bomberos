@@ -14,8 +14,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}">
     <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css" href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}">
-    <!-- iCheck -->
-    <link rel="stylesheet" type="text/css" href="{% static 'vendors/iCheck/skins/flat/green.css' %}">
     <!-- bootstrap-progressbar -->
     <link rel="stylesheet" type="text/css" href="{% static 'vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css' %}">
     <!-- bootstrap-wysiwyg -->
@@ -33,9 +31,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %}">
     <!-- jQuery -->
-    <script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+    <!--<script type="text/javascript" src="/static/admin/js/jquery.js"></script>-->
     <!--<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>-->
-    <script type="text/javascript" src="/static/js/datepicker/daterangepicker.js"></script>
+    <script type="text/javascript" src="{% static 'js/datepicker/daterangepicker.js' %}"></script>
 
   </head>
 
@@ -45,7 +43,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="{% url 'contabilidad.views.index_view' %}" class="site_title"><i class="fa fa-paw"></i> <span>Admin Raíces!</span></a>
+              <a href="{% url 'contabilidad.views.index_view' %}" class="site_title"><i class="fa fa-paw"></i> <span>Control de Flota!</span></a>
             </div>
 
             <div class="clearfix"></div>
