@@ -15,9 +15,9 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Tabla Transacciones </h2>
+                    <h2>Bitacora </h2>
                       <ul class=" nav navbar-right panel_toolbox">
-                        <li><a href="#" class="btn btn-default" style="color:black;">Nueva Transacción</a>
+                        <li><button type=button onclick="location.href='{% url 'bitacora_create_view' %}';" class="btn btn-success">nuevo servicio</button>
                         </li>
                       </ul>
                     <div class="clearfix"></div>
@@ -45,20 +45,20 @@
 
                       <tbody>
 
-                        {% for bitacora in object_list %}
+                        {% for servicio in object_list %}
 
                         <tr>
-                            <td><a href="{{ object.get_absolute_url }}">{{ bitacora.maquina }}</a></td>
-                            <td>{{ bitacora.cliente }}</td>
-                            <td>{{ bitacora.fecha }}</td>
-                            <td>{{ bitacora.hora_salida }}</td>
-                            <td>{{ bitacora.hora_llegada }}</td>
-                            <td>{{ bitacora.clave }}</td>
-                            <td align="right"> {{ bitacora.kilometraje_salida }}</td>
-                            <td align="right"> {{ bitacora.kilometraje_llegada }}</td>
-                            <td align="right"> {{ bitacora.hodometro_salida }}</td>
-                            <td align="right"> {{ bitacora.hodometro_llegada }}</td>
-                            <td>{{ bitacora.observciones }}</td>
+                            <td><a href="{{ servicio.get_absolute_url }}">{{ servicio.maquina }}</a></td>
+                            <td>{{ servicio.cliente }}</td>
+                            <td>{{ servicio.fecha }}</td>
+                            <td>{{ servicio.hora_salida }}</td>
+                            <td>{{ servicio.hora_llegada }}</td>
+                            <td>{{ servicio.clave }}</td>
+                            <td align="right"> {{ servicio.kilometraje_salida }}</td>
+                            <td align="right"> {{ servicio.kilometraje_llegada }}</td>
+                            <td align="right"> {{ servicio.hodometro_salida }}</td>
+                            <td align="right"> {{ servicio.hodometro_llegada }}</td>
+                            <td>{{ servicio.observciones }}</td>
                         </tr>
                         {% endfor %}
                       </tbody>

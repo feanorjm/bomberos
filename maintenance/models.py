@@ -171,7 +171,7 @@ class Bitacora(models.Model):
 
     def get_absolute_url(self):
         from django.urls import reverse
-        return reverse('bomberos.views.bitacora_detail', args=[str(self.id)])
+        return reverse('bitacora_detail', args=[str(self.id)])
 
 class CambioNeumatico(models.Model):
     compania = models.ForeignKey(Compania)
