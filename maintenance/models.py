@@ -156,7 +156,7 @@ class Bitacora(models.Model):
     maquina = ChainedForeignKey(Maquina,chained_field="compania",chained_model_field="compania")
     conductor = ChainedForeignKey(Conductor,chained_field="compania",chained_model_field="compania",default=1)
     cliente = models.CharField(max_length=45,null=True)
-    fecha = models.DateField(auto_now=True,null=True)
+    fecha = models.DateField(auto_now=False, auto_now_add=False,null=True)
     hora_salida = models.TimeField(null=True)
     hora_llegada = models.TimeField(null=True)
     clave = models.CharField(max_length=45,null=True)
@@ -168,6 +168,10 @@ class Bitacora(models.Model):
 
     def __str__(self):
         return str(self.compania) +' - '+ str(self.maquina)+' - '+ str(self.fecha)+' - '+ str(self.clave)
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('bomberos.views.bitacora_detail', args=[str(self.id)])
 
 class CambioNeumatico(models.Model):
     compania = models.ForeignKey(Compania)

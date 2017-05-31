@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load staticfiles %}
+
+
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Detalle servicio</h2>
+                      <ul class=" nav navbar-right panel_toolbox">
+                        <li><a href="#" class="btn btn-default" style="color:black;">Editar</a>
+                        </li>
+                          <li><a href="#" class="btn btn-default" style="color:black;">Eliminar</a>
+                        </li>
+                      </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                        <h2>Compañía: {{ object.compania }}</h2>
+                        <h2>Máquina: {{ object.maquina }}</h2>
+                        <h2>Conductor: {{ object.conductor }}</h2>
+                        <h2>Compañía: {{ object.cliente }}</h2>
+                        <h2>Máquina: {{ object.fecha }}</h2>
+                        <h2>Conductor: {{ object.hora_salida }}</h2>
+                        <h2>Compañía: {{ object.hora_llegada }}</h2>
+                        <h2>Máquina: {{ object.clave }}</h2>
+                        <h2>Conductor: {{ object.kilometraje_salida }}</h2>
+                        <h2>Compañía: {{ object.kilometraje_llegada }}</h2>
+                        <h2>Máquina: {{ object.hodometro_salida }}</h2>
+                        <h2>Conductor: {{ object.hodometro_llegada }}</h2>
+                        <h2>Observaciones: {{ object.observciones }}</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+      </div>
+    </div>
+    <!-- jQuery -->
+    <script type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+{% endblock %}
