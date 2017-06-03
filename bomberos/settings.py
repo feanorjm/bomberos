@@ -110,6 +110,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = '/login/'
+
+SMART_SELECTS_JQUERY_URL = True
+#SMART_SELECTS_USE_DJANGO_JQUERY = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

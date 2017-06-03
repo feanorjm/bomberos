@@ -33,6 +33,11 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'js/datepicker/datepicker.css' %}">
     <!-- jQuery -->
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+
+    <!--smart-selects-->
+    <script type="text/javascript" src="{% static 'smart-selects/admin/js/chainedfk.js' %}"></script>
+    <script type="text/javascript" src="{% static 'smart-selects/admin/js/chainedm2m.js' %}"></script>
     <!--<script type="text/javascript" src="/static/admin/js/jquery.js"></script>-->
     <!--<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>-->
 
@@ -44,7 +49,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="#" class="site_title"><i class="fa fa-paw"></i> <span>Control de Flota!</span></a>
+              <a href="#" class="site_title"><i class="fa fa-fire-extinguisher"></i> <span>Control de Flota!</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -69,7 +74,7 @@
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-                <h3>General Manager</h3>
+                <h3>Administrador</h3>
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -119,33 +124,41 @@
                       </li>
                     </ul>
                   </li>-->
-                  <li><a><i class="fa fa-table"></i> Transacciones<span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-table"></i> Bitacora<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <!--<li><a href="tables.html">Tables</a>
-                      </li>-->
-                      <li><a href="#">Ingresos/Gastos Diarios</a>
+                      <li><a href="{% url 'bitacora_list' %}">Servicios</a>
                       </li>
-                      <li><a href="#">Nueva Transacción</a>
+                      <li><a href="{% url 'bitacora_create_view' %}">Nuevo servicio</a>
                       </li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-cogs"></i> Mantenimiento <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Gráficos</a>
+                      <li><a href="{% url 'mantencion_list' %}">Mantenciones</a>
                       </li>
-                      <!--<li><a href="chartjs2.html">Chart JS2</a>
+                      <li><a href="#">Neumaticos</a>
                       </li>
-                      <li><a href="morisjs.html">Moris JS</a>
+                      <li><a href="#">Talleres</a>
                       </li>
-                      <li><a href="echarts.html">ECharts </a>
+                      <li><a href="#">Combustible </a>
                       </li>
-                      <li><a href="other_charts.html">Other Charts </a>
+                      <li><a href="#">Servicentros </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-edit"></i> Personal y Máquinas <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">Máquinas</a>
+                      </li>
+                      <li><a href="#">Conductores</a>
+                      </li>
+                      <!--li><a href="">Form Validation</a>
                       </li>-->
                     </ul>
                   </li>
                 </ul>
               </div>
-              <div class="menu_section">
+              <!--<div class="menu_section">
                 <h3>Live On</h3>
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
@@ -196,7 +209,7 @@
                   <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a>
                   </li>
                 </ul>
-              </div>
+              </div>-->
 
             </div>
             <!-- /sidebar menu -->

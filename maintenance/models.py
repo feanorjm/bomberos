@@ -1,6 +1,7 @@
 from django.db import models
 from smart_selects.db_fields import ChainedForeignKey
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Compania(models.Model):
@@ -121,7 +122,7 @@ class Mantencion(models.Model):
     maquina = models.ForeignKey(Maquina)
     kilometraje = models.IntegerField()
     hodometro = models.IntegerField()
-    tipo_mantencion = models.ForeignKey(TipoMantencion)
+    tipo_mantencion = models.ForeignKey(TipoMantencion, default=1)
     cod_man = models.CharField(max_length=45)
     servicio = ChainedForeignKey(ServicioMantencion,chained_field="tipo_mantencion",chained_model_field="tipo_mantencion")
     observacion = models.TextField(max_length=200)
@@ -132,6 +133,9 @@ class Mantencion(models.Model):
 
     def __str__(self):
         return str(self.maquina) +'-'+ str(self.tipo_mantencion)+'-'+ str(self.servicio)
+
+    def get_absolute_url(self):
+        return reverse('mantencion_detail', args=[str(self.id)])
 
 class DetalleMantencion(models.Model):
     mantencion = models.ForeignKey(Mantencion)
@@ -156,6 +160,7 @@ class Bitacora(models.Model):
     maquina = ChainedForeignKey(Maquina,chained_field="compania",chained_model_field="compania")
     conductor = ChainedForeignKey(Conductor,chained_field="compania",chained_model_field="compania",default=1)
     cliente = models.CharField(max_length=45,null=True)
+    direccion = models.CharField(max_length=100,null=True)
     fecha = models.DateField(auto_now=False, auto_now_add=False,null=True)
     hora_salida = models.TimeField(null=True)
     hora_llegada = models.TimeField(null=True)
@@ -170,7 +175,6 @@ class Bitacora(models.Model):
         return str(self.compania) +' - '+ str(self.maquina)+' - '+ str(self.fecha)+' - '+ str(self.clave)
 
     def get_absolute_url(self):
-        from django.urls import reverse
         return reverse('bitacora_detail', args=[str(self.id)])
 
 class CambioNeumatico(models.Model):

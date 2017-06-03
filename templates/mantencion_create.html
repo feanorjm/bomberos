@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load staticfiles %}
+    <div class="right_col" role="main">
+      <div class="">
+
+        <!--<div class="page-title">
+          <div class="title_left">
+            <h3>BITACORA</h3>
+          </div>
+        </div>-->
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Datos nueva mantención</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <form id="form_mantencion" data-parsley-validate class="form-horizontal form-label-left" action="" method="post">{% csrf_token %}
+                        {{ form.errors }}
+                        {{ form.non_field_errors }}
+                        <div class="form-group pull-in clearfix">
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ fecha.id_for_label }}">Fecha </label>
+                                {{ form.fecha }}
+                                {{ form.fecha.errors }}
+                            </div>
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ maquina.id_for_label }}">Máquina </label>
+                                {{ form.maquina }}
+                                {{ form.maquina.errors }}
+                            </div>
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ kilometraje.id_for_label }}">Kilometraje </label>
+                                {{ form.kilometraje }}
+                                {{ form.kilometraje.errors }}
+                            </div>
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ hodometro.id_for_label }}">Hodometro </label>
+                                {{ form.hodometro }}
+                                {{ form.hodometro.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group pull-in clearfix">
+
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ tipo_mantencion.id_for_label }}">Tipo_mantencion </label>
+                                {{ form.tipo_mantencion }}
+                                {{ form.tipo_mantencion.errors }}
+                            </div>
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-5" for="{{ cod_man.id_for_label }}">Cód mantención</label>
+                                {{ form.cod_man }}
+                                {{ form.cod_man.errors }}
+                            </div>
+                            <div class="col-sm-5">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ servicio.id_for_label }}">Servicio </label>
+                                {{ form.servicio }}
+                                {{ form.servicio.errors }}
+                            </div>
+                        </div>
+                        <!--<div class="ln_solid"></div>-->
+                        <div class="form-group pull-in clearfix">
+
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-5" for="{{ num_factura.id_for_label }}">Nº factura </label>
+                                {{ form.num_factura }}
+                                {{ form.num_factura.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ valor.id_for_label }}">Valor</label>
+                                {{ form.valor }}
+                                {{ form.valor.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-md-6" for="{{ taller.id_for_label }}">Taller </label>
+                                {{ form.taller }}
+                                {{ form.taller.errors }}
+                            </div>
+                            <div class="col-sm-5">
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ responsable.id_for_label }}">Responsable </label>
+                                {{ form.responsable }}
+                                {{ form.responsable.errors }}
+                            </div>
+
+                        </div>
+                        <div class="form-group pull-in clearfix">
+
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ observacion.id_for_label }}">Observacion </label>
+                                {{ form.observacion }}
+                                {{ form.observacion.errors }}
+                            </div>
+
+                        </div>
+                        <div class="ln_solid"></div>
+
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button id="boton_form" type="submit" class="btn btn-success">Ingresar detalle</button>
+                        </div>
+                    </form>
+                  </div>
+                  <div class="x_title" >
+                    <h2>Ingreso detalle</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <form id="form_mantencion_detalle" data-parsley-validate class="form-horizontal form-label-left" action="" method="post" >{% csrf_token %}
+                        <div class="form-group pull-in clearfix">
+                                {{ detalle_form.mantencion }}
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ detalle.id_for_label }}">Detalle</label>
+                                {{ detalle_form.detalle }}
+                                {{ detalle_form.detalle.errors }}
+                            </div>
+                            <div class="col-sm-5">
+                                <label style="text-align:left;" class="control-label col-md-6" for="{{ des_detalle.id_for_label }}">Descripcion detalle </label>
+                                {{ detalle_form.des_detalle }}
+                                {{ detalle_form.des_detalle.errors }}
+                            </div>
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ hodometro_prox_man.id_for_label }}">Prox. mantención </label>
+                                {{ detalle_form.hodometro_prox_man }}
+                                {{ detalle_form.hodometro_prox_man.errors }}
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button id="boton_form_detalle" type="submit" class="btn btn-success">Guardar sin repuestos</button>
+                            <button id="boton_form_detalle_add" type="submit" class="btn btn-success">Agregar repuestos</button>
+                        </div>
+                    </form>
+                  </div>
+                  <div class="x_content">
+                    <form id="form_mantencion_repuesto" data-parsley-validate class="form-horizontal form-label-left" action="" method="post">{% csrf_token %}
+                        <div id ="repuestos" class="form-group pull-in clearfix">
+                            {{ repuesto_form.mantencion }}
+                            {{ repuesto_form.detalle_mantencion }}
+                            <div class="col-sm-5">
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ repuesto.id_for_label }}">Repuestos</label>
+                                {{ repuesto_form.repuesto }}
+                                {{ repuesto_form.repuesto.errors }}
+                            </div>
+                        </div>
+                        <div id="before" class="form-group pull-in clearfix">
+                            <button type="button" id="repuesto_add"><i class="fa fa-plus"></i></button>
+                            <button type="button" id="repuesto_less"><i class="fa fa-minus"></i></button>
+                        </div>
+                        <div class="ln_solid"></div>
+
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button id="boton_form_repuesto" type="submit" class="btn btn-success">Ingresar</button>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+        <!-- /page content -->
+
+
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/datepicker/bootstrap-datepicker.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-scroller/js/datatables.scroller.min.js' %}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+
+    <!-- bootstrap-daterangepicker -->
+    <script>
+      $(document).ready(function() {
+        $('#fecha').datepicker( "option", "dateFormat", "yy-mm-dd" );
+
+        $("#form_mantencion_detalle").find('input, textarea, button, select').attr('disabled',true);
+        $("#form_mantencion_repuesto").hide()
+      });
+    </script>
+
+    <script>
+
+        $("#repuesto_add").on('click',function () {
+            var rep = $("#id_repuesto")[0].outerHTML;
+            console.log(rep);
+            var repuesto_nuevo = $("#id_repuesto").parent().parent().html();
+            $("#before").before("<div class='form-group pull-in clearfix'><div class='col-sm-5'>"+rep+"</div></div>");
+        });
+
+
+
+        $("#form_mantencion").on( "submit", function( event ) {
+          event.preventDefault();
+          var datos =  $( this ).serialize();
+          console.log(datos);
+          $.ajax({
+            url: "http://localhost:8000/mantencion/add/",
+            type: "POST",
+            data: datos,
+            success:function(data){
+                console.log(data);
+                $("#id_mantencion").val(data['pk']);
+                $("#id_mantencion_detalle").val(data['pk']);
+                $("#form_mantencion").find('input, textarea, button, select').attr('disabled',false);
+                $("#form_mantencion_detalle").find('input, textarea, button, select').attr('disabled',false);
+                $("#boton_form").attr('disabled',true);
+            }
+          });
+        });
+
+        /*$("#repuesto_less").on('click',function () {
+            $('input[name="repuesto"]').each(function () {
+                var value = $(this).val();
+                console.log(value);
+            })
+        });*/
+
+        /*$("#boton_form_detalle").on('submit',function (event) {
+            event.preventDefault();
+            detalle();
+
+        });*/
+
+        $("#form_mantencion_detalle").on( "submit", function( event ) {
+            event.preventDefault();
+            var id = $(event.originalEvent.explicitOriginalTarget).attr('id');
+            console.log(id);
+            var datos_detalle = $("#form_mantencion_detalle").serialize();
+            console.log(datos_detalle);
+            $.ajax({
+                url: "http://localhost:8000/mantencion/add_detalle/",
+                type: "POST",
+                data: datos_detalle,
+                success:function(data){
+                    console.log(data);
+                    $("#id_detalle_mantencion").val(data['pk']);
+                    if (id === "boton_form_detalle_add"){
+                        $("#form_mantencion_repuesto").show();
+                        $("#boton_form_detalle").attr('disabled', true);
+                        $("#boton_form_detalle_add").attr('disabled', true);
+                    }
+                    else if(id === "boton_form_detalle"){
+                        window.location.replace("http://localhost:8000/mantenciones");
+                    }
+                }
+            });
+
+        });
+
+        $("#form_mantencion_repuesto").on('submit',function (event) {
+            event.preventDefault()
+            var datos_repuesto =  $( '#form_mantencion_repuesto :hidden').serialize();
+            var bandera = true;
+            $('input[name="repuesto"]').each(function () {
+                var value = $( this ).val();
+                datos_repuesto = datos_repuesto+"&repuesto="+value;
+                $.ajax({
+                    url: "http://localhost:8000/mantencion/add_repuesto/",
+                    type: "POST",
+                    data: datos_repuesto,
+                    success: function (data) {
+                        if (data['status'] !== 'ok'){
+                            bandera = false;
+                        }
+
+                    }
+                });
+            })
+            if(bandera){
+                window.location.replace("http://localhost:8000/mantenciones");
+            }
+        });
+
+
+
+    /*$('#id_monto').priceFormat({
+        prefix: '',
+        centsSeparator: ',',
+        thousandsSeparator: '.',
+        centsLimit: 0
+    });*/
+    </script>
+
+{% endblock %}

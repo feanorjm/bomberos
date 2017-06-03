@@ -14,7 +14,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Detalle servicio</h2>
+                    <h2>Mantencion maquina: {{ object.maquina }} ,fecha: {{ object.fecha|date:"Y-m-d" }}</h2>
                       <ul class=" nav navbar-right panel_toolbox">
                         <li><button type="button" onclick="location.href='{% url 'bitacora_update' pk=object.id %}';" class="btn btn-primary" >Editar</button>
                         </li>
@@ -27,62 +27,56 @@
                       <div class="col-xs-12 col-md-12">
                           <div class="table-responsive">
                             <table class="table">
+
+
                               <tbody>
                                 <tr>
-                                  <th style="width:50%">Compañía:</th>
-                                  <td>{{ object.compania }}</td>
+                                  <th style="width:50%">Fecha:</th>
+                                  <td>{{ object.fecha|date:"Y-m-d" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Máquina:</th>
                                   <td>{{ object.maquina }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Conductor:</th>
-                                  <td>{{ object.hora_salida }}</td>
+                                  <th>kilometraje:</th>
+                                  <td>{{ object.kilometraje }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Cliente:</th>
-                                  <td>{{ object.cliente }}</td>
+                                  <th>Hodometro:</th>
+                                  <td>{{ object.hodometro }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Dirección:</th>
-                                  <td>{{ object.direccion }}</td>
+                                  <th>Tipo Mantención:</th>
+                                  <td>{{ object.tipo_mantencion }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Fecha:</th>
-                                  <td>{{ object.fecha }}</td>
+                                  <th>Código mantención:</th>
+                                  <td>{{ object.cod_man }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Hora salida:</th>
-                                  <td>{{ object.hora_salida }}</td>
+                                  <th>Servicio:</th>
+                                  <td>{{ object.servicio }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Hora llegada:</th>
-                                  <td>{{ object.hora_llegada }}</td>
+                                  <th>Observación:</th>
+                                  <td>{{ object.observacion }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Clave:</th>
-                                  <td>{{ object.clave }}</td>
+                                  <th>Número factura:</th>
+                                  <td>{{ object.num_factura }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Kilometraje salida:</th>
-                                  <td>{{ object.kilometraje_salida }}</td>
+                                  <th>Valor:</th>
+                                  <td>{{ object.valor }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Kilometraje llegada:</th>
-                                  <td>{{ object.kilometraje_llegada }}</td>
+                                  <th>Taller:</th>
+                                  <td>{{ object.taller }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Hodometro salida:</th>
-                                  <td>{{ object.hodometro_salida }}</td>
-                                </tr>
-                                <tr>
-                                  <th>Hodometro llegada:</th>
-                                  <td>{{ object.hodometro_llegada }}</td>
-                                </tr>
-                                <tr>
-                                  <th>Observaciones:</th>
-                                  <td>{{ object.observciones }}</td>
+                                  <th>Responsable:</th>
+                                  <td>{{ object.responsable }}</td>
                                 </tr>
                               </tbody>
                             </table>

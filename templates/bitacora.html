@@ -6,160 +6,111 @@
     <div class="right_col" role="main">
       <div class="">
 
-        <div class="page-title">
+        <!--<div class="page-title">
           <div class="title_left">
             <h3>BITACORA</h3>
           </div>
-        </div>
+        </div>-->
         <div class="clearfix"></div>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Ingreso de nuevo servicio</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
+                    <h2>Datos nuevo servicio</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="" method="post">{% csrf_token %}
+                    <form id="form_bitacora" data-parsley-validate class="form-horizontal form-label-left" action="" method="post">{% csrf_token %}
                         {{ form.errors }}
                         {{ form.non_field_errors }}
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ compania.id_for_label }}">Compañía </label>
-                            <div class="col-md-4">
+                        <div class="form-group pull-in clearfix">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ compania.id_for_label }}">Compañía </label>
                                 {{ form.compania }}
-                            </div>
-                            <div class="col-md-4">
                                 {{ form.compania.errors }}
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ maquina.id_for_label }}">Máquina </label>
-                            <div class="col-md-4">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ maquina.id_for_label }}">Máquina </label>
                                 {{ form.maquina }}
-                            </div>
-                            <div class="col-md-4">
                                 {{ form.maquina.errors }}
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ conductor.id_for_label }}">Conductor </label>
-                            <div class="col-md-4">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ conductor.id_for_label }}">Conductor </label>
                                 {{ form.conductor }}
-                            </div>
-                            <div class="col-md-4">
                                 {{ form.conductor.errors }}
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ cliente.id_for_label }}">Cliente </label>
-                            <div class="col-md-4">
+                        <div class="form-group pull-in clearfix">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ cliente.id_for_label }}">Cliente </label>
                                 {{ form.cliente }}
-                            </div>
-                            <div class="col-md-4">
                                 {{ form.cliente.errors }}
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ fecha.id_for_label }}">Fecha </label>
-                            <div class="col-md-4">
-                                {{ form.fecha }}
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ direccion.id_for_label }}">Direccion </label>
+                                {{ form.direccion }}
+                                {{ form.direccion.errors }}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ fecha.id_for_label }}">Fecha </label>
+                                {{ form.fecha }}
                                 {{ form.fecha.errors }}
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ hora_llegada.id_for_label }}">Hora Llegada </label>
-                            <div class="col-md-4">
+                        <div class="ln_solid"></div>
+                        <div class="form-group pull-in clearfix">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ hora_llegada.id_for_label }}">Hora llegada </label>
                                 {{ form.hora_llegada }}
-                            </div>
-                            <div class="col-md-4">
                                 {{ form.hora_llegada.errors }}
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ hora_salida.id_for_label }}">Hora Salida </label>
-                            <div class="col-md-4">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ hora_salida.id_for_label }}">Hora Salida </label>
                                 {{ form.hora_salida }}
-                            </div>
-                            <div class="col-md-4">
                                 {{ form.hora_salida.errors }}
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ clave.id_for_label }}">Clave </label>
-                            <div class="col-md-4">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ clave.id_for_label }}">Clave </label>
                                 {{ form.clave }}
-                            </div>
-                            <div class="col-md-4">
                                 {{ form.clave.errors }}
                             </div>
+
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ hodometro_salida.id_for_label }}">Hodometro Salida </label>
-                            <div class="col-md-4">
+                        <div class="form-group pull-in clearfix">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ hodometro_salida.id_for_label }}">Hodometro Salida </label>
                                 {{ form.hodometro_salida }}
-                            </div>
-                            <div class="col-md-4">
                                 {{ form.hodometro_salida.errors }}
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ hodometro_llegada.id_for_label }}">Hodometro Llegada </label>
-                            <div class="col-md-4">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-md-6" for="{{ hodometro_llegada.id_for_label }}">Hodometro Llegada </label>
                                 {{ form.hodometro_llegada }}
-                            </div>
-                            <div class="col-md-4">
                                 {{ form.hodometro_llegada.errors }}
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ kilometraje_salida.id_for_label }}">Kilometraje Salida </label>
-                            <div class="col-md-4">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ kilometraje_salida.id_for_label }}">Kilometraje Salida </label>
                                 {{ form.kilometraje_salida }}
-                            </div>
-                            <div class="col-md-4">
                                 {{ form.kilometraje_salida.errors }}
                             </div>
+
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ kilometraje_llegada.id_for_label }}">Kilometraje Llegada </label>
-                            <div class="col-md-4">
+                        <div class="ln_solid"></div>
+                        <div class="form-group pull-in clearfix">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ kilometraje_llegada.id_for_label }}">Kilometraje Llegada </label>
                                 {{ form.kilometraje_llegada }}
-                            </div>
-                            <div class="col-md-4">
                                 {{ form.kilometraje_llegada.errors }}
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ observciones.id_for_label }}">Observaciones </label>
-                            <div class="col-md-4">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ observciones.id_for_label }}">Observaciones </label>
                                 {{ form.observciones }}
-                            </div>
-                            <div class="col-md-4">
                                 {{ form.observciones.errors }}
                             </div>
                         </div>
-
                         <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button id="boton_tipo" type="submit" class="btn btn-success">Ingresar</button>
+                          <button id="boton_tipo" type="submit" class="btn btn-success" onclick="enviar()">Ingresar</button>
                           <button type="button" id="limpiar" class="btn btn-default">Limpiar</button>
                         </div>
                       </div>
@@ -180,6 +131,19 @@
 
     <script type="text/javascript" src="{% static 'js/datepicker/bootstrap-datepicker.js' %}"></script>
 
+    <script type="text/javascript" src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-scroller/js/datatables.scroller.min.js' %}"></script>
+
     <!-- Custom Theme Scripts -->
     <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
 
@@ -197,6 +161,14 @@
         thousandsSeparator: '.',
         centsLimit: 0
     });*/
+
+    $("#form_mantencion").on( "submit", function( event ) {
+      event.preventDefault();
+      var datos =  $( this ).serialize();
+      console.log(datos);
+    });
+
+
     </script>
 
 {% endblock %}

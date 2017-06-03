@@ -15,9 +15,9 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Bitacora </h2>
+                    <h2>MANTENCIONES </h2>
                       <ul class=" nav navbar-right panel_toolbox">
-                        <li><button type=button onclick="location.href='{% url 'bitacora_create_view' %}';" class="btn btn-success">nuevo servicio</button>
+                        <li><button type=button onclick="location.href='{% url 'mantencion_create' %}';" class="btn btn-success">nueva mantencion</button>
                         </li>
                       </ul>
                     <div class="clearfix"></div>
@@ -29,40 +29,39 @@
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>Maquina</th>
-                          <th>Cliente</th>
-                          <th>Dirección</th>
-                          <th>Fecha</th>
-                          <th>Hora Sal</th>
-                          <th>Hora Lle</th>
-                          <th>Clave</th>
-                          <th>Km Sal</th>
-                          <th>Km Lle</th>
-                          <th>Hm Sal</th>
-                          <th>Hm Lle</th>
-                          <th>Observaciones</th>
+                          <th>fecha</th>
+                          <th>maquina</th>
+                          <th>kilometraje</th>
+                          <th>hodometro</th>
+                          <th>tipo_mantencion</th>
+                          <th>cod_man</th>
+                          <th>servicio</th>
+                          <th>observacion</th>
+                          <th>num_factura</th>
+                          <th>valor</th>
+                          <th>taller</th>
+                          <th>responsable</th>
                         </tr>
                       </thead>
 
-
                       <tbody>
 
-                        {% for servicio in object_list %}
+                        {% for mantencion in object_list %}
 
                         <tr>
                             <td></td>
-                            <td><a style="color: orangered;text-decoration: underline;" href="{{ servicio.get_absolute_url }}">{{ servicio.maquina }}</a></td>
-                            <td>{{ servicio.cliente }}</td>
-                            <td>{{ servicio.direccion }}</td>
-                            <td>{{ servicio.fecha|date:"Y-m-d" }}</td>
-                            <td>{{ servicio.hora_salida }}</td>
-                            <td>{{ servicio.hora_llegada }}</td>
-                            <td>{{ servicio.clave }}</td>
-                            <td align="right"> {{ servicio.kilometraje_salida }}</td>
-                            <td align="right"> {{ servicio.kilometraje_llegada }}</td>
-                            <td align="right"> {{ servicio.hodometro_salida }}</td>
-                            <td align="right"> {{ servicio.hodometro_llegada }}</td>
-                            <td>{{ servicio.observciones }}</td>
+                            <td><a style="color: orangered;text-decoration: underline;" href="{{ mantencion.get_absolute_url }}">{{ mantencion.fecha|date:"Y-m-d" }}</a></td>
+                            <td>{{ mantencion.maquina }}</td>
+                            <td align="right">{{ mantencion.kilometraje }}</td>
+                            <td align="right">{{ mantencion.hodometro }}</td>
+                            <td>{{ mantencion.tipo_mantencion }}</td>
+                            <td>{{ mantencion.cod_man }}</td>
+                            <td>{{ mantencion.servicio }}</td>
+                            <td> {{ mantencion.observacion }}</td>
+                            <td align="right"> {{ mantencion.num_factura }}</td>
+                            <td align="right"> {{ mantencion.valor }}</td>
+                            <td> {{ mantencion.taller }}</td>
+                            <td>{{ mantencion.responsable }}</td>
                         </tr>
                         {% endfor %}
                       </tbody>
@@ -111,7 +110,7 @@
     </script>
 
     <script>
-       $('td button').click(function(e) {
+       /*$('td button').click(function(e) {
             e.preventDefault()
             var name = $(this).attr('name');
             var tableRow = $(this).parents('tr');
@@ -130,7 +129,7 @@
             } else {
                return false;
             }
-       });
+       });*/
     </script>
 
     <!-- /Datatables -->

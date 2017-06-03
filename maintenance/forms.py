@@ -1,26 +1,69 @@
 from django import forms
 
-from maintenance.models import Bitacora
+from maintenance.models import Bitacora,Mantencion,DetalleMantencion,RepuestoDetalleMantencion
 
 class BitacoraForm(forms.ModelForm):
     class Meta:
         model = Bitacora
-        fields = ['compania','maquina', 'conductor', 'cliente', 'fecha',
+        fields = ['compania','maquina', 'conductor', 'cliente', 'direccion', 'fecha',
                   'hora_salida','hora_llegada','clave','kilometraje_salida',
                   'kilometraje_llegada','hodometro_salida','hodometro_llegada','observciones']
         widgets = {
-            'compania': forms.Select(attrs={'class': 'form-control col-md-7 col-xs-12"'}),
-            'maquina': forms.Select(attrs={'class': 'form-control col-md-7 col-xs-12"'}),
-            'conductor': forms.Select(attrs={'class': 'form-control col-md-7 col-xs-12"'}),
-            'cliente': forms.TextInput(attrs={'class': 'form-control col-md-7 col-xs-12'}),
-            'fecha': forms.DateInput(attrs={'id': 'fecha', 'class': 'date-picker form-control col-md-7 col-xs-12"'}),
-            'hora_salida': forms.TimeInput(attrs={'class': 'form-control col-md-7 col-xs-12"'}),
-            'hora_llegada': forms.TimeInput(attrs={'class': 'form-control col-md-7 col-xs-12"'}),
-            'clave': forms.TextInput(attrs={'class': 'form-control col-md-7 col-xs-12'}),
-            'kilometraje_salida': forms.TextInput(attrs={'class': 'form-control col-md-7 col-xs-12', 'pattern': '[0-9]*'}),
-            'kilometraje_llegada': forms.TextInput( attrs={'class': 'form-control col-md-7 col-xs-12', 'pattern': '[0-9]*'}),
-            'hodometro_salida': forms.TextInput(attrs={'class': 'form-control col-md-7 col-xs-12', 'pattern': '[0-9]*'}),
-            'hodometro_llegada': forms.TextInput(attrs={'class': 'form-control col-md-7 col-xs-12', 'pattern': '[0-9]*'}),
-            'observciones': forms.Textarea(attrs={'class': 'form-control col-md-7 col-xs-12"', 'style': 'height: 90px;'}),
+            'compania': forms.Select(attrs={'class': 'form-control'}),
+            'maquina': forms.Select(attrs={'class': 'form-control'}),
+            'conductor': forms.Select(attrs={'class': 'form-control'}),
+            'cliente': forms.TextInput(attrs={'class': 'form-control'}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha': forms.DateInput(attrs={'id': 'fecha', 'class': 'date-picker form-control'}),
+            'hora_salida': forms.TimeInput(attrs={'class': 'form-control'}),
+            'hora_llegada': forms.TimeInput(attrs={'class': 'form-control'}),
+            'clave': forms.TextInput(attrs={'class': 'form-control'}),
+            'kilometraje_salida': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
+            'kilometraje_llegada': forms.TextInput( attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
+            'hodometro_salida': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
+            'hodometro_llegada': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
+            'observciones': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 90px;'}),
 
+        }
+
+class MantencionForm(forms.ModelForm):
+    class Meta:
+        model = Mantencion
+        fields = ['fecha', 'maquina', 'kilometraje', 'hodometro', 'tipo_mantencion', 'cod_man',
+                  'servicio', 'observacion', 'num_factura', 'valor',
+                  'taller', 'responsable']
+        widgets = {
+            'fecha': forms.DateInput(attrs={'id': 'fecha','class': 'form-control',}),
+            'maquina': forms.Select(attrs={'class': 'form-control'}),
+            'kilometraje': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'hodometro': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'tipo_mantencion': forms.Select(attrs={'class': 'form-control'}),
+            'cod_man': forms.TextInput(attrs={'class': 'form-control'}),
+            'servicio': forms.Select(attrs={'class': 'form-control'}),
+            'observacion': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 90px; width: 505px'}),
+            'num_factura':forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'valor':forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'taller': forms.Select(attrs={'class': 'form-control'}),
+            'responsable': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+class DetalleMantencionForm(forms.ModelForm):
+    class Meta:
+        model = DetalleMantencion
+        fields = ['mantencion','detalle', 'des_detalle', 'hodometro_prox_man',]
+        widgets = {
+            'mantencion':forms.HiddenInput(),
+            'detalle': forms.TextInput(attrs={'class': 'form-control'}),
+            'des_detalle': forms.TextInput(attrs={'class': 'form-control'}),
+            'hodometro_prox_man': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ingrese Hodometro', 'pattern': '[0-9]*'}),
+        }
+
+class RepuestoDetalleMantencionForm(forms.ModelForm):
+    class Meta:
+        model = RepuestoDetalleMantencion
+        fields = ['mantencion','detalle_mantencion','repuesto',]
+        widgets = {
+            'mantencion': forms.HiddenInput(attrs={'id': 'id_mantencion_detalle'}),
+            'detalle_mantencion': forms.HiddenInput(),
+            'repuesto': forms.TextInput(attrs={'class': 'form-control'}),
         }
