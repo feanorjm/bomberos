@@ -147,8 +147,10 @@
                             </div>
                         </div>
                         <div id="before" class="form-group pull-in clearfix">
-                            <button type="button" id="repuesto_add"><i class="fa fa-plus"></i></button>
-                            <button type="button" id="repuesto_less"><i class="fa fa-minus"></i></button>
+                            <div class="col-sm-5">
+                                <button type="button" id="repuesto_add"><i class="fa fa-plus"></i></button>
+                                <button type="button" id="repuesto_less"><i class="fa fa-minus"></i></button>
+                            </div>
                         </div>
                         <div class="ln_solid"></div>
 
@@ -190,7 +192,7 @@
     <!-- bootstrap-daterangepicker -->
     <script>
       $(document).ready(function() {
-        $('#fecha').datepicker( "option", "dateFormat", "yy-mm-dd" );
+        $('#fecha').datepicker({format: "yyyy-mm-dd"});
 
         $("#form_mantencion_detalle").find('input, textarea, button, select').attr('disabled',true);
         $("#form_mantencion_repuesto").hide()
@@ -202,8 +204,9 @@
         $("#repuesto_add").on('click',function () {
             var rep = $("#id_repuesto")[0].outerHTML;
             console.log(rep);
+            var n = $('input[name="repuesto"]').length;
             var repuesto_nuevo = $("#id_repuesto").parent().parent().html();
-            $("#before").before("<div class='form-group pull-in clearfix'><div class='col-sm-5'>"+rep+"</div></div>");
+            $("#before").before("<div id=rep_"+n+" class='form-group pull-in clearfix'><div class='col-sm-5'>"+rep+"</div></div>");
         });
 
 
@@ -227,12 +230,16 @@
           });
         });
 
-        /*$("#repuesto_less").on('click',function () {
-            $('input[name="repuesto"]').each(function () {
-                var value = $(this).val();
-                console.log(value);
-            })
-        });*/
+        $("#repuesto_less").on('click',function () {
+            var n = $('input[name="repuesto"]').length;
+            if (n > 1){
+                n = n - 1;
+                $("#rep_"+n).remove();
+            }
+
+
+
+        });
 
         /*$("#boton_form_detalle").on('submit',function (event) {
             event.preventDefault();

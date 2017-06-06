@@ -57,12 +57,12 @@
             <!-- menu profile quick info -->
             <div class="profile">
               <div class="profile_pic">
-                <img src="{% static 'images/logo-raices.png' %}" alt="..." class="img-circle profile_img">
+                <img src="{% static 'images/fireman.jpeg' %}" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <h2>Bienvenido
                 {% if user.is_authenticated %}
-                      <strong>{{ user.username|upper }}</strong>
+                      <strong>{{ user.username }}</strong>
                     {% endif %}
                 </h2>
               </div>
@@ -148,7 +148,7 @@
                   </li>
                   <li><a><i class="fa fa-edit"></i> Personal y Máquinas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Máquinas</a>
+                      <li><a href="{% url 'maquina_list' %}">Máquinas</a>
                       </li>
                       <li><a href="#">Conductores</a>
                       </li>
@@ -245,8 +245,8 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{% static 'images/logo-raices.png' %}" alt=""><strong>{% if user.is_authenticated %}
-                                                                                <strong>{{ user.username|upper }}</strong>
+                    <img src="{% static 'images/fireman.jpeg' %}" alt=""><strong>{% if user.is_authenticated %}
+                                                                                <strong>{{ user.username }}</strong>
                                                                               {% endif %}</strong>{{ first_name }}
                     <span class=" fa fa-angle-down"></span>
                   </a>

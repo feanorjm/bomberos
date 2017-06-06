@@ -1,6 +1,14 @@
 from django.shortcuts import render
-from maintenance.forms import BitacoraForm, MantencionForm, DetalleMantencionForm, RepuestoDetalleMantencionForm
-from maintenance.models import Bitacora, Mantencion, DetalleMantencion, RepuestoDetalleMantencion
+from maintenance.forms import (BitacoraForm,
+                               MantencionForm,
+                               DetalleMantencionForm,
+                               RepuestoDetalleMantencionForm,
+                               MaquinaForm)
+from maintenance.models import (Bitacora,
+                                Mantencion,
+                                DetalleMantencion,
+                                RepuestoDetalleMantencion,
+                                Maquina)
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -30,6 +38,17 @@ class BitacoraCreateView(CreateView):
     form_class = BitacoraForm
     template_name = 'bitacora.html'
     #success_url = '/bitacora/add'
+
+    def form_valid(self, form):
+        kilometrajeform = form.cleaned_data['kilometraje_llegada']
+        hodometroform = form.cleaned_data['hodometro_llegada']
+        maquinaform = self.post()
+        maquina = Maquina.objects.get(nombre=maquinaform)
+        maquina.kilometraje = kilometrajeform
+        maquina.hodometro = hodometroform
+        maquina.save()
+        return super(BitacoraCreateView, self).form_valid(form)
+
     def get_success_url(self):
         return reverse("bitacora_list")
 
@@ -148,11 +167,54 @@ class MantencionListView(ListView):
     model = Mantencion
     template_name = 'mantencion_list.html'
 
-mantencion_list = MantencionListView.as_view()
 
 @method_decorator(login_required, name='dispatch')
 class MantencionDetailView(DetailView):
     model = Mantencion
     template_name = 'mantencion_detalle.html'
 
+mantencion_list = MantencionListView.as_view()
 mantencion_detail = MantencionDetailView.as_view()
+
+#CRUD PARA MAQUINAS
+
+@method_decorator(login_required, name='dispatch')
+class MaquinaDetailView(DetailView):
+    #context_object_name = "bitacora_detail"
+    model = Maquina
+    template_name = 'maquina_detail.html'
+
+
+@method_decorator(login_required, name='dispatch')
+class MaquinaListView(ListView):
+    model = Maquina
+    template_name = 'maquina_list.html'
+
+
+@method_decorator(login_required, name='dispatch')
+class MaquinaCreateView(CreateView):
+    form_class = MaquinaForm
+    template_name = 'maquina_create.html'
+
+    def get_success_url(self):
+        return reverse("maquina_list")
+
+
+@method_decorator(login_required, name='dispatch')
+class MaquinaUpdateView(UpdateView):
+    model = Maquina
+    form_class = MaquinaForm
+    template_name = 'maquina_update.html'
+
+
+@method_decorator(login_required, name='dispatch')
+class MaquinaDeleteView(DeleteView):
+    model = Maquina
+    template_name = 'maquina_delete.html'
+    success_url = reverse_lazy('maquina_list')
+
+maquina_detail = MaquinaDetailView.as_view()
+maquina_list = MaquinaListView.as_view()
+maquina_create = MaquinaCreateView.as_view()
+maquina_update = MaquinaUpdateView.as_view()
+maquina_delete = MaquinaDeleteView.as_view()

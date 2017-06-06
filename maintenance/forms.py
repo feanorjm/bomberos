@@ -1,6 +1,6 @@
 from django import forms
 
-from maintenance.models import Bitacora,Mantencion,DetalleMantencion,RepuestoDetalleMantencion
+from maintenance.models import Bitacora,Mantencion,DetalleMantencion,RepuestoDetalleMantencion,Maquina
 
 class BitacoraForm(forms.ModelForm):
     class Meta:
@@ -66,4 +66,21 @@ class RepuestoDetalleMantencionForm(forms.ModelForm):
             'mantencion': forms.HiddenInput(attrs={'id': 'id_mantencion_detalle'}),
             'detalle_mantencion': forms.HiddenInput(),
             'repuesto': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class MaquinaForm(forms.ModelForm):
+    class Meta:
+        model = Maquina
+        fields = ['nombre','clasificacion', 'compania', 'numero_motor','numero_chasis','bin','patente', 'conductor', 'kilometraje','hodometro',]
+        widgets = {
+            'nombre':forms.TextInput(attrs={'class': 'form-control'}),
+            'clasificacion': forms.Select(attrs={'class': 'form-control'}),
+            'compania': forms.Select(attrs={'class': 'form-control'}),
+            'numero_motor': forms.TextInput(attrs={'class': 'form-control'}),
+            'numero_chasis': forms.TextInput(attrs={'class': 'form-control'}),
+            'bin': forms.TextInput(attrs={'class': 'form-control'}),
+            'patente': forms.TextInput(attrs={'class': 'form-control'}),
+            'conductor': forms.Select(attrs={'class': 'form-control'}),
+            'kilometraje': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
+            'hodometro': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
         }

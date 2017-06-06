@@ -44,6 +44,9 @@ class Maquina(models.Model):
     def __str__(self):
         return self.nombre
 
+    def get_absolute_url(self):
+        return reverse('maquina_detail', args=[str(self.id)])
+
 class Detalle_Maquina(models.Model):
     maquina = models.ForeignKey(Maquina)
     venc_patente = models.DateField()       #vencimiento patente
