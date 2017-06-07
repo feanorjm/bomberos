@@ -16,7 +16,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Datos nuevo servicio</h2>
+                    <h2>Datos nuevo conductor</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -25,62 +25,31 @@
                         {{ form.non_field_errors }}
                         <div class="form-group pull-in clearfix">
                             <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ nombre.id_for_label }}">Nombre </label>
-                                {{ form.nombre }}
-                                {{ form.nombre.errors }}
-                            </div>
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ clasificacion.id_for_label }}">Clasificación </label>
-                                {{ form.clasificacion }}
-                                {{ form.clasificacion.errors }}
-                            </div>
-                            <div class="col-sm-4">
                                 <label style="text-align:left;" class="control-label col-sm-4" for="{{ compania.id_for_label }}">Compañía </label>
                                 {{ form.compania }}
                                 {{ form.compania.errors }}
                             </div>
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ rut.id_for_label }}">Rut </label>
+                                {{ form.rut }}
+                                {{ form.rut.errors }}
+                            </div>
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ nombre.id_for_label }}">Nombre </label>
+                                {{ form.nombre }}
+                                {{ form.nombre.errors }}
+                            </div>
                         </div>
                         <div class="form-group pull-in clearfix">
                             <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ numero_motor.id_for_label }}">Número motor </label>
-                                {{ form.numero_motor }}
-                                {{ form.numero_motor.errors }}
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ num_licencia.id_for_label }}">Número licencia </label>
+                                {{ form.num_licencia }}
+                                {{ form.num_licencia.errors }}
                             </div>
                             <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ numero_chasis.id_for_label }}">Número chasís </label>
-                                {{ form.numero_chasis }}
-                                {{ form.numero_chasis.errors }}
-                            </div>
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ bin.id_for_label }}">Bin </label>
-                                {{ form.bin }}
-                                {{ form.bin.errors }}
-                            </div>
-                        </div>
-                        <div class="ln_solid"></div>
-                        <div class="form-group pull-in clearfix">
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ patente.id_for_label }}">Patente </label>
-                                {{ form.patente }}
-                                {{ form.patente.errors }}
-                            </div>
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ conductor.id_for_label }}">Conductor </label>
-                                {{ form.conductor }}
-                                {{ form.conductor.errors }}
-                            </div>
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ kilometraje.id_for_label }}">Kilometraje </label>
-                                {{ form.kilometraje }}
-                                {{ form.kilometraje.errors }}
-                            </div>
-
-                        </div>
-                        <div class="form-group pull-in clearfix">
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ hodometro.id_for_label }}">Hodometro</label>
-                                {{ form.hodometro }}
-                                {{ form.hodometro.errors }}
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ venc_lic.id_for_label }}">Vencimiento licencia </label>
+                                {{ form.venc_lic }}
+                                {{ form.venc_lic.errors }}
                             </div>
                         </div>
                         <div class="ln_solid"></div>

@@ -3,12 +3,15 @@ from maintenance.forms import (BitacoraForm,
                                MantencionForm,
                                DetalleMantencionForm,
                                RepuestoDetalleMantencionForm,
-                               MaquinaForm)
+                               MaquinaForm,
+                               ConductorForm)
+
 from maintenance.models import (Bitacora,
                                 Mantencion,
                                 DetalleMantencion,
                                 RepuestoDetalleMantencion,
-                                Maquina)
+                                Maquina,
+                                Conductor)
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -42,7 +45,7 @@ class BitacoraCreateView(CreateView):
     def form_valid(self, form):
         kilometrajeform = form.cleaned_data['kilometraje_llegada']
         hodometroform = form.cleaned_data['hodometro_llegada']
-        maquinaform = self.post()
+        maquinaform = form.cleaned_data['maquina']
         maquina = Maquina.objects.get(nombre=maquinaform)
         maquina.kilometraje = kilometrajeform
         maquina.hodometro = hodometroform
@@ -218,3 +221,28 @@ maquina_list = MaquinaListView.as_view()
 maquina_create = MaquinaCreateView.as_view()
 maquina_update = MaquinaUpdateView.as_view()
 maquina_delete = MaquinaDeleteView.as_view()
+
+#CRUD PARA CONDUCTORES
+
+@method_decorator(login_required, name='dispatch')
+class ConductorDetailView(DetailView):
+    #context_object_name = "bitacora_detail"
+    model = Conductor
+    template_name = 'conductor_detail.html'
+
+@method_decorator(login_required, name='dispatch')
+class ConductorCreateView(CreateView):
+    form_class = ConductorForm
+    template_name = 'conductor_create.html'
+
+    def get_success_url(self):
+        return reverse("conductor_list")
+
+@method_decorator(login_required, name='dispatch')
+class ConductorListView(ListView):
+    model = Conductor
+    template_name = 'conductor_list.html'
+
+conductor_list = ConductorListView.as_view()
+conductor_detail = ConductorDetailView.as_view()
+conductor_create = ConductorCreateView.as_view()

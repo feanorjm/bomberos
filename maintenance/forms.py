@@ -1,6 +1,6 @@
 from django import forms
 
-from maintenance.models import Bitacora,Mantencion,DetalleMantencion,RepuestoDetalleMantencion,Maquina
+from maintenance.models import Bitacora,Mantencion,DetalleMantencion,RepuestoDetalleMantencion,Maquina,Conductor
 
 class BitacoraForm(forms.ModelForm):
     class Meta:
@@ -83,4 +83,16 @@ class MaquinaForm(forms.ModelForm):
             'conductor': forms.Select(attrs={'class': 'form-control'}),
             'kilometraje': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
             'hodometro': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
+        }
+
+class ConductorForm(forms.ModelForm):
+    class Meta:
+        model = Conductor
+        fields = ['compania','rut', 'nombre', 'num_licencia', 'venc_lic',]
+        widgets = {
+            'compania': forms.Select(attrs={'class': 'form-control'}),
+            'rut': forms.TextInput(attrs={'class': 'form-control'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'num_licencia': forms.TextInput(attrs={'class': 'form-control'}),
+            'venc_lic': forms.DateInput(attrs={'id': 'fecha', 'class': 'form-control'}),
         }
