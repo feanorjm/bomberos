@@ -2,6 +2,7 @@ from django.db import models
 from smart_selects.db_fields import ChainedForeignKey
 from django.contrib.auth.models import User
 from django.urls import reverse
+import datetime
 
 
 class Compania(models.Model):
@@ -25,6 +26,7 @@ class Conductor(models.Model):
     nombre = models.CharField(max_length=45)
     num_licencia = models.CharField(max_length=12)
     venc_lic = models.DateField()
+    foto = models.FileField(upload_to='profile',null=True,blank=True)
 
     def __str__(self):
         return self.nombre
@@ -32,10 +34,17 @@ class Conductor(models.Model):
     def get_absolute_url(self):
         return reverse('conductor_detail', args=[str(self.id)])
 
+year_dropdown = []
+for y in range(1950, (datetime.datetime.now().year + 1)):
+    year_dropdown.append((y, y))
+
 class Maquina(models.Model):
     nombre = models.CharField(max_length=45)
     clasificacion = models.ForeignKey(Clasificacion_maquina)
     compania = models.ForeignKey(Compania)
+    marca = models.CharField(max_length=45,null=True)
+    modelo = models.CharField(max_length=45,null=True)
+    ano = models.IntegerField(choices=year_dropdown, default=datetime.datetime.now().year)
     numero_motor = models.CharField(max_length=45)
     numero_chasis = models.CharField(max_length=45)
     bin = models.CharField(max_length=45)
@@ -58,6 +67,7 @@ class Detalle_Maquina(models.Model):
     venc_rev_tec = models.DateField()       #vencimiento revicion tecnica
     costo_rev_tec = models.IntegerField()   #costo revision tecnica
     costo_seg_auto = models.IntegerField()  #costo seguro automotriz
+    venc_seg_auto = models.DateField(null=True)
 
 
 TIPO_USER_CHOICES = (
@@ -145,12 +155,12 @@ class Mantencion(models.Model):
 
 class DetalleMantencion(models.Model):
     mantencion = models.ForeignKey(Mantencion)
-    detalle = models.CharField(max_length=45)
+    componente = models.CharField(max_length=50, null=True)
     des_detalle = models.TextField(max_length=150)
-    hodometro_prox_man = models.IntegerField()
+    hodometro_prox_man = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.detalle
+        return self.componente
 
 
 class RepuestoDetalleMantencion(models.Model):

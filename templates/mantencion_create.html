@@ -52,15 +52,15 @@
                                 {{ form.tipo_mantencion }}
                                 {{ form.tipo_mantencion.errors }}
                             </div>
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-5" for="{{ cod_man.id_for_label }}">Cód mantención</label>
-                                {{ form.cod_man }}
-                                {{ form.cod_man.errors }}
-                            </div>
                             <div class="col-sm-5">
                                 <label style="text-align:left;" class="control-label col-sm-4" for="{{ servicio.id_for_label }}">Servicio </label>
                                 {{ form.servicio }}
                                 {{ form.servicio.errors }}
+                            </div>
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-5" for="{{ cod_man.id_for_label }}">Cód mantención</label>
+                                {{ form.cod_man }}
+                                {{ form.cod_man.errors }}
                             </div>
                         </div>
                         <!--<div class="ln_solid"></div>-->
@@ -113,9 +113,9 @@
                         <div class="form-group pull-in clearfix">
                                 {{ detalle_form.mantencion }}
                             <div class="col-sm-3">
-                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ detalle.id_for_label }}">Detalle</label>
-                                {{ detalle_form.detalle }}
-                                {{ detalle_form.detalle.errors }}
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ componente.id_for_label }}">Componente</label>
+                                {{ detalle_form.componente }}
+                                {{ detalle_form.componente.errors }}
                             </div>
                             <div class="col-sm-5">
                                 <label style="text-align:left;" class="control-label col-md-6" for="{{ des_detalle.id_for_label }}">Descripcion detalle </label>
@@ -167,6 +167,16 @@
         <!-- /page content -->
 
 
+    <!-- jQuery -->
+    <script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <!--smart-selects-->
+    <script type="text/javascript" src="{% static 'smart-selects/admin/js/chainedfk.js' %}"></script>
+    <script type="text/javascript" src="{% static 'smart-selects/admin/js/chainedm2m.js' %}"></script>
+    <script type="text/javascript" src="{% static 'smart-selects/admin/js/bindfields.js' %}"></script>
 
     <!-- Bootstrap -->
     <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
@@ -192,6 +202,8 @@
     <!-- bootstrap-daterangepicker -->
     <script>
       $(document).ready(function() {
+        $('#id_servicio').addClass('form-control');
+
         $('#fecha').datepicker({format: "yyyy-mm-dd"});
 
         $("#form_mantencion_detalle").find('input, textarea, button, select').attr('disabled',true);

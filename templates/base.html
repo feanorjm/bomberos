@@ -32,12 +32,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %}">
 
     <link rel="stylesheet" type="text/css" href="{% static 'js/datepicker/datepicker.css' %}">
-    <!-- jQuery -->
-    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
 
-    <!--smart-selects-->
-    <script type="text/javascript" src="{% static 'smart-selects/admin/js/chainedfk.js' %}"></script>
-    <script type="text/javascript" src="{% static 'smart-selects/admin/js/chainedm2m.js' %}"></script>
+
+
     <!--<script type="text/javascript" src="/static/admin/js/jquery.js"></script>-->
     <!--<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>-->
 
@@ -135,6 +132,8 @@
                   <li><a><i class="fa fa-cogs"></i> Mantenimiento <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'mantencion_list' %}">Mantenciones</a>
+                      </li>
+                      <li><a href="{% url 'admin:maintenance_serviciomantencion_add' %}">Servicios mantención</a>
                       </li>
                       <li><a href="#">Neumaticos</a>
                       </li>

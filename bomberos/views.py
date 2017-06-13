@@ -22,7 +22,7 @@ class LoginView(View):
                 if user.is_active:
                     login(request, user)
                     message = "Te has identificado de modo correctamente"
-                    return redirect('/admin/')
+                    return redirect('/index/')
                 else:
                     message = "Tu usuario esta inactivo"
             else:

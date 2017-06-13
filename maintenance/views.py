@@ -19,7 +19,7 @@ from django.urls import reverse
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse,HttpResponseRedirect
 
 #VISTAS PARA BITACORA
 
@@ -113,6 +113,7 @@ class MantencionCreateView(AjaxableResponseMixin,CreateView):
 
 #mantencion_create = MantencionCreateView.as_view()
 
+@login_required
 def mantencion_create(request):
     mantencion_form = MantencionForm()
     detalle_mantencion_form = DetalleMantencionForm()
@@ -135,7 +136,7 @@ def mantencion_create(request):
                                                           'detalle_form':detalle_mantencion_form,
                                                           'repuesto_form':repuesto_detalle_form})
 
-
+@login_required
 def mantencion_add_detalle(request):
     if request.method == 'POST':
         detalle_mantencion_form = DetalleMantencionForm(request.POST)
@@ -150,6 +151,7 @@ def mantencion_add_detalle(request):
             if request.is_ajax():
                 return JsonResponse(detalle_mantencion_form.errors, status=400)
 
+@login_required
 def mantencion_add_repuesto(request):
     if request.method == 'POST':
         repuesto_mantencion_form = RepuestoDetalleMantencionForm(request.POST)
@@ -235,6 +237,13 @@ class ConductorCreateView(CreateView):
     form_class = ConductorForm
     template_name = 'conductor_create.html'
 
+    '''def form_valid(self, form):
+        profile_image = Conductor(foto=self.get_form_kwargs().get('files')['foto'])
+        profile_image.save()
+        self.id = profile_image.id
+
+        return HttpResponseRedirect(self.get_success_url())'''
+
     def get_success_url(self):
         return reverse("conductor_list")
 
@@ -243,6 +252,13 @@ class ConductorListView(ListView):
     model = Conductor
     template_name = 'conductor_list.html'
 
+@method_decorator(login_required, name='dispatch')
+class ConductorUpdateView(UpdateView):
+    model = Conductor
+    form_class = ConductorForm
+    template_name = 'conductor_update.html'
+
 conductor_list = ConductorListView.as_view()
 conductor_detail = ConductorDetailView.as_view()
 conductor_create = ConductorCreateView.as_view()
+conductor_update = ConductorUpdateView.as_view()

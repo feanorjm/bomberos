@@ -112,8 +112,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_URL = '/login/'
 
-SMART_SELECTS_JQUERY_URL = True
-#SMART_SELECTS_USE_DJANGO_JQUERY = True
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+
+#USE_DJANGO_JQUERY = True
+#JQUERY_URL = False
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -133,7 +137,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = ''
+#STATIC_ROOT = ''
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 #STATIC_ROOT = '/home/raices/app-agenda/sitio1/static/'
 
 STATICFILES_DIRS = (

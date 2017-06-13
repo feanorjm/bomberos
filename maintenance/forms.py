@@ -39,7 +39,7 @@ class MantencionForm(forms.ModelForm):
             'hodometro': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
             'tipo_mantencion': forms.Select(attrs={'class': 'form-control'}),
             'cod_man': forms.TextInput(attrs={'class': 'form-control'}),
-            'servicio': forms.Select(attrs={'class': 'form-control'}),
+            #'servicio': forms.Select(),
             'observacion': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 90px; width: 505px'}),
             'num_factura':forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
             'valor':forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
@@ -47,13 +47,14 @@ class MantencionForm(forms.ModelForm):
             'responsable': forms.TextInput(attrs={'class': 'form-control'})
         }
 
+
 class DetalleMantencionForm(forms.ModelForm):
     class Meta:
         model = DetalleMantencion
-        fields = ['mantencion','detalle', 'des_detalle', 'hodometro_prox_man',]
+        fields = ['mantencion','componente', 'des_detalle', 'hodometro_prox_man',]
         widgets = {
             'mantencion':forms.HiddenInput(),
-            'detalle': forms.TextInput(attrs={'class': 'form-control'}),
+            'componente': forms.TextInput(attrs={'class': 'form-control'}),
             'des_detalle': forms.TextInput(attrs={'class': 'form-control'}),
             'hodometro_prox_man': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ingrese Hodometro', 'pattern': '[0-9]*'}),
         }
@@ -71,11 +72,16 @@ class RepuestoDetalleMantencionForm(forms.ModelForm):
 class MaquinaForm(forms.ModelForm):
     class Meta:
         model = Maquina
-        fields = ['nombre','clasificacion', 'compania', 'numero_motor','numero_chasis','bin','patente', 'conductor', 'kilometraje','hodometro',]
+        fields = ['nombre','clasificacion', 'compania', 'marca','modelo','ano',
+                  'numero_motor','numero_chasis','bin',
+                  'patente', 'conductor', 'kilometraje','hodometro',]
         widgets = {
             'nombre':forms.TextInput(attrs={'class': 'form-control'}),
             'clasificacion': forms.Select(attrs={'class': 'form-control'}),
             'compania': forms.Select(attrs={'class': 'form-control'}),
+            'marca': forms.TextInput(attrs={'class': 'form-control'}),
+            'modelo': forms.TextInput(attrs={'class': 'form-control'}),
+            'ano': forms.Select(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
             'numero_motor': forms.TextInput(attrs={'class': 'form-control'}),
             'numero_chasis': forms.TextInput(attrs={'class': 'form-control'}),
             'bin': forms.TextInput(attrs={'class': 'form-control'}),
@@ -88,11 +94,14 @@ class MaquinaForm(forms.ModelForm):
 class ConductorForm(forms.ModelForm):
     class Meta:
         model = Conductor
-        fields = ['compania','rut', 'nombre', 'num_licencia', 'venc_lic',]
+        #use_required_attribute = False
+        fields = ['compania','rut', 'nombre', 'num_licencia', 'venc_lic','foto']
         widgets = {
             'compania': forms.Select(attrs={'class': 'form-control'}),
             'rut': forms.TextInput(attrs={'class': 'form-control'}),
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'num_licencia': forms.TextInput(attrs={'class': 'form-control'}),
             'venc_lic': forms.DateInput(attrs={'id': 'fecha', 'class': 'form-control'}),
+            'foto': forms.FileInput(attrs={'class': 'form-control'})
         }
+

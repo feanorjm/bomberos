@@ -16,7 +16,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Datos nuevo servicio</h2>
+                    <h2>Datos nueva máquina</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -42,12 +42,30 @@
                         </div>
                         <div class="form-group pull-in clearfix">
                             <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ numero_motor.id_for_label }}">Número motor </label>
+                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ marca.id_for_label }}">Marca </label>
+                                {{ form.marca }}
+                                {{ form.marca.errors }}
+                            </div>
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ modelo.id_for_label }}">Modelo </label>
+                                {{ form.modelo }}
+                                {{ form.modelo.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-3" for="{{ ano.id_for_label }}">Año </label>
+                                {{ form.ano }}
+                                {{ form.ano.errors }}
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group pull-in clearfix">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ numero_motor.id_for_label }}">Número motor </label>
                                 {{ form.numero_motor }}
                                 {{ form.numero_motor.errors }}
                             </div>
                             <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ numero_chasis.id_for_label }}">Número chasís </label>
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ numero_chasis.id_for_label }}">Número chasís </label>
                                 {{ form.numero_chasis }}
                                 {{ form.numero_chasis.errors }}
                             </div>
@@ -126,7 +144,10 @@
     <!-- bootstrap-daterangepicker -->
     <script>
       $(document).ready(function() {
-        $('#fecha').datepicker({format: "yyyy-mm-dd"});
+        $('#date_ano').datepicker({
+            format: " yyyy",
+            viewMode: "years",
+            minViewMode: "years"});
       });
     </script>
 

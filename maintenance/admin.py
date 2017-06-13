@@ -62,8 +62,8 @@ class MantencionAdmin(admin.ModelAdmin):
     list_filter = ['fecha','maquina','tipo_mantencion','servicio']
 
 class DetalleMantencionAdmin(admin.ModelAdmin):
-    list_display = ('mantencion','detalle','des_detalle','hodometro_prox_man')
-    list_filter = ['mantencion','detalle','hodometro_prox_man']
+    list_display = ('mantencion','componente','des_detalle','hodometro_prox_man')
+    list_filter = ['mantencion','componente','hodometro_prox_man']
 
 class RepuestoDetalleMantencionAdmin(admin.ModelAdmin):
     list_display = ('mantencion', 'detalle_mantencion', 'repuesto')
