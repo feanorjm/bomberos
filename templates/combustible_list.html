@@ -1,0 +1,131 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load staticfiles %}
+
+
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Parte de Combustible </h2>
+                      <ul class=" nav navbar-right panel_toolbox">
+                        <li><button type=button onclick="location.href='{% url 'combustible_create' %}';" class="btn btn-success">Nueva carga</button>
+                        </li>
+                      </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                    <div class="x_content">
+                  </div>
+                  <div class="x_content">
+                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Maquina</th>
+                          <th>Fecha</th>
+                          <th>Litros</th>
+                          <th>Servicentro</th>
+                          <th>kilometraje</th>
+                          <th>Hodometro</th>
+                          <th>Valor</th>
+                          <th>Conductor</th>
+                          <th>OBAC</th>
+                        </tr>
+                      </thead>
+
+
+                      <tbody>
+
+                        {% for parte in object_list %}
+                        <tr>
+                            <td></td>
+                            <td>{{ parte.maquina }}</td>
+                            <td>{{ parte.fecha }}</td>
+                            <td>{{ parte.litros }}</td>
+                            <td>{{ parte.servicentro }}</td>
+                            <td align="right">{{ parte.kilometraje }}</td>
+                            <td align="right">{{ parte.hodometro }}</td>
+                            <td align="right">{{ parte.valor }}</td>
+                            <td>{{ parte.conductor }}</td>
+                            <td>{{ parte.obac }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+      </div>
+    </div>
+    <!-- jQuery -->
+    <script type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/datepicker/daterangepicker.js' %}"></script>
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-scroller/js/datatables.scroller.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+
+    <!-- Datatables -->
+    <script>
+
+        $(document).ready(function() {
+            $('#datatable-responsive').DataTable();
+        });
+    </script>
+
+    <script>
+       $('td button').click(function(e) {
+            e.preventDefault()
+            var name = $(this).attr('name');
+            var tableRow = $(this).parents('tr');
+            var value = $(this).attr('value').replace('.','');
+            //console.log(name);
+            var url_delete = '/transaccion_eliminar/' + value + '/';
+            if (confirm('Quieres eliminar esta transaccion?')) {
+                $.ajax({
+                    url: url_delete,
+                    success: function() {
+                        if (name == 'delete'){
+                              tableRow.remove();
+                        }
+                    }
+                });
+            } else {
+               return false;
+            }
+       });
+    </script>
+
+    <!-- /Datatables -->
+
+{% endblock content %}

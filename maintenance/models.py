@@ -121,6 +121,7 @@ class Carguios_combustible(models.Model):
     valor = models.IntegerField()
     conductor = models.ForeignKey(Conductor)
     obac = models.ForeignKey(User)
+    fecha = models.DateField(null=True)
 
     def __str__(self):
         return str(self.maquina)

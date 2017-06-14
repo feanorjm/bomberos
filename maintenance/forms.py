@@ -1,13 +1,13 @@
 from django import forms
 
-from maintenance.models import Bitacora,Mantencion,DetalleMantencion,RepuestoDetalleMantencion,Maquina,Conductor
+from maintenance.models import Bitacora,Mantencion,DetalleMantencion,RepuestoDetalleMantencion,Maquina,Conductor,Carguios_combustible,CambioNeumatico
 
 class BitacoraForm(forms.ModelForm):
     class Meta:
         model = Bitacora
         fields = ['compania','maquina', 'conductor', 'cliente', 'direccion', 'fecha',
                   'hora_salida','hora_llegada','clave','kilometraje_salida',
-                  'kilometraje_llegada','hodometro_salida','hodometro_llegada','observciones']
+                  'kilometraje_llegada','hodometro_salida','hodometro_llegada','observciones',]
         widgets = {
             'compania': forms.Select(attrs={'class': 'form-control'}),
             'maquina': forms.Select(attrs={'class': 'form-control'}),
@@ -105,3 +105,36 @@ class ConductorForm(forms.ModelForm):
             'foto': forms.FileInput(attrs={'class': 'form-control'})
         }
 
+class CombustibleForm(forms.ModelForm):
+    class Meta:
+        model = Carguios_combustible
+        fields = ['maquina','litros','servicentro','kilometraje','hodometro','valor','conductor','obac','fecha']
+        widgets = {
+            'maquina': forms.Select(attrs={'class': 'form-control'}),
+            'litros': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'servicentro': forms.Select(attrs={'class': 'form-control'}),
+            'fecha': forms.DateInput(attrs={'id': 'fecha', 'class': 'date-picker form-control'}),
+            'kilometraje': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'hodometro': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'valor': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'conductor': forms.Select(attrs={'class': 'form-control'}),
+            'obac': forms.Select(attrs={'class': 'form-control'})
+        }
+
+class CambioNeumaticoForm(forms.ModelForm):
+    class Meta:
+        model = CambioNeumatico
+        fields = ['compania', 'maquina', 'fecha', 'kilometraje','hodometro', 'marca', 'modelo','medidas', 'proveedor','valor','responsable']
+        widgets = {
+            'compania': forms.Select(attrs={'class': 'form-control'}),
+            'maquina': forms.Select(attrs={'class': 'form-control'}),
+            'fecha': forms.DateInput(attrs={'id': 'fecha', 'class': 'date-picker form-control'}),
+            'kilometraje': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'hodometro': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'marca': forms.TextInput(attrs={'class': 'form-control'}),
+            'modelo': forms.TextInput(attrs={'class': 'form-control'}),
+            'medidas': forms.TextInput(attrs={'class': 'form-control'}),
+            'proveedor': forms.Select(attrs={'class': 'form-control'}),
+            'valor': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'responsable': forms.TextInput(attrs={'class': 'form-control'}),
+        }

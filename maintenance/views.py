@@ -4,14 +4,19 @@ from maintenance.forms import (BitacoraForm,
                                DetalleMantencionForm,
                                RepuestoDetalleMantencionForm,
                                MaquinaForm,
-                               ConductorForm)
+                               ConductorForm,
+                               CombustibleForm,
+                               CambioNeumaticoForm)
 
 from maintenance.models import (Bitacora,
                                 Mantencion,
                                 DetalleMantencion,
                                 RepuestoDetalleMantencion,
                                 Maquina,
-                                Conductor)
+                                Conductor,
+                                Carguios_combustible,
+                                CambioNeumatico)
+
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -262,3 +267,39 @@ conductor_list = ConductorListView.as_view()
 conductor_detail = ConductorDetailView.as_view()
 conductor_create = ConductorCreateView.as_view()
 conductor_update = ConductorUpdateView.as_view()
+
+#CRUD PARA CARGA COMBUSTIBLE
+
+@method_decorator(login_required, name='dispatch')
+class CombustibleCreateView(CreateView):
+    form_class = CombustibleForm
+    template_name = 'combustible_create.html'
+
+    def get_success_url(self):
+        return reverse("combustible_list")
+
+@method_decorator(login_required, name='dispatch')
+class CombustibleListView(ListView):
+    model = Carguios_combustible
+    template_name = 'combustible_list.html'
+
+combustible_create = CombustibleCreateView.as_view()
+combustible_list = CombustibleListView.as_view()
+
+#CRUD PARA CAMBIO NEUMATICOS
+
+@method_decorator(login_required, name='dispatch')
+class NeumaticosCreateView(CreateView):
+    form_class = CambioNeumaticoForm
+    template_name = 'neumaticos_create.html'
+
+    def get_success_url(self):
+        return reverse("neumaticos_list")
+
+@method_decorator(login_required, name='dispatch')
+class NeumaticosListView(ListView):
+    model = CambioNeumatico
+    template_name = 'neumaticos_list.html'
+
+neumaticos_create = NeumaticosCreateView.as_view()
+neumaticos_list = NeumaticosListView.as_view()

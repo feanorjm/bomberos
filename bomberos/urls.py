@@ -6,7 +6,9 @@ from bomberos.views import login_view,logout_view
 from maintenance.views import (bitacora_create_view, bitacora_list, bitacora_detail, bitacora_update, bitacora_delete,
                                mantencion_create, mantencion_add_detalle, mantencion_add_repuesto,mantencion_list,mantencion_detail,
                                maquina_detail,maquina_list,maquina_create,maquina_delete,maquina_update,
-                               conductor_list,conductor_detail,conductor_create,conductor_update)
+                               conductor_list,conductor_detail,conductor_create,conductor_update,
+                               combustible_create,combustible_list,
+                               neumaticos_create,neumaticos_list)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -38,6 +40,12 @@ urlpatterns = [
     url(r'^conductor/detalle/(?P<pk>\d+)$', conductor_detail, name='conductor_detail'),
     url(r'^conductor/add/$', conductor_create, name='conductor_create'),
     url(r'^conductor/editar/(?P<pk>\d+)$', conductor_update, name='conductor_update'),
+    #COMBUSTIBLE
+    url(r'^combustible/add/$', combustible_create, name='combustible_create'),
+    url(r'^parte-combustible/$', combustible_list, name='combustible_list'),
+    #CAMBIO NEUMATICOS
+    url(r'^neumaticos/add/$', neumaticos_create, name='neumaticos_create'),
+    url(r'^cambio-neumaticos/$', neumaticos_list, name='neumaticos_list'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
