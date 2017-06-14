@@ -15,11 +15,13 @@ urlpatterns = [
     url(r'^index/$', bitacora_list,name='bitacora_list'),
     url(r'^login/$', login_view,name='login_view'),
     url(r'^logout/$', logout_view, name='logout_view'),
+    #BITACORA
     url(r'^bitacora/add/$', bitacora_create_view, name='bitacora_create_view'),
     url(r'^bitacora/$', bitacora_list, name='bitacora_list'),
     url(r'^bitacora/detalle/(?P<pk>\d+)$', bitacora_detail, name='bitacora_detail'),
     url(r'^bitacora/editar/(?P<pk>\d+)$', bitacora_update, name='bitacora_update'),
     url(r'^bitacora/eliminar/(?P<pk>\d+)$', bitacora_delete, name='bitacora_delete'),
+    #MANTENCIONES
     url(r'^mantencion/add/$', mantencion_create, name='mantencion_create'),
     url(r'^mantencion/add_detalle/$', mantencion_add_detalle, name='mantencion_add_detalle'),
     url(r'^mantencion/add_repuesto/$', mantencion_add_repuesto, name='mantencion_add_repuesto'),

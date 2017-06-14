@@ -117,7 +117,6 @@ class MantencionCreateView(AjaxableResponseMixin,CreateView):
 def mantencion_create(request):
     mantencion_form = MantencionForm()
     detalle_mantencion_form = DetalleMantencionForm()
-    repuesto_detalle_form = RepuestoDetalleMantencionForm()
     if request.method == 'POST':
         mantencion_form = MantencionForm(request.POST)
         #book_formset = BookFormSet(request.POST, request.FILES, prefix='books')
@@ -133,8 +132,7 @@ def mantencion_create(request):
                 return JsonResponse(mantencion_form.errors, status=400)
     else:
         return render(request, 'mantencion_create.html', {'form': mantencion_form,
-                                                          'detalle_form':detalle_mantencion_form,
-                                                          'repuesto_form':repuesto_detalle_form})
+                                                          'detalle_form':detalle_mantencion_form})
 
 @login_required
 def mantencion_add_detalle(request):
@@ -177,6 +175,8 @@ class MantencionListView(ListView):
 class MantencionDetailView(DetailView):
     model = Mantencion
     template_name = 'mantencion_detalle.html'
+
+    #DEFINIR EL CONTEXT DATA Y HACER QUERYSET Y BUSCAR LOS DATOS DEL DETALLE Y LOS REPUESTOS
 
 mantencion_list = MantencionListView.as_view()
 mantencion_detail = MantencionDetailView.as_view()

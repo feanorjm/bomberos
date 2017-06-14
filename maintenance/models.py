@@ -173,10 +173,11 @@ class DetalleMantencion(models.Model):
 class RepuestoDetalleMantencion(models.Model):
     mantencion = models.ForeignKey(Mantencion)
     detalle_mantencion = ChainedForeignKey(DetalleMantencion,chained_field="mantencion",chained_model_field="mantencion")
-    repuesto = models.CharField(max_length=45)
+    repuesto = models.CharField(max_length=45, null=True, blank=True)
 
     def __str__(self):
         return self.repuesto
+
 
 class Bitacora(models.Model):
     compania = models.ForeignKey(Compania)

@@ -15,8 +15,8 @@ class BitacoraForm(forms.ModelForm):
             'cliente': forms.TextInput(attrs={'class': 'form-control'}),
             'direccion': forms.TextInput(attrs={'class': 'form-control'}),
             'fecha': forms.DateInput(attrs={'id': 'fecha', 'class': 'date-picker form-control'}),
-            'hora_salida': forms.TimeInput(attrs={'class': 'form-control'}),
-            'hora_llegada': forms.TimeInput(attrs={'class': 'form-control'}),
+            'hora_salida': forms.TimeInput(attrs={'id':'hora_sal','class': 'form-control'}),
+            'hora_llegada': forms.TimeInput(attrs={'id':'hora_lle','class': 'form-control'}),
             'clave': forms.TextInput(attrs={'class': 'form-control'}),
             'kilometraje_salida': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
             'kilometraje_llegada': forms.TextInput( attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
@@ -55,7 +55,7 @@ class DetalleMantencionForm(forms.ModelForm):
         widgets = {
             'mantencion':forms.HiddenInput(),
             'componente': forms.Select(attrs={'class': 'form-control'}),
-            'des_detalle': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 90px; width: 410px'}),
+            'des_detalle': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 90px;'}),
             'hodometro_prox_man': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ingrese Hodometro', 'pattern': '[0-9]*'}),
         }
 
