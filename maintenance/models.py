@@ -105,6 +105,13 @@ class Taller(models.Model):
     def __str__(self):
         return self.razon_social
 
+class Componente(models.Model):
+    nombre = models.CharField(max_length=45)
+    descripcion = models.TextField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
 class Carguios_combustible(models.Model):
     maquina = models.ForeignKey(Maquina)
     litros = models.IntegerField()
@@ -155,8 +162,8 @@ class Mantencion(models.Model):
 
 class DetalleMantencion(models.Model):
     mantencion = models.ForeignKey(Mantencion)
-    componente = models.CharField(max_length=50, null=True)
-    des_detalle = models.TextField(max_length=150)
+    componente = models.ForeignKey(Componente, null=True)
+    des_detalle = models.TextField(max_length=200)
     hodometro_prox_man = models.IntegerField(null=True, blank=True)
 
     def __str__(self):

@@ -133,21 +133,25 @@
                     <ul class="nav child_menu">
                       <li><a href="{% url 'mantencion_list' %}">Mantenciones</a>
                       </li>
-                      <li><a href="{% url 'admin:maintenance_serviciomantencion_add' %}">Servicios mantención</a>
+                      <li><a href="{% url 'admin:maintenance_serviciomantencion_add' %}">Agregar Servicios</a>
+                      </li>
+                      <li><a href="{% url 'admin:maintenance_componente_add' %}">Agregar Componentes</a>
+                      </li>
+                      <li><a href="{% url 'admin:maintenance_taller_add' %}">Agregar Talleres</a>
+                      </li>
+                      <li><a href="{% url 'admin:maintenance_servicentro_add' %}">Agregar Servicentros</a>
                       </li>
                       <li><a href="#">Neumaticos</a>
                       </li>
-                      <li><a href="#">Talleres</a>
-                      </li>
                       <li><a href="#">Combustible </a>
-                      </li>
-                      <li><a href="#">Servicentros </a>
                       </li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-edit"></i> Personal y Máquinas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'maquina_list' %}">Máquinas</a>
+                      </li>
+                      <li><a href="{% url 'admin:maintenance_clasificacion_maquina_add' %}">Agregar tipos de maquinas</a>
                       </li>
                       <li><a href="{% url 'conductor_list' %}">Conductores</a>
                       </li>

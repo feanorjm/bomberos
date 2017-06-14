@@ -51,11 +51,11 @@ class MantencionForm(forms.ModelForm):
 class DetalleMantencionForm(forms.ModelForm):
     class Meta:
         model = DetalleMantencion
-        fields = ['mantencion','componente', 'des_detalle', 'hodometro_prox_man',]
+        fields = ['mantencion', 'componente', 'des_detalle', 'hodometro_prox_man',]
         widgets = {
             'mantencion':forms.HiddenInput(),
-            'componente': forms.TextInput(attrs={'class': 'form-control'}),
-            'des_detalle': forms.TextInput(attrs={'class': 'form-control'}),
+            'componente': forms.Select(attrs={'class': 'form-control'}),
+            'des_detalle': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 90px; width: 410px'}),
             'hodometro_prox_man': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ingrese Hodometro', 'pattern': '[0-9]*'}),
         }
 

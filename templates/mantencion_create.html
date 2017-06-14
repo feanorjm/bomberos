@@ -112,7 +112,7 @@
                     <form id="form_mantencion_detalle" data-parsley-validate class="form-horizontal form-label-left" action="" method="post" >{% csrf_token %}
                         <div class="form-group pull-in clearfix">
                                 {{ detalle_form.mantencion }}
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <label style="text-align:left;" class="control-label col-sm-6" for="{{ componente.id_for_label }}">Componente</label>
                                 {{ detalle_form.componente }}
                                 {{ detalle_form.componente.errors }}
@@ -122,8 +122,8 @@
                                 {{ detalle_form.des_detalle }}
                                 {{ detalle_form.des_detalle.errors }}
                             </div>
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ hodometro_prox_man.id_for_label }}">Prox. mantención </label>
+                            <div id="prox_man" class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ hodometro_prox_man.id_for_label }}">Prox.Mantención </label>
                                 {{ detalle_form.hodometro_prox_man }}
                                 {{ detalle_form.hodometro_prox_man.errors }}
                             </div>
@@ -158,6 +158,28 @@
                             <button id="boton_form_repuesto" type="submit" class="btn btn-success">Ingresar</button>
                         </div>
                     </form>
+                    <div class="col-xs-12 col-md-12">
+                          <div class="table-responsive">
+                            <table class="table">
+
+
+                              <tbody>
+                                <tr>
+                                  <th>Componente</th>
+                                  <th>Descripción</th>
+                                  <th>Prox. Mantencion</th>
+                                  <th>Repuestos</th>
+                                </tr>
+                                <tr>
+                                  <td>asdgasdg</td>
+                                  <td>aasdg</td>
+                                  <td>25600 km</td>
+                                  <td>Filtro Aceite, tapa auxiliar</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
                   </div>
                 </div>
             </div>
@@ -207,7 +229,8 @@
         $('#fecha').datepicker({format: "yyyy-mm-dd"});
 
         $("#form_mantencion_detalle").find('input, textarea, button, select').attr('disabled',true);
-        $("#form_mantencion_repuesto").hide()
+        $("#form_mantencion_repuesto").hide();
+        $("#prox_man").hide();
       });
     </script>
 
@@ -222,13 +245,13 @@
         });
 
 
-
         $("#form_mantencion").on( "submit", function( event ) {
           event.preventDefault();
           var datos =  $( this ).serialize();
           console.log(datos);
           $.ajax({
-            url: "http://localhost:8000/mantencion/add/",
+            //url: "http://localhost:8000/mantencion/add/",
+            url: "{% url 'mantencion_create' %}",
             type: "POST",
             data: datos,
             success:function(data){
@@ -238,6 +261,13 @@
                 $("#form_mantencion").find('input, textarea, button, select').attr('disabled',false);
                 $("#form_mantencion_detalle").find('input, textarea, button, select').attr('disabled',false);
                 $("#boton_form").attr('disabled',true);
+                if ($("#id_tipo_mantencion").val() === "2"){
+                    $("#prox_man").show();
+                }
+                else{
+                    $("#prox_man").hide();
+                }
+
             }
           });
         });
@@ -259,14 +289,15 @@
 
         });*/
 
+
         $("#form_mantencion_detalle").on( "submit", function( event ) {
             event.preventDefault();
-            var id = $(event.originalEvent.explicitOriginalTarget).attr('id');
-            console.log(id);
+            var id = document.activeElement.id;
+            console.log("hola: "+id);
             var datos_detalle = $("#form_mantencion_detalle").serialize();
-            console.log(datos_detalle);
+            //console.log(datos_detalle);
             $.ajax({
-                url: "http://localhost:8000/mantencion/add_detalle/",
+                url: "{% url 'mantencion_add_detalle' %}",
                 type: "POST",
                 data: datos_detalle,
                 success:function(data){
@@ -293,7 +324,8 @@
                 var value = $( this ).val();
                 datos_repuesto = datos_repuesto+"&repuesto="+value;
                 $.ajax({
-                    url: "http://localhost:8000/mantencion/add_repuesto/",
+                    //url: "http://localhost:8000/mantencion/add_repuesto/",
+                    url: "{% url 'mantencion_add_repuesto' %}",
                     type: "POST",
                     data: datos_repuesto,
                     success: function (data) {
@@ -305,7 +337,7 @@
                 });
             })
             if(bandera){
-                window.location.replace("http://localhost:8000/mantenciones");
+                window.location.replace("{% url 'mantencion_list' %}");
             }
         });
 
