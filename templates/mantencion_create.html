@@ -58,7 +58,7 @@
                                 {{ form.servicio.errors }}
                             </div>
                             <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ cod_man.id_for_label }}">Código mantención</label>
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ cod_man.id_for_label }}">Orden de trabajo</label>
                                 {{ form.cod_man }}
                                 {{ form.cod_man.errors }}
                             </div>
@@ -275,6 +275,7 @@
             var componente = $("#id_componente").val();
             var des_detalle = $("#id_des_detalle").val();
             var prox_man = $("#prox_man").val();
+            var bandera = true;
 
             var datos_detalle = $("#form_mantencion_detalle :hidden").serialize();
             var datos = datos_detalle+"&componente="+componente+"&hodometro_prox_man="+prox_man+"&des_detalle="+des_detalle;
@@ -294,43 +295,50 @@
                             type: "POST",
                             data: datos_repuesto,
                             success: function (data) {
-                                if (data['status'] === 'ok'){
-                                    var repuestos = "";
-                                    var cont = 0;
-                                    $('input[name="repuesto"]').each(function () {
-                                        var value_rep = $( this ).val();
-                                        if (cont === 0){
-                                            repuestos = value_rep;
-                                        }
-                                        else{
-                                            repuestos = repuestos+", "+value_rep;
-                                        }
-                                        cont++;
-
-                                    });
-                                    if (prox_man === ""){
-                                        $("#tabla_detalle").append("<tr><td>"+componente+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td></td></tr>");
-                                    }
-                                    else{
-                                        $("#tabla_detalle").append("<tr><td>"+componente+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td>"+prox_man+" km</td></tr>");
-                                    }
-                                    $("#id_componente").val("");
-                                    $("#id_des_detalle").val("");
-                                    $("#id_hodometro_prox_man").val("");
-                                    $('input[name="repuesto"]').each(function () {
-                                        $( this ).val("");
-                                    });
-                                    var n = $('input[name="repuesto"]').length;
-                                    while (n > 1){
-                                        n = n - 1;
-                                        $("#rep_"+n).remove();
-                                    }
+                                if (data['status'] !== 'ok'){
+                                    bandera = false;
+                                }
+                                else{
+                                    bandera = true;
                                 }
                             }
                         });
                     })
                 }
             });
+
+            if (bandera){
+                var repuestos = "";
+                var cont = 0;
+                $('input[name="repuesto"]').each(function () {
+                    var value_rep = $( this ).val();
+                    if (cont === 0){
+                        repuestos = value_rep;
+                    }
+                    else{
+                        repuestos = repuestos+", "+value_rep;
+                    }
+                    cont++;
+
+                });
+                if (prox_man === ""){
+                    $("#tabla_detalle").append("<tr><td>"+componente+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td></td></tr>");
+                }
+                else{
+                    $("#tabla_detalle").append("<tr><td>"+componente+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td>"+prox_man+" km</td></tr>");
+                }
+                $("#id_componente").val("");
+                $("#id_des_detalle").val("");
+                $("#id_hodometro_prox_man").val("");
+                $('input[name="repuesto"]').each(function () {
+                    $( this ).val("");
+                });
+                var n = $('input[name="repuesto"]').length;
+                while (n > 1){
+                    n = n - 1;
+                    $("#rep_"+n).remove();
+                }
+            }
 
 
         });

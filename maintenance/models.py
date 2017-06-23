@@ -168,7 +168,7 @@ class DetalleMantencion(models.Model):
     hodometro_prox_man = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.componente
+        return str(self.componente)
 
 
 class RepuestoDetalleMantencion(models.Model):

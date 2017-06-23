@@ -8,13 +8,15 @@ from maintenance.views import (bitacora_create_view, bitacora_list, bitacora_det
                                maquina_detail,maquina_list,maquina_create,maquina_delete,maquina_update,
                                conductor_list,conductor_detail,conductor_create,conductor_update,
                                combustible_create,combustible_list,
-                               neumaticos_create,neumaticos_list)
+                               neumaticos_create,neumaticos_list,
+                               index_view)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^chaining/', include('smart_selects.urls')),
     url(r'^$', bitacora_list,name='bitacora_list'),
     url(r'^index/$', bitacora_list,name='bitacora_list'),
+    #url(r'^index/$', index_view,name='index_view'),
     url(r'^login/$', login_view,name='login_view'),
     url(r'^logout/$', logout_view, name='logout_view'),
     #BITACORA

@@ -18,7 +18,7 @@ from maintenance.models import (Bitacora,
                                 CambioNeumatico)
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.views.generic.detail import DetailView
 from django.urls import reverse
 from django.urls import reverse_lazy
@@ -303,3 +303,8 @@ class NeumaticosListView(ListView):
 
 neumaticos_create = NeumaticosCreateView.as_view()
 neumaticos_list = NeumaticosListView.as_view()
+
+class IndexView(TemplateView):
+    template_name = "index.html"
+
+index_view = IndexView.as_view()
