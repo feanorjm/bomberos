@@ -1,22 +1,5 @@
 from django.contrib import admin
-
-from maintenance.models import (UsuarioComp,
-                                Compania,
-                                Clasificacion_maquina,
-                                Conductor,
-                                Maquina,
-                                Detalle_Maquina,
-                                Servicentro,
-                                Taller,
-                                Carguios_combustible,
-                                TipoMantencion,
-                                ServicioMantencion,
-                                Mantencion,
-                                DetalleMantencion,
-                                RepuestoDetalleMantencion,
-                                Bitacora,
-                                CambioNeumatico,
-                                Componente)
+from maintenance.models import *
 
 class UsuarioCompAdmin(admin.ModelAdmin):
     list_display = ('user','tipo','compania')
@@ -41,6 +24,10 @@ class MaquinaAdmin(admin.ModelAdmin):
 class ServicentroAdmin(admin.ModelAdmin):
     list_display = ('nombre','direccion')
     list_filter = ['nombre','direccion']
+
+class ClaveAdmin(admin.ModelAdmin):
+    list_display = ('nombre','descripcion')
+    list_filter = ['nombre','descripcion']
 
 class TallerAdmin(admin.ModelAdmin):
     list_display = ('razon_social','tipo','telefono')
@@ -71,7 +58,7 @@ class RepuestoDetalleMantencionAdmin(admin.ModelAdmin):
     list_filter = ['mantencion','detalle_mantencion','repuesto']
 
 class BitacoraAdmin(admin.ModelAdmin):
-    list_display = ('compania', 'maquina', 'conductor','clave','cliente','fecha','observciones')
+    list_display = ('compania', 'maquina', 'conductor','clave','fecha','observciones')
     list_filter = ['compania', 'maquina']
 
 class CambioNeumaticoAdmin(admin.ModelAdmin):
@@ -99,5 +86,6 @@ admin.site.register(RepuestoDetalleMantencion,RepuestoDetalleMantencionAdmin)
 admin.site.register(Bitacora,BitacoraAdmin)
 admin.site.register(CambioNeumatico,CambioNeumaticoAdmin)
 admin.site.register(Componente,ComponenteAdmin)
+admin.site.register(Clave,ClaveAdmin)
 
 

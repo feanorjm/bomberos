@@ -5,19 +5,18 @@ from maintenance.models import Bitacora,Mantencion,DetalleMantencion,RepuestoDet
 class BitacoraForm(forms.ModelForm):
     class Meta:
         model = Bitacora
-        fields = ['compania','maquina', 'conductor', 'cliente', 'direccion', 'fecha',
+        fields = ['compania','maquina', 'conductor', 'direccion', 'fecha',
                   'hora_salida','hora_llegada','clave','kilometraje_salida',
                   'kilometraje_llegada','hodometro_salida','hodometro_llegada','observciones',]
         widgets = {
             'compania': forms.Select(attrs={'class': 'form-control'}),
-            'maquina': forms.Select(attrs={'class': 'form-control'}),
-            'conductor': forms.Select(attrs={'class': 'form-control'}),
-            'cliente': forms.TextInput(attrs={'class': 'form-control'}),
+            #'maquina': forms.Select(attrs={'class': 'form-control'}),
+            #'conductor': forms.Select(attrs={'class': 'form-control'}),
             'direccion': forms.TextInput(attrs={'class': 'form-control'}),
             'fecha': forms.DateInput(attrs={'id': 'fecha', 'class': 'date-picker form-control'}),
             'hora_salida': forms.TimeInput(attrs={'id':'hora_sal','class': 'form-control'}),
             'hora_llegada': forms.TimeInput(attrs={'id':'hora_lle','class': 'form-control'}),
-            'clave': forms.TextInput(attrs={'class': 'form-control'}),
+            'clave': forms.Select(attrs={'class': 'form-control'}),
             'kilometraje_salida': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
             'kilometraje_llegada': forms.TextInput( attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
             'hodometro_salida': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
@@ -29,14 +28,16 @@ class BitacoraForm(forms.ModelForm):
 class MantencionForm(forms.ModelForm):
     class Meta:
         model = Mantencion
-        fields = ['fecha', 'maquina', 'kilometraje', 'hodometro', 'tipo_mantencion', 'cod_man',
+        fields = ['fecha', 'maquina', 'ki_salida', 'ki_regreso', 'ho_salida', 'ho_regreso','tipo_mantencion', 'cod_man',
                   'servicio', 'observacion', 'num_factura', 'valor',
                   'taller', 'responsable']
         widgets = {
             'fecha': forms.DateInput(attrs={'id': 'fecha','class': 'form-control',}),
             'maquina': forms.Select(attrs={'class': 'form-control'}),
-            'kilometraje': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
-            'hodometro': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'ki_salida': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'ki_regreso': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'ho_salida': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'ho_regreso': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
             'tipo_mantencion': forms.Select(attrs={'class': 'form-control'}),
             'cod_man': forms.TextInput(attrs={'class': 'form-control'}),
             #'servicio': forms.Select(),
@@ -86,7 +87,7 @@ class MaquinaForm(forms.ModelForm):
             'numero_chasis': forms.TextInput(attrs={'class': 'form-control'}),
             'bin': forms.TextInput(attrs={'class': 'form-control'}),
             'patente': forms.TextInput(attrs={'class': 'form-control'}),
-            'conductor': forms.Select(attrs={'class': 'form-control'}),
+            #'conductor': forms.SelectMultiple(attrs={'class': 'form-control'}),
             'kilometraje': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
             'hodometro': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
         }

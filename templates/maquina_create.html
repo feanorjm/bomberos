@@ -118,8 +118,16 @@
         <!-- /page content -->
 
     <!-- jQuery -->
-    <script type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <!--smart-selects-->
     <script type="text/javascript" src="{% static 'smart-selects/admin/js/chainedfk.js' %}"></script>
+    <script type="text/javascript" src="{% static 'smart-selects/admin/js/chainedm2m.js' %}"></script>
+    <script type="text/javascript" src="{% static 'smart-selects/admin/js/bindfields.js' %}"></script>
+
     <!-- Bootstrap -->
     <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
@@ -144,6 +152,10 @@
     <!-- bootstrap-daterangepicker -->
     <script>
       $(document).ready(function() {
+
+        $('#id_conductor').addClass('form-control');
+        $('#id_conductor').attr('multiple','multiple');
+
         $('#date_ano').datepicker({
             format: " yyyy",
             viewMode: "years",

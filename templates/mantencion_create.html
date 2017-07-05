@@ -24,25 +24,35 @@
                         {{ form.errors }}
                         {{ form.non_field_errors }}
                         <div class="form-group pull-in clearfix">
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ fecha.id_for_label }}">Fecha </label>
                                 {{ form.fecha }}
                                 {{ form.fecha.errors }}
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ maquina.id_for_label }}">Máquina </label>
                                 {{ form.maquina }}
                                 {{ form.maquina.errors }}
                             </div>
-                            <div class="col-sm-3">
-                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ kilometraje.id_for_label }}">Kilometraje </label>
-                                {{ form.kilometraje }}
-                                {{ form.kilometraje.errors }}
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ ki_salida.id_for_label }}">Km Salida </label>
+                                {{ form.ki_salida }}
+                                {{ form.ki_salida.errors }}
                             </div>
-                            <div class="col-sm-3">
-                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ hodometro.id_for_label }}">Hodometro </label>
-                                {{ form.hodometro }}
-                                {{ form.hodometro.errors }}
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ ki_regreso.id_for_label }}">Km Regreso </label>
+                                {{ form.ki_regreso }}
+                                {{ form.ki_regreso.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ ho_salida.id_for_label }}">Hm Salida </label>
+                                {{ form.ho_salida }}
+                                {{ form.ho_salida.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ ho_regreso.id_for_label }}">Hm Regreso </label>
+                                {{ form.ho_regreso }}
+                                {{ form.ho_regreso.errors }}
                             </div>
                         </div>
                         <div class="form-group pull-in clearfix">
@@ -225,6 +235,18 @@
     </script>
 
     <script>
+    
+    	$("#id_tipo_mantencion").change(function(){
+    		var id_tipo = this.value;
+    		
+    		if(id_tipo === "1" ){
+    			$("#prox_man").hide();
+    		}
+    		else{
+    			$("#prox_man").show();
+    		}
+    		
+    	});
 
 
         $("#form_mantencion").on( "submit", function( event ) {
@@ -243,13 +265,6 @@
                 $("#form_mantencion").find('input, textarea, button, select').attr('disabled',true);
                 $("#form_mantencion_detalle").find('input, textarea, button, select').attr('disabled',false);
                 //$("#boton_form").attr('disabled',true);
-                if ($("#id_tipo_mantencion").val() === "2"){
-                    $("#prox_man").show();
-                }
-                else{
-                    $("#prox_man").hide();
-                }
-
             }
           });
         });

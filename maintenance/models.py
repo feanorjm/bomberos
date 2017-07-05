@@ -1,8 +1,9 @@
 from django.db import models
-from smart_selects.db_fields import ChainedForeignKey
+from smart_selects.db_fields import ChainedForeignKey, GroupedForeignKey, ChainedManyToManyField
 from django.contrib.auth.models import User
 from django.urls import reverse
 import datetime
+from _overlapped import NULL
 
 
 class Compania(models.Model):
@@ -42,14 +43,15 @@ class Maquina(models.Model):
     nombre = models.CharField(max_length=45)
     clasificacion = models.ForeignKey(Clasificacion_maquina)
     compania = models.ForeignKey(Compania)
-    marca = models.CharField(max_length=45,null=True)
-    modelo = models.CharField(max_length=45,null=True)
-    ano = models.IntegerField(choices=year_dropdown, default=datetime.datetime.now().year)
-    numero_motor = models.CharField(max_length=45)
-    numero_chasis = models.CharField(max_length=45)
-    bin = models.CharField(max_length=45)
-    patente = models.CharField(max_length=10)
-    conductor = models.ForeignKey(Conductor ,null=True, blank=True)
+    marca = models.CharField(max_length=45,null=True, blank=True)
+    modelo = models.CharField(max_length=45,null=True, blank=True)
+    ano = models.IntegerField(choices=year_dropdown, default=datetime.datetime.now().year,null=True, blank=True)
+    numero_motor = models.CharField(max_length=45,null=True, blank=True)
+    numero_chasis = models.CharField(max_length=45,null=True, blank=True)
+    bin = models.CharField(max_length=45,null=True, blank=True)
+    patente = models.CharField(max_length=10,null=True, blank=True)
+    conductor = ChainedForeignKey(Conductor,chained_field="compania",chained_model_field="compania" , null=True, blank=True)
+    #conductor = models.ManyToManyField(Conductor,null=True)
     kilometraje = models.IntegerField(null=True, blank=True)
     hodometro = models.IntegerField(null=True, blank=True)
 
@@ -119,7 +121,7 @@ class Carguios_combustible(models.Model):
     kilometraje = models.IntegerField()
     hodometro = models.IntegerField()
     valor = models.IntegerField()
-    conductor = models.ForeignKey(Conductor)
+    conductor = models.ForeignKey(Conductor, null=True, blank=True)
     obac = models.ForeignKey(User)
     fecha = models.DateField(null=True)
 
@@ -144,8 +146,10 @@ class ServicioMantencion(models.Model):
 class Mantencion(models.Model):
     fecha = models.DateField()
     maquina = models.ForeignKey(Maquina)
-    kilometraje = models.IntegerField()
-    hodometro = models.IntegerField()
+    ki_salida = models.IntegerField(null=True)
+    ho_salida = models.IntegerField(null=True)
+    ki_regreso = models.IntegerField(null=True)
+    ho_regreso = models.IntegerField(null=True)
     tipo_mantencion = models.ForeignKey(TipoMantencion, default=1)
     cod_man = models.CharField(max_length=45)
     servicio = ChainedForeignKey(ServicioMantencion,chained_field="tipo_mantencion",chained_model_field="tipo_mantencion")
@@ -179,17 +183,22 @@ class RepuestoDetalleMantencion(models.Model):
     def __str__(self):
         return self.repuesto
 
+class Clave(models.Model):
+    nombre = models.CharField(max_length=45)
+    descripcion = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre + ' - ' + self.descripcion
 
 class Bitacora(models.Model):
     compania = models.ForeignKey(Compania)
-    maquina = ChainedForeignKey(Maquina,chained_field="compania",chained_model_field="compania")
-    conductor = ChainedForeignKey(Conductor,chained_field="compania",chained_model_field="compania",default=1)
-    cliente = models.CharField(max_length=45,null=True)
+    maquina = ChainedForeignKey(Maquina,chained_field="compania",chained_model_field="compania", related_name='%(class)s_requests_created')
+    conductor = ChainedForeignKey(Conductor,chained_field="maquina",chained_model_field="maquina" , null=True, blank=True)
     direccion = models.CharField(max_length=100,null=True)
     fecha = models.DateField(auto_now=False, auto_now_add=False,null=True)
     hora_salida = models.TimeField(null=True)
     hora_llegada = models.TimeField(null=True)
-    clave = models.CharField(max_length=45,null=True)
+    clave = models.ForeignKey(Clave, null=True)
     kilometraje_salida = models.IntegerField(null=True)
     kilometraje_llegada = models.IntegerField(null=True)
     hodometro_salida = models.IntegerField(null=True)
