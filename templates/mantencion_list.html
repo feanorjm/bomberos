@@ -17,7 +17,7 @@
                   <div class="x_title">
                     <h2>MANTENCIONES </h2>
                       <ul class=" nav navbar-right panel_toolbox">
-                        <li><button type=button onclick="location.href='{% url 'mantencion_create' %}';" class="btn btn-success">nueva mantencion</button>
+                        <li><button type="button" onclick="location.href='{% url 'mantencion_create' %}';" class="btn btn-success">nueva mantencion</button>
                         </li>
                       </ul>
                     <div class="clearfix"></div>
@@ -29,18 +29,20 @@
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>fecha</th>
-                          <th>maquina</th>
-                          <th>kilometraje</th>
-                          <th>hodometro</th>
-                          <th>tipo_mantencion</th>
-                          <th>cod_man</th>
-                          <th>servicio</th>
-                          <th>observacion</th>
-                          <th>num_factura</th>
-                          <th>valor</th>
-                          <th>taller</th>
-                          <th>responsable</th>
+                          <th>Fecha</th>
+                          <th>Maquina</th>
+                          <th>km salida</th>
+                          <th>km llegada</th>
+                          <th>Hm salida</th>
+                          <th>Hm llegada</th>
+                          <th>Tipo mantencion</th>
+                          <th>Cod_man</th>
+                          <th>Servicio</th>
+                          <th>Observacion</th>
+                          <th>Factura</th>
+                          <th>Valor</th>
+                          <th>Taller</th>
+                          <th>Responsable</th>
                         </tr>
                       </thead>
 
@@ -52,8 +54,10 @@
                             <td></td>
                             <td><a style="color: orangered;text-decoration: underline;" href="{{ mantencion.get_absolute_url }}">{{ mantencion.fecha|date:"Y-m-d" }}</a></td>
                             <td>{{ mantencion.maquina }}</td>
-                            <td align="right">{{ mantencion.kilometraje }}</td>
-                            <td align="right">{{ mantencion.hodometro }}</td>
+                            <td align="right">{{ mantencion.km_salida }}</td>
+                            <td align="right">{{ mantencion.km_regreso }}</td>
+                            <td align="right">{{ mantencion.hm_salida }}</td>
+                            <td align="right">{{ mantencion.hm_regreso }}</td>
                             <td>{{ mantencion.tipo_mantencion }}</td>
                             <td>{{ mantencion.cod_man }}</td>
                             <td>{{ mantencion.servicio }}</td>

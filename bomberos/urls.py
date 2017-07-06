@@ -5,7 +5,7 @@ from django.contrib import admin
 from bomberos.views import login_view,logout_view
 from maintenance.views import (bitacora_create_view, bitacora_list, bitacora_detail, bitacora_update, bitacora_delete,
                                mantencion_create, mantencion_add_detalle, mantencion_add_repuesto,mantencion_list,mantencion_detail,
-                               maquina_detail,maquina_list,maquina_create,maquina_delete,maquina_update,
+                               maquina_detail,maquina_list,maquina_create,maquina_delete,maquina_update,get_maquina_conductores,
                                conductor_list,conductor_detail,conductor_create,conductor_update,
                                combustible_create,combustible_list,
                                neumaticos_create,neumaticos_list,
@@ -37,6 +37,8 @@ urlpatterns = [
     url(r'^maquina/add/$', maquina_create, name='maquina_create'),
     url(r'^maquina/editar/(?P<pk>\d+)$', maquina_update, name='maquina_update'),
     url(r'^maquina/eliminar/(?P<pk>\d+)$', maquina_delete, name='maquina_delete'),
+    url(r'^get_maquina_conductores/$', get_maquina_conductores, name='get_maquina_conductores'),
+
     #CONDUCTORES
     url(r'^conductores/$', conductor_list, name='conductor_list'),
     url(r'^conductor/detalle/(?P<pk>\d+)$', conductor_detail, name='conductor_detail'),

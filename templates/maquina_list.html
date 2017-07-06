@@ -55,7 +55,11 @@
                             <td>{{ maquina.numero_chasis }}</td>
                             <td>{{ maquina.bin }}</td>
                             <td>{{ maquina.patente }}</td>
-                            <td>{{ maquina.conductor }}</td>
+                            <td>
+                            {% for conductor in maquina.conductor.all %}
+                              {{ conductor.nombre }},
+                            {% endfor %}
+                            </td>
                             <td align="right"> {{ maquina.kilometraje }}</td>
                             <td align="right"> {{ maquina.hodometro }}</td>
                         </tr>

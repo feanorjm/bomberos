@@ -216,7 +216,6 @@ class MaquinaUpdateView(UpdateView):
     form_class = MaquinaForm
     template_name = 'maquina_update.html'
 
-
 @method_decorator(login_required, name='dispatch')
 class MaquinaDeleteView(DeleteView):
     model = Maquina
@@ -228,6 +227,18 @@ maquina_list = MaquinaListView.as_view()
 maquina_create = MaquinaCreateView.as_view()
 maquina_update = MaquinaUpdateView.as_view()
 maquina_delete = MaquinaDeleteView.as_view()
+
+
+def get_maquina_conductores(request):
+    if request.method == 'POST' and request.is_ajax():
+        compania = request.POST.get('compania')
+        maquina = request.POST.get('maquina')
+        #print(compania,maquina)
+        conductores_com = Conductor.objects.filter(compania=compania).values('id','nombre')
+        conductores_maq = Conductor.objects.filter(maquina__nombre=maquina).values('id')
+        #print(conductores_com)
+        return JsonResponse({'conductores': list(conductores_com), 'cond_maq': list(conductores_maq)})
+
 
 #CRUD PARA CONDUCTORES
 

@@ -1,6 +1,6 @@
 from django import forms
 
-from maintenance.models import Bitacora,Mantencion,DetalleMantencion,RepuestoDetalleMantencion,Maquina,Conductor,Carguios_combustible,CambioNeumatico
+from maintenance.models import Bitacora,Mantencion,DetalleMantencion,RepuestoDetalleMantencion,Maquina,Conductor,Carguios_combustible,CambioNeumatico, Compania
 
 class BitacoraForm(forms.ModelForm):
     class Meta:
@@ -71,11 +71,25 @@ class RepuestoDetalleMantencionForm(forms.ModelForm):
         }
 
 class MaquinaForm(forms.ModelForm):
+    #conductor = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple,queryset=Conductor.objects.filter(compania__id = 1))
     class Meta:
         model = Maquina
-        fields = ['nombre','clasificacion', 'compania', 'marca','modelo','ano',
-                  'numero_motor','numero_chasis','bin',
-                  'patente', 'conductor', 'kilometraje','hodometro',]
+        fields = {'nombre',
+                  'clasificacion',
+                  'compania',
+                  'marca',
+                  'modelo',
+                  'ano',
+                  'numero_motor',
+                  'numero_chasis',
+                  'bin',
+                  'patente',
+                  'conductor',
+                  'kilometraje',
+                  'hodometro',
+        }
+
+
         widgets = {
             'nombre':forms.TextInput(attrs={'class': 'form-control'}),
             'clasificacion': forms.Select(attrs={'class': 'form-control'}),
@@ -87,7 +101,7 @@ class MaquinaForm(forms.ModelForm):
             'numero_chasis': forms.TextInput(attrs={'class': 'form-control'}),
             'bin': forms.TextInput(attrs={'class': 'form-control'}),
             'patente': forms.TextInput(attrs={'class': 'form-control'}),
-            #'conductor': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'conductor': forms.CheckboxSelectMultiple(),
             'kilometraje': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
             'hodometro': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
         }

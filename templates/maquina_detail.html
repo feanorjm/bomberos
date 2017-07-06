@@ -69,8 +69,12 @@
                                   <td>{{ object.patente }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Conductor:</th>
-                                  <td>{{ object.conductor }}</td>
+                                  <th>Conductores:</th>
+                                  <td>
+                                  {% for conductor in maquina.conductor.all %}
+                                    {{ conductor.nombre }} /
+                                  {% endfor %}
+                                  </td>
                                 </tr>
                                 <tr>
                                   <th>Kilometraje:</th>

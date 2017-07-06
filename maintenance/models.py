@@ -50,7 +50,7 @@ class Maquina(models.Model):
     numero_chasis = models.CharField(max_length=45,null=True, blank=True)
     bin = models.CharField(max_length=45,null=True, blank=True)
     patente = models.CharField(max_length=10,null=True, blank=True)
-    conductor = ChainedForeignKey(Conductor,chained_field="compania",chained_model_field="compania" , null=True, blank=True)
+    conductor = models.ManyToManyField(Conductor, blank=True)
     #conductor = models.ManyToManyField(Conductor,null=True)
     kilometraje = models.IntegerField(null=True, blank=True)
     hodometro = models.IntegerField(null=True, blank=True)

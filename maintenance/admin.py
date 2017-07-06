@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django import forms
 from maintenance.models import *
 
 class UsuarioCompAdmin(admin.ModelAdmin):
@@ -20,6 +21,14 @@ class ConductorAdmin(admin.ModelAdmin):
 class MaquinaAdmin(admin.ModelAdmin):
     list_display = ('nombre','clasificacion','compania')
     list_filter = ['nombre','clasificacion','compania']
+    #filter_horizontal = ('conductor',)
+
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name == 'conductor':
+            kwargs['widget'] = forms.CheckboxSelectMultiple()
+            kwargs['help_text'] = ''
+
+        return db_field.formfield(**kwargs)
 
 class ServicentroAdmin(admin.ModelAdmin):
     list_display = ('nombre','direccion')
