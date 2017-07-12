@@ -32,12 +32,10 @@
                           <th>Fecha</th>
                           <th>Maquina</th>
                           <th>km salida</th>
-                          <th>km llegada</th>
+                          <th>km Regreso</th>
                           <th>Hm salida</th>
-                          <th>Hm llegada</th>
-                          <th>Tipo mantencion</th>
+                          <th>Hm Regreso</th>
                           <th>Cod_man</th>
-                          <th>Servicio</th>
                           <th>Observacion</th>
                           <th>Factura</th>
                           <th>Valor</th>
@@ -54,16 +52,14 @@
                             <td></td>
                             <td><a style="color: orangered;text-decoration: underline;" href="{{ mantencion.get_absolute_url }}">{{ mantencion.fecha|date:"Y-m-d" }}</a></td>
                             <td>{{ mantencion.maquina }}</td>
-                            <td align="right">{{ mantencion.km_salida }}</td>
-                            <td align="right">{{ mantencion.km_regreso }}</td>
-                            <td align="right">{{ mantencion.hm_salida }}</td>
-                            <td align="right">{{ mantencion.hm_regreso }}</td>
-                            <td>{{ mantencion.tipo_mantencion }}</td>
+                            <td align="right">{{ mantencion.ki_salida }}</td>
+                            <td align="right">{{ mantencion.ki_regreso }}</td>
+                            <td align="right">{{ mantencion.ho_salida }}</td>
+                            <td align="right">{{ mantencion.ho_regreso }}</td>
                             <td>{{ mantencion.cod_man }}</td>
-                            <td>{{ mantencion.servicio }}</td>
                             <td> {{ mantencion.observacion }}</td>
                             <td align="right"> {{ mantencion.num_factura }}</td>
-                            <td align="right"> {{ mantencion.valor }}</td>
+                            <td align="right"> $ {{ mantencion.valor }}</td>
                             <td> {{ mantencion.taller }}</td>
                             <td>{{ mantencion.responsable }}</td>
                         </tr>

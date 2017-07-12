@@ -5,8 +5,8 @@ from maintenance.forms import (BitacoraForm,
                                RepuestoDetalleMantencionForm,
                                MaquinaForm,
                                ConductorForm,
-                               CombustibleForm,
-                               CambioNeumaticoForm)
+                               CombustibleForm
+                               )
 
 from maintenance.models import (Bitacora,
                                 Mantencion,
@@ -14,8 +14,8 @@ from maintenance.models import (Bitacora,
                                 RepuestoDetalleMantencion,
                                 Maquina,
                                 Conductor,
-                                Carguios_combustible,
-                                CambioNeumatico)
+                                Carguios_combustible
+                                )
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic import ListView, TemplateView
@@ -169,6 +169,16 @@ def mantencion_add_repuesto(request):
             if request.is_ajax():
                 return JsonResponse(repuesto_mantencion_form.errors, status=400)
 
+@login_required
+def get_parametros_maquina(request):
+    if request.method == 'POST' and request.is_ajax():
+        maquina = request.POST.get('maquina')
+        print(maquina)
+        parametros = Maquina.objects.filter(id=maquina).values('kilometraje','hodometro')
+        #conductores_maq = Conductor.objects.filter(maquina__nombre=maquina).values('id')
+        print(parametros)
+        return JsonResponse({'parametros': list(parametros)})
+
 
 @method_decorator(login_required, name='dispatch')
 class MantencionListView(ListView):
@@ -228,7 +238,7 @@ maquina_create = MaquinaCreateView.as_view()
 maquina_update = MaquinaUpdateView.as_view()
 maquina_delete = MaquinaDeleteView.as_view()
 
-
+@login_required
 def get_maquina_conductores(request):
     if request.method == 'POST' and request.is_ajax():
         compania = request.POST.get('compania')
@@ -297,23 +307,6 @@ class CombustibleListView(ListView):
 combustible_create = CombustibleCreateView.as_view()
 combustible_list = CombustibleListView.as_view()
 
-#CRUD PARA CAMBIO NEUMATICOS
-
-@method_decorator(login_required, name='dispatch')
-class NeumaticosCreateView(CreateView):
-    form_class = CambioNeumaticoForm
-    template_name = 'neumaticos_create.html'
-
-    def get_success_url(self):
-        return reverse("neumaticos_list")
-
-@method_decorator(login_required, name='dispatch')
-class NeumaticosListView(ListView):
-    model = CambioNeumatico
-    template_name = 'neumaticos_list.html'
-
-neumaticos_create = NeumaticosCreateView.as_view()
-neumaticos_list = NeumaticosListView.as_view()
 
 class IndexView(TemplateView):
     template_name = "index.html"

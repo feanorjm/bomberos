@@ -51,16 +51,16 @@ class TipoMantencionAdmin(admin.ModelAdmin):
     list_filter = ['nombre',]
 
 class ServicioMantencionAdmin(admin.ModelAdmin):
-    list_display = ('nombre','tipo_mantencion','descripcion')
-    list_filter = ['nombre','tipo_mantencion']
+    list_display = ('nombre','division','subdivision','descripcion')
+    list_filter = ['nombre','division','subdivision',]
 
 class MantencionAdmin(admin.ModelAdmin):
-    list_display = ('fecha','maquina','tipo_mantencion','servicio')
-    list_filter = ['fecha','maquina','tipo_mantencion','servicio']
+    list_display = ('fecha','maquina',)
+    list_filter = ['fecha','maquina',]
 
 class DetalleMantencionAdmin(admin.ModelAdmin):
-    list_display = ('mantencion','componente','des_detalle','hodometro_prox_man')
-    list_filter = ['mantencion','componente','hodometro_prox_man']
+    list_display = ('mantencion','des_detalle','hodometro_prox_man')
+    list_filter = ['mantencion','hodometro_prox_man']
 
 class RepuestoDetalleMantencionAdmin(admin.ModelAdmin):
     list_display = ('mantencion','detalle_mantencion','repuesto')
@@ -70,13 +70,17 @@ class BitacoraAdmin(admin.ModelAdmin):
     list_display = ('compania', 'maquina', 'conductor','clave','fecha','observciones')
     list_filter = ['compania', 'maquina']
 
-class CambioNeumaticoAdmin(admin.ModelAdmin):
-    list_display = ('compania', 'maquina', 'fecha', 'kilometraje','marca','modelo','proveedor')
-    list_filter = ['compania', 'maquina', 'fecha']
-
 class ComponenteAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'descripcion')
     list_filter = ['nombre', ]
+
+class DivisionAdmin(admin.ModelAdmin):
+    list_display = ('nombre',)
+    list_filter = ['nombre', ]
+
+class SubdivisionAdmin(admin.ModelAdmin):
+    list_display = ('nombre','division')
+    list_filter = ['nombre','division' ]
 
 
 admin.site.register(UsuarioComp,UsuarioCompAdmin)
@@ -93,8 +97,9 @@ admin.site.register(Mantencion,MantencionAdmin)
 admin.site.register(DetalleMantencion,DetalleMantencionAdmin)
 admin.site.register(RepuestoDetalleMantencion,RepuestoDetalleMantencionAdmin)
 admin.site.register(Bitacora,BitacoraAdmin)
-admin.site.register(CambioNeumatico,CambioNeumaticoAdmin)
 admin.site.register(Componente,ComponenteAdmin)
 admin.site.register(Clave,ClaveAdmin)
+admin.site.register(Division,DivisionAdmin)
+admin.site.register(Subdivision,SubdivisionAdmin)
 
 

@@ -24,50 +24,67 @@
                         {{ form.errors }}
                         {{ form.non_field_errors }}
                         <div class="form-group pull-in clearfix">
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ maquina.id_for_label }}">Máquina </label>
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ maquina.id_for_label }}">Máquina </label>
                                 {{ form.maquina }}
                                 {{ form.maquina.errors }}
                             </div>
                             <div class="col-sm-2">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ fecha.id_for_label }}">Fecha </label>
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ fecha.id_for_label }}">Fecha </label>
                                 {{ form.fecha }}
                                 {{ form.fecha.errors }}
                             </div>
                             <div class="col-sm-2">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ litros.id_for_label }}">Litros </label>
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ litros.id_for_label }}">Litros </label>
                                 {{ form.litros }}
                                 {{ form.litros.errors }}
                             </div>
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ servicentro.id_for_label }}">Servicentro </label>
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ servicentro.id_for_label }}">Servicentro </label>
                                 {{ form.servicentro }}
                                 {{ form.servicentro.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ tarjeta_tct.id_for_label }}">Tarjeta TCT </label>
+                                {{ form.tarjeta_tct }}
+                                {{ form.tarjeta_tct.errors }}
                             </div>
                         </div>
                         <div class="form-group pull-in clearfix">
                             <div class="col-sm-2">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ kilometraje.id_for_label }}">Kilometraje </label>
-                                {{ form.kilometraje }}
-                                {{ form.kilometraje.errors }}
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ km_salida.id_for_label }}">Kilometraje Salida</label>
+                                {{ form.km_salida }}
+                                {{ form.km_salida.errors }}
                             </div>
                             <div class="col-sm-2">
-                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ hodometro.id_for_label }}">Hodometro </label>
-                                {{ form.hodometro }}
-                                {{ form.hodometro.errors }}
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ km_regreso.id_for_label }}">Kilometraje Regreso </label>
+                                {{ form.km_regreso }}
+                                {{ form.km_regreso.errors }}
                             </div>
                             <div class="col-sm-2">
-                                <label style="text-align:left;" class="control-label col-sm-3" for="{{ valor.id_for_label }}">Valor </label>
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ hm_salida.id_for_label }}">Hodometro Salida</label>
+                                {{ form.hm_salida }}
+                                {{ form.hm_salida.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ hm_regreso.id_for_label }}">Hodometro Regreso </label>
+                                {{ form.hm_regreso }}
+                                {{ form.hm_regreso.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group pull-in clearfix">
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ valor.id_for_label }}">Valor </label>
                                 {{ form.valor }}
                                 {{ form.valor.errors }}
                             </div>
                             <div class="col-sm-3">
-                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ conductor.id_for_label }}">Conductor </label>
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ conductor.id_for_label }}">Conductor </label>
                                 {{ form.conductor }}
                                 {{ form.conductor.errors }}
                             </div>
                             <div class="col-sm-3">
-                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ obac.id_for_label }}">OBAC </label>
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ obac.id_for_label }}">OBAC </label>
                                 {{ form.obac }}
                                 {{ form.obac.errors }}
                             </div>
@@ -88,8 +105,15 @@
         <!-- /page content -->
 
     <!-- jQuery -->
-    <script type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <!--smart-selects-->
     <script type="text/javascript" src="{% static 'smart-selects/admin/js/chainedfk.js' %}"></script>
+    <script type="text/javascript" src="{% static 'smart-selects/admin/js/chainedm2m.js' %}"></script>
+    <script type="text/javascript" src="{% static 'smart-selects/admin/js/bindfields.js' %}"></script>
     <!-- Bootstrap -->
     <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
@@ -115,12 +139,59 @@
     <script>
       $(document).ready(function() {
 
+        $('#id_conductor').addClass('form-control');
+
         $('#fecha').datepicker({format: "yyyy-mm-dd"});
 
       });
     </script>
 
     <script>
+
+    $("#id_maquina").change(function(){
+        var maquina = this.value;
+        if(maquina !== ""){
+            var datos_form = $("#form_maquina :hidden").serialize();
+            var datos = datos_form+"&maquina="+maquina;
+            console.log(datos);
+            $.ajax({
+                url: "{% url 'get_parametros_maquina' %}",
+                type: "POST",
+                data: datos,
+                success: function (data) {
+                    $("#id_km_salida").empty();
+                    $("#id_hm_salida").empty();
+                    for(var i in data.parametros) {
+                        if(data.parametros[i].kilometraje !== null && data.parametros[i].hodometro !== null){
+                            $("#id_km_salida").val(commaSeparateNumber(data.parametros[i].kilometraje));
+                            $("#id_hm_salida").val(commaSeparateNumber(data.parametros[i].hodometro));
+                        }
+                        else{
+                            $("#id_ki_salida").val("");
+                            $("#id_ho_salida").val("");
+                        }
+                        
+                        console.log(data.parametros[i].kilometraje);  // (o el campo que necesites)
+                    }
+                }
+            });
+        }
+    });
+
+    $("#btnExport").click(function (e) {
+        window.open('data:application/vnd.ms-excel,' + $('#dvData').html());
+        e.preventDefault();
+    });
+
+
+    function commaSeparateNumber(valor){
+        while (/(\d+)(\d{3})/.test(valor.toString())){
+          valor = valor.toString().replace(/(\d+)(\d{3})/, '$1'+'.'+'$2');
+        }
+        return valor;
+    }
+
+
     /*$('#id_monto').priceFormat({
         prefix: '',
         centsSeparator: ',',

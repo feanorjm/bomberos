@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     # APLICACIONES DE TERCEROS
     'smart_selects',
     # APLICACIONES BOMBEROS
@@ -131,6 +132,11 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+DECIMAL_SEPARATOR = ','
+THOUSAND_SEPARATOR = '.'
+#USE_THOUSAND_SEPARATOR = True
+#USE_DECIMAL_SEPARATOR = True
 
 
 # Static files (CSS, JavaScript, Images)

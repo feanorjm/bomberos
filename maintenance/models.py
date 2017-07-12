@@ -51,9 +51,16 @@ class Maquina(models.Model):
     bin = models.CharField(max_length=45,null=True, blank=True)
     patente = models.CharField(max_length=10,null=True, blank=True)
     conductor = models.ManyToManyField(Conductor, blank=True)
-    #conductor = models.ManyToManyField(Conductor,null=True)
-    kilometraje = models.IntegerField(null=True, blank=True)
-    hodometro = models.IntegerField(null=True, blank=True)
+    kilometraje = models.DecimalField(decimal_places=1,max_digits=10, null=True, blank=True)
+    hodometro = models.DecimalField(decimal_places=1,max_digits=10, null=True, blank=True)
+    venc_patente = models.DateField(null=True, blank=True)  # vencimiento patente
+    costo_patente = models.IntegerField(null=True, blank=True)  # costo patente
+    soap_costo = models.IntegerField(null=True, blank=True)  # seguro obligatorio
+    venc_rev_tec = models.DateField(null=True, blank=True)  # vencimiento revicion tecnica
+    costo_rev_tec = models.IntegerField(null=True, blank=True)  # costo revision tecnica
+    costo_seg_auto = models.IntegerField(null=True, blank=True)  # costo seguro automotriz
+    venc_seg_auto = models.DateField(null=True, blank=True)
+    prueba = models.DecimalField(decimal_places=1,max_digits=10, null=True, blank=True)
 
     def __str__(self):
         return self.nombre
@@ -61,15 +68,15 @@ class Maquina(models.Model):
     def get_absolute_url(self):
         return reverse('maquina_detail', args=[str(self.id)])
 
-class Detalle_Maquina(models.Model):
-    maquina = models.ForeignKey(Maquina)
-    venc_patente = models.DateField()       #vencimiento patente
-    costo_patente = models.IntegerField()   #costo patente
-    soap_costo = models.IntegerField()      #seguro obligatorio
-    venc_rev_tec = models.DateField()       #vencimiento revicion tecnica
-    costo_rev_tec = models.IntegerField()   #costo revision tecnica
-    costo_seg_auto = models.IntegerField()  #costo seguro automotriz
-    venc_seg_auto = models.DateField(null=True)
+# class Detalle_Maquina(models.Model):
+#     maquina = models.ForeignKey(Maquina)
+#     venc_patente = models.DateField()       #vencimiento patente
+#     costo_patente = models.IntegerField()   #costo patente
+#     soap_costo = models.IntegerField()      #seguro obligatorio
+#     venc_rev_tec = models.DateField()       #vencimiento revicion tecnica
+#     costo_rev_tec = models.IntegerField()   #costo revision tecnica
+#     costo_seg_auto = models.IntegerField()  #costo seguro automotriz
+#     venc_seg_auto = models.DateField(null=True)
 
 
 TIPO_USER_CHOICES = (
@@ -92,7 +99,7 @@ class Servicentro(models.Model):
     direccion = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.nombre
+        return self.nombre + " - " + self.direccion
 
 class Taller(models.Model):
     tipo = models.CharField(max_length=45)
@@ -116,17 +123,27 @@ class Componente(models.Model):
 
 class Carguios_combustible(models.Model):
     maquina = models.ForeignKey(Maquina)
-    litros = models.IntegerField()
+    litros = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     servicentro = models.ForeignKey(Servicentro)
-    kilometraje = models.IntegerField()
-    hodometro = models.IntegerField()
+    km_salida = models.DecimalField(decimal_places=1,max_digits=10, null=True)
+    hm_salida = models.DecimalField(decimal_places=1,max_digits=10, null=True)
+    km_regreso = models.DecimalField(decimal_places=1,max_digits=10, null=True)
+    hm_regreso = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     valor = models.IntegerField()
-    conductor = models.ForeignKey(Conductor, null=True, blank=True)
+    tarjeta_tct = models.IntegerField()
+    conductor = ChainedForeignKey(Conductor, chained_field="maquina", chained_model_field="maquina", null=True,
+                                  blank=True)
     obac = models.ForeignKey(User)
     fecha = models.DateField(null=True)
 
     def __str__(self):
         return str(self.maquina)
+
+class Division(models.Model):
+    nombre = models.CharField(max_length=45)
+
+    def __str__(self):
+        return self.nombre
 
 class TipoMantencion(models.Model):
     nombre = models.CharField(max_length=45)
@@ -135,8 +152,20 @@ class TipoMantencion(models.Model):
     def __str__(self):
         return self.nombre
 
+class Subdivision(models.Model):
+    division = models.ForeignKey(Division)
+    nombre = models.CharField(max_length=45)
+
+    def __str__(self):
+        return self.nombre
+
+
+
 class ServicioMantencion(models.Model):
-    tipo_mantencion = models.ForeignKey(TipoMantencion)
+    division = models.ForeignKey(Division, null=True)
+    subdivision = ChainedForeignKey(Subdivision, chained_field="division", chained_model_field="division",
+                                related_name='%(class)s_requests_created', null=True)
+    #tipo_mantencion = models.ForeignKey(TipoMantencion)
     nombre = models.CharField(max_length=45)
     descripcion = models.CharField(max_length=75, null=True, blank=True)
 
@@ -145,14 +174,14 @@ class ServicioMantencion(models.Model):
 
 class Mantencion(models.Model):
     fecha = models.DateField()
-    maquina = models.ForeignKey(Maquina)
-    ki_salida = models.IntegerField(null=True)
-    ho_salida = models.IntegerField(null=True)
-    ki_regreso = models.IntegerField(null=True)
-    ho_regreso = models.IntegerField(null=True)
-    tipo_mantencion = models.ForeignKey(TipoMantencion, default=1)
-    cod_man = models.CharField(max_length=45)
-    servicio = ChainedForeignKey(ServicioMantencion,chained_field="tipo_mantencion",chained_model_field="tipo_mantencion")
+    compania = models.ForeignKey(Compania,null=True)
+    maquina = ChainedForeignKey(Maquina, chained_field="compania", chained_model_field="compania",
+                                related_name='%(class)s_requests_created')
+    ki_salida = models.DecimalField(decimal_places=1,max_digits=10, null=True)
+    ho_salida = models.DecimalField(decimal_places=1,max_digits=10, null=True)
+    ki_regreso = models.DecimalField(decimal_places=1,max_digits=10, null=True)
+    ho_regreso = models.DecimalField(decimal_places=1,max_digits=10, null=True)
+    cod_man = models.CharField(max_length=45) #orden de trabajo
     observacion = models.TextField(max_length=200)
     num_factura = models.IntegerField()
     valor = models.IntegerField()
@@ -160,19 +189,22 @@ class Mantencion(models.Model):
     responsable = models.CharField(max_length=45)
 
     def __str__(self):
-        return str(self.maquina) +'-'+ str(self.tipo_mantencion)+'-'+ str(self.servicio)
+        return str(self.maquina) +'-'+ str(self.cod_man)
 
     def get_absolute_url(self):
         return reverse('mantencion_detail', args=[str(self.id)])
 
 class DetalleMantencion(models.Model):
     mantencion = models.ForeignKey(Mantencion)
-    componente = models.ForeignKey(Componente, null=True)
-    des_detalle = models.TextField(max_length=200)
+    division = models.ForeignKey(Division, null=True)
+    subdivision = ChainedForeignKey(Subdivision, chained_field="division", chained_model_field="division", null=True, related_name='%(class)s_requests_created')
+    tipo_mantencion = models.ForeignKey(TipoMantencion, default=1, null=True)
+    servicio = ChainedForeignKey(ServicioMantencion, chained_field="subdivision", chained_model_field="subdivision", null=True, related_name='%(class)s_requests_created')
+    des_detalle = models.TextField(max_length=200, null=True, blank=True)
     hodometro_prox_man = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return str(self.componente)
+        return str(self.des_detalle)
 
 
 class RepuestoDetalleMantencion(models.Model):
@@ -199,10 +231,10 @@ class Bitacora(models.Model):
     hora_salida = models.TimeField(null=True)
     hora_llegada = models.TimeField(null=True)
     clave = models.ForeignKey(Clave, null=True)
-    kilometraje_salida = models.IntegerField(null=True)
-    kilometraje_llegada = models.IntegerField(null=True)
-    hodometro_salida = models.IntegerField(null=True)
-    hodometro_llegada = models.IntegerField(null=True)
+    kilometraje_salida = models.DecimalField(decimal_places=1,max_digits=10, null=True)
+    kilometraje_llegada = models.DecimalField(decimal_places=1,max_digits=10, null=True)
+    hodometro_salida = models.DecimalField(decimal_places=1,max_digits=10, null=True)
+    hodometro_llegada = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     observciones = models.TextField(max_length=300,null=True)
 
     def __str__(self):
@@ -211,24 +243,25 @@ class Bitacora(models.Model):
     def get_absolute_url(self):
         return reverse('bitacora_detail', args=[str(self.id)])
 
-class CambioNeumatico(models.Model):
-    compania = models.ForeignKey(Compania)
-    maquina = ChainedForeignKey(Maquina,chained_field="compania",chained_model_field="compania")
-    fecha = models.DateField()
-    kilometraje = models.IntegerField()
-    hodometro = models.IntegerField()
-    marca = models.CharField(max_length=45)
-    modelo = models.CharField(max_length=45)
-    medidas = models.CharField(max_length=45)
-    proveedor = models.ForeignKey(Taller)
-    valor = models.IntegerField()
-    responsable = models.CharField(max_length=45)
 
-    def __str__(self):
-        return str(self.compania) +' - '+ str(self.maquina)+' - '+ str(self.fecha)
-
-    def get_absolute_url(self):
-        return "/cambioneumatico/%i/" % self.id
+# class CambioNeumatico(models.Model):
+#     compania = models.ForeignKey(Compania)
+#     maquina = ChainedForeignKey(Maquina,chained_field="compania",chained_model_field="compania")
+#     fecha = models.DateField()
+#     kilometraje = models.IntegerField()
+#     hodometro = models.IntegerField()
+#     marca = models.CharField(max_length=45)
+#     modelo = models.CharField(max_length=45)
+#     medidas = models.CharField(max_length=45)
+#     proveedor = models.ForeignKey(Taller)
+#     valor = models.IntegerField()
+#     responsable = models.CharField(max_length=45)
+#
+#     def __str__(self):
+#         return str(self.compania) +' - '+ str(self.maquina)+' - '+ str(self.fecha)
+#
+#     def get_absolute_url(self):
+#         return "/cambioneumatico/%i/" % self.id
 
 
 

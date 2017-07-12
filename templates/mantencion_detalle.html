@@ -14,7 +14,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Mantencion maquina: {{ object.maquina }} ,fecha: {{ object.fecha|date:"Y-m-d" }}</h2>
+                    <h2>Mantenci髇 m醧uina: {{ object.maquina }} ,fecha: {{ object.fecha|date:"Y-m-d" }}</h2>
                       <ul class=" nav navbar-right panel_toolbox">
                         <li><button type="button" onclick="location.href='{% url 'bitacora_update' pk=object.id %}';" class="btn btn-primary" >Editar</button>
                         </li>
@@ -39,31 +39,31 @@
                                   <td>{{ object.maquina }}</td>
                                 </tr>
                                 <tr>
-                                  <th>kilometraje:</th>
-                                  <td>{{ object.kilometraje }}</td>
+                                  <th>kilometraje Salida:</th>
+                                  <td>{{ object.ki_salida }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Hodometro:</th>
-                                  <td>{{ object.hodometro }}</td>
+                                  <th>kilometraje Regreso:</th>
+                                  <td>{{ object.ki_regreso }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Tipo Mantenci贸n:</th>
-                                  <td>{{ object.tipo_mantencion }}</td>
+                                  <th>Hodometro Salida:</th>
+                                  <td>{{ object.ho_salida }}</td>
                                 </tr>
                                 <tr>
-                                  <th>C贸digo mantenci贸n:</th>
+                                  <th>Hodometro Regreso:</th>
+                                  <td>{{ object.ho_regreso }}</td>
+                                </tr>
+                                <tr>
+                                  <th>C骴igo mantenci髇:</th>
                                   <td>{{ object.cod_man }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Servicio:</th>
-                                  <td>{{ object.servicio }}</td>
-                                </tr>
-                                <tr>
-                                  <th>Observaci贸n:</th>
+                                  <th>Observaci髇:</th>
                                   <td>{{ object.observacion }}</td>
                                 </tr>
                                 <tr>
-                                  <th>N煤mero factura:</th>
+                                  <th>N鷐ero factura:</th>
                                   <td>{{ object.num_factura }}</td>
                                 </tr>
                                 <tr>

@@ -5,12 +5,6 @@
 {% load staticfiles %}
     <div class="right_col" role="main">
       <div class="">
-
-        <div class="page-title">
-          <div class="title_left">
-            <h3>MÁQUINA</h3>
-          </div>
-        </div>
         <div class="clearfix"></div>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -39,79 +33,117 @@
                         {{ form.errors }}
                         {{ form.non_field_errors }}
                         <div class="form-group pull-in clearfix">
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-4" for="{{ nombre.id_for_label }}">Nombre </label>
                                 {{ form.nombre }}
                                 {{ form.nombre.errors }}
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <label style="text-align:left;" class="control-label col-sm-4" for="{{ clasificacion.id_for_label }}">Clasificación </label>
                                 {{ form.clasificacion }}
                                 {{ form.clasificacion.errors }}
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <label style="text-align:left;" class="control-label col-sm-4" for="{{ compania.id_for_label }}">Compañía </label>
                                 {{ form.compania }}
                                 {{ form.compania.errors }}
                             </div>
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ conductor.id_for_label }}">Conductor </label>
+                                <div class="col-sm-12">
+                                {{ form.conductor }}
+                                {{ form.conductor.errors }}
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group pull-in clearfix">
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ marca.id_for_label }}">Marca </label>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ kilometraje.id_for_label }}">Kilometraje </label>
+                                {{ form.kilometraje }}
+                                {{ form.kilometraje.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ hodometro.id_for_label }}">Hodometro</label>
+                                {{ form.hodometro }}
+                                {{ form.hodometro.errors }}
+                            </div>
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ marca.id_for_label }}">Marca </label>
                                 {{ form.marca }}
                                 {{ form.marca.errors }}
                             </div>
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ modelo.id_for_label }}">Modelo </label>
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ modelo.id_for_label }}">Modelo </label>
                                 {{ form.modelo }}
                                 {{ form.modelo.errors }}
                             </div>
                             <div class="col-sm-2">
-                                <label style="text-align:left;" class="control-label col-sm-3" for="{{ ano.id_for_label }}">Año </label>
-                                {{ form.ano }}
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ ano.id_for_label }}">Año </label>
+                                {% load l10n %}
+                                {{ form.ano|unlocalize }}
                                 {{ form.ano.errors }}
                             </div>
                         </div>
                         <div class="form-group pull-in clearfix">
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ numero_motor.id_for_label }}">Número motor </label>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ patente.id_for_label }}">Patente </label>
+                                {{ form.patente }}
+                                {{ form.patente.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ numero_motor.id_for_label }}">Número motor </label>
                                 {{ form.numero_motor }}
                                 {{ form.numero_motor.errors }}
                             </div>
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ numero_chasis.id_for_label }}">Número chasís </label>
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ numero_chasis.id_for_label }}">Número chasís </label>
                                 {{ form.numero_chasis }}
                                 {{ form.numero_chasis.errors }}
                             </div>
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ bin.id_for_label }}">Bin </label>
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ bin.id_for_label }}">Bin </label>
                                 {{ form.bin }}
                                 {{ form.bin.errors }}
                             </div>
                         </div>
                         <div class="ln_solid"></div>
                         <div class="form-group pull-in clearfix">
-                            <div class="col-sm-3">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ patente.id_for_label }}">Patente </label>
-                                {{ form.patente }}
-                                {{ form.patente.errors }}
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ venc_patente.id_for_label }}">Vencimiento Patente </label>
+                                {{ form.venc_patente }}
+                                {{ form.venc_patente.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ costo_patente.id_for_label }}">Valor Patente </label>
+                                {{ form.costo_patente }}
+                                {{ form.costo_patente.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ soap_costo.id_for_label }}">Valor SOAP </label>
+                                {{ form.soap_costo }}
+                                {{ form.soap_costo.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ venc_rev_tec.id_for_label }}">Venc. Rev. Técnica </label>
+                                {{ form.venc_rev_tec }}
+                                {{ form.venc_rev_tec.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ costo_rev_tec.id_for_label }}">Valor Rev. Técnica  </label>
+                                {{ form.costo_rev_tec }}
+                                {{ form.costo_rev_tec.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group pull-in clearfix">
+                        <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ venc_seg_auto.id_for_label }}">Venc. Seguro Automotriz </label>
+                                {{ form.venc_seg_auto }}
+                                {{ form.venc_seg_auto.errors }}
                             </div>
                             <div class="col-sm-3">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ conductor.id_for_label }}">Conductor </label>
-                                <div class="col-sm-12">
-                                {{ form.conductor }}
-                                {{ form.conductor.errors }}
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ kilometraje.id_for_label }}">Kilometraje </label>
-                                {{ form.kilometraje }}
-                                {{ form.kilometraje.errors }}
-                            </div>
-                            <div class="col-sm-3">
-                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ hodometro.id_for_label }}">Hodometro</label>
-                                {{ form.hodometro }}
-                                {{ form.hodometro.errors }}
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ costo_seg_auto.id_for_label }}">Valor Seguro Automotriz </label>
+                                {{ form.costo_seg_auto }}
+                                {{ form.costo_seg_auto.errors }}
                             </div>
                         </div>
                         <div class="ln_solid"></div>
@@ -150,6 +182,8 @@
         var maquina = $("#id_nombre").val();
         console.log(maquina);
         get_conductores(compania,maquina);
+
+        //$('#id_compania').block({ message: 'blocked' ,overlayCSS: { backgroundColor: '#fff'   }});
 
       });
     </script>

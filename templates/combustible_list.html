@@ -17,6 +17,8 @@
                   <div class="x_title">
                     <h2>Parte de Combustible </h2>
                       <ul class=" nav navbar-right panel_toolbox">
+                        <li><button type="button"  id="btnExport" class="btn btn-default">Exportar a Excel</button>
+                          </li>
                         <li><button type=button onclick="location.href='{% url 'combustible_create' %}';" class="btn btn-success">Nueva carga</button>
                         </li>
                       </ul>
@@ -70,7 +72,12 @@
       </div>
     </div>
     <!-- jQuery -->
-    <script type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+    <!-- jQuery -->
+    <script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
@@ -88,9 +95,6 @@
     <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-scroller/js/datatables.scroller.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>
 
     <!-- Custom Theme Scripts -->
     <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
@@ -99,12 +103,15 @@
     <script>
 
         $(document).ready(function() {
-            $('#datatable-responsive').DataTable();
+          $('#datatable-responsive').DataTable();
+
+          
+
         });
     </script>
 
     <script>
-       $('td button').click(function(e) {
+      $('td button').click(function(e) {
             e.preventDefault()
             var name = $(this).attr('name');
             var tableRow = $(this).parents('tr');
@@ -123,7 +130,21 @@
             } else {
                return false;
             }
-       });
+      });
+
+      $("#btnExport").click(function (e) {
+          window.open('data:application/vnd.ms-excel,' + $('#dvData').html());
+          e.preventDefault();
+      });
+
+
+
+
+
+
+
+
+
     </script>
 
     <!-- /Datatables -->

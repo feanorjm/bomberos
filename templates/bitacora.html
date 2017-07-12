@@ -51,7 +51,7 @@
                                 {{ form.fecha }}
                                 {{ form.fecha.errors }}
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-4">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ clave.id_for_label }}">Clave </label>
                                 {{ form.clave }}
                                 {{ form.clave.errors }}
@@ -75,7 +75,7 @@
                                 {{ form.hodometro_salida.errors }}
                             </div>
                             <div class="col-sm-2">
-                                <label style="text-align:left;" class="control-label col-md-12" for="{{ hodometro_llegada.id_for_label }}">Hodometro Llegada </label>
+                                <label style="text-align:left;" class="control-label col-md-12" for="{{ hodometro_llegada.id_for_label }}">Hodometro Regreso </label>
                                 {{ form.hodometro_llegada }}
                                 {{ form.hodometro_llegada.errors }}
                             </div>
@@ -85,7 +85,7 @@
                                 {{ form.kilometraje_salida.errors }}
                             </div>
                             <div class="col-sm-2">
-                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ kilometraje_llegada.id_for_label }}">Kilometraje Llegada </label>
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ kilometraje_llegada.id_for_label }}">Kilometraje Regreso </label>
                                 {{ form.kilometraje_llegada }}
                                 {{ form.kilometraje_llegada.errors }}
                             </div>
@@ -161,6 +161,44 @@
     </script>
 
     <script>
+
+    $("#id_maquina").change(function(){
+        var maquina = this.value;
+        if(maquina !== ""){
+            var datos_form = $("#form_bitacora :hidden").serialize();
+            var datos = datos_form+"&maquina="+maquina;
+            console.log(datos);
+            $.ajax({
+                url: "{% url 'get_parametros_maquina' %}",
+                type: "POST",
+                data: datos,
+                success: function (data) {
+                    $("#id_kilometraje_salida").empty();
+                    $("#id_hodometro_salida").empty();
+                    for(var i in data.parametros) {
+                        if(data.parametros[i].kilometraje !== null && data.parametros[i].hodometro !== null){
+                            $("#id_kilometraje_salida").val(commaSeparateNumber(data.parametros[i].kilometraje));
+                            $("#id_hodometro_salida").val(commaSeparateNumber(data.parametros[i].hodometro));
+                        }
+                        else{
+                            $("#id_kilometraje_salida").val("");
+                            $("#id_hodometro_salida").val("");
+                        }
+                        
+                        console.log(data.parametros[i].kilometraje);  // (o el campo que necesites)
+                    }
+                }
+            });
+        }
+    });
+
+    function commaSeparateNumber(valor){
+        while (/(\d+)(\d{3})/.test(valor.toString())){
+          valor = valor.toString().replace(/(\d+)(\d{3})/, '$1'+'.'+'$2');
+        }
+        return valor;
+    }
+
     /*$('#id_monto').priceFormat({
         prefix: '',
         centsSeparator: ',',
