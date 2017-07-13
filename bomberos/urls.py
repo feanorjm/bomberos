@@ -8,7 +8,7 @@ from maintenance.views import (bitacora_create_view, bitacora_list, bitacora_det
                                maquina_detail,maquina_list,maquina_create,maquina_delete,maquina_update,get_maquina_conductores, get_parametros_maquina,
                                conductor_list,conductor_detail,conductor_create,conductor_update,
                                combustible_create,combustible_list,
-                               index_view)
+                               index_view,dashboard_maquina_list_view)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -47,6 +47,9 @@ urlpatterns = [
     #COMBUSTIBLE
     url(r'^combustible/add/$', combustible_create, name='combustible_create'),
     url(r'^parte-combustible/$', combustible_list, name='combustible_list'),
+
+    #DASHBOARD
+    url(r'^dashboard/$', dashboard_maquina_list_view, name='dashboard_maquina_list_view'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

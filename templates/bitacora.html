@@ -177,8 +177,8 @@
                     $("#id_hodometro_salida").empty();
                     for(var i in data.parametros) {
                         if(data.parametros[i].kilometraje !== null && data.parametros[i].hodometro !== null){
-                            $("#id_kilometraje_salida").val(commaSeparateNumber(data.parametros[i].kilometraje));
-                            $("#id_hodometro_salida").val(commaSeparateNumber(data.parametros[i].hodometro));
+                            $("#id_kilometraje_salida").val(data.parametros[i].kilometraje);
+                            $("#id_hodometro_salida").val(data.parametros[i].hodometro);
                         }
                         else{
                             $("#id_kilometraje_salida").val("");

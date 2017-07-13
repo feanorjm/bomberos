@@ -127,6 +127,16 @@ def mantencion_create(request):
         #book_formset = BookFormSet(request.POST, request.FILES, prefix='books')
         if mantencion_form.is_valid():
             mantencion_form.save()
+            #guardar kilometraje y hodometro maquina
+            kilometrajeform = mantencion_form.cleaned_data['ki_regreso']
+            hodometroform = mantencion_form.cleaned_data['ho_regreso']
+            maquinaform = mantencion_form.cleaned_data['maquina']
+            print(kilometrajeform,hodometroform,maquinaform)
+            maquina = Maquina.objects.get(nombre=maquinaform)
+            maquina.kilometraje = kilometrajeform
+            maquina.hodometro = hodometroform
+            maquina.save()
+            #devolver pk a detalleForm
             if request.is_ajax():
                 data = {
                     'pk': Mantencion.objects.last().pk,
@@ -312,3 +322,10 @@ class IndexView(TemplateView):
     template_name = "index.html"
 
 index_view = IndexView.as_view()
+
+class DashboardMaquinasListView(ListView):
+    #queryset = Book.objects.filter(publisher__name='ACME Publishing')
+    queryset = Maquina.objects.values('compania','nombre','venc_patente','hodometro','kilometraje')
+    template_name = 'dashboard.html'
+
+dashboard_maquina_list_view = DashboardMaquinasListView.as_view()

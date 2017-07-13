@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Bomberos</title>
+    <title>Bomberos - Osorno</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}">
@@ -46,7 +46,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="#" class="site_title"><i class="fa fa-fire-extinguisher"></i> <span>Control de Flota!</span></a>
+              <a href="#" class="site_title"><span>MATERIAL MAYOR</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -54,7 +54,7 @@
             <!-- menu profile quick info -->
             <div class="profile">
               <div class="profile_pic">
-                <img src="{% static 'images/fireman.jpeg' %}" alt="..." class="img-circle profile_img">
+                <img src="{% static 'images/user.png' %}" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <h2>Bienvenido
@@ -75,7 +75,7 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Bandeja de Inicio</a>
+                      <li><a href="{% url 'dashboard_maquina_list_view' %}">Dashboard</a>
                       </li>
                       <!--<li><a href="index2.html">Dashboard2</a>
                       </li>
@@ -127,15 +127,19 @@
                       </li>
                       <li><a href="{% url 'bitacora_create_view' %}">Nuevo servicio</a>
                       </li>
+                      <li><a href="{% url 'bitacora_create_view' %}">Carga Combustible</a>
+                      </li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-cogs"></i> Mantenimiento <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'mantencion_list' %}">Mantenciones</a>
                       </li>
-                      <li><a href="{% url 'admin:maintenance_serviciomantencion_add' %}">Agregar Servicios Mantenciones</a>
+                      <li><a href="{% url 'admin:maintenance_division_add' %}">Agregar Divisiones</a>
                       </li>
-                      <li><a href="{% url 'admin:maintenance_componente_add' %}">Agregar Componentes</a>
+                      <li><a href="{% url 'admin:maintenance_subdivision_add' %}">Agregar SubDivisiones</a>
+                      </li>
+                      <li><a href="{% url 'admin:maintenance_serviciomantencion_add' %}">Agregar Servicios</a>
                       </li>
                       <li><a href="{% url 'admin:maintenance_taller_add' %}">Agregar Talleres</a>
                       </li>
@@ -246,7 +250,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{% static 'images/fireman.jpeg' %}" alt=""><strong>{% if user.is_authenticated %}
+                    <img src="{% static 'images/bomberos-logo.png' %}" alt=""><strong>{% if user.is_authenticated %}
                                                                                 <strong>{{ user.username }}</strong>
                                                                               {% endif %}</strong>{{ first_name }}
                     <span class=" fa fa-angle-down"></span>

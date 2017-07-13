@@ -39,18 +39,6 @@
                                 {{ form.maquina }}
                                 {{ form.maquina.errors }}
                             </div>
-                            <!--<div class="col-sm-2">
-                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ tipo_mantencion.id_for_label }}">Tipo mantencion </label>
-                                {{ form.tipo_mantencion }}
-                                {{ form.tipo_mantencion.errors }}
-                            </div>
-                            <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ servicio.id_for_label }}">Servicio </label>
-                                {{ form.servicio }}
-                                {{ form.servicio.errors }}
-                            </div>-->
-                        </div>
-                        <div class="form-group pull-in clearfix">
                             <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ ki_salida.id_for_label }}">Kilometraje Salida </label>
                                 {{ form.ki_salida }}
@@ -73,40 +61,35 @@
                                 {{ form.ho_regreso }}
                                 {{ form.ho_regreso.errors }}
                             </div>
-                        </div>
-                        <div class="form-group pull-in clearfix">
                             <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ cod_man.id_for_label }}">Orden de trabajo</label>
                                 {{ form.cod_man }}
                                 {{ form.cod_man.errors }}
                             </div>
-
                             <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ num_factura.id_for_label }}">Nº factura </label>
                                 {{ form.num_factura }}
                                 {{ form.num_factura.errors }}
                             </div>
                             <div class="col-sm-2">
-                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ valor.id_for_label }}">Valor</label>
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ valor.id_for_label }}">Costo Servicio</label>
                                 {{ form.valor }}
                                 {{ form.valor.errors }}
                             </div>
+                        </div>
+                        <div class="form-group pull-in clearfix">
                             <div class="col-sm-2">
-                                <label style="text-align:left;" class="control-label col-md-6" for="{{ taller.id_for_label }}">Taller </label>
+                                <label style="text-align:left;" class="control-label col-md-12" for="{{ taller.id_for_label }}">Taller </label>
                                 {{ form.taller }}
                                 {{ form.taller.errors }}
                             </div>
                             <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-6" for="{{ responsable.id_for_label }}">Responsable </label>
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ responsable.id_for_label }}">Responsable </label>
                                 {{ form.responsable }}
                                 {{ form.responsable.errors }}
                             </div>
-
-                        </div>
-                        <div class="form-group pull-in clearfix">
-
                             <div class="col-sm-3">
-                                <label style="text-align:left;" class="control-label col-sm-4" for="{{ observacion.id_for_label }}">Observacion </label>
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ observacion.id_for_label }}">Observacion </label>
                                 {{ form.observacion }}
                                 {{ form.observacion.errors }}
                             </div>
@@ -124,7 +107,7 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <div class="col-xs-4 col-md-4">
+                    <!--<div class="col-xs-4 col-md-4">-->
                     <form id="form_mantencion_detalle" data-parsley-validate class="form-horizontal form-label-left" action="" method="post" >{% csrf_token %}
                         <div class="form-group pull-in clearfix">
                                 {{ detalle_form.mantencion }}
@@ -133,41 +116,42 @@
                                 {{ detalle_form.componente }}
                                 {{ detalle_form.componente.errors }}
                             </div>-->
-                            <div class="col-sm-12">
+                            <div class="col-sm-4">
                                 <label style="text-align:left;" class="control-label col-sm-6" for="{{ division.id_for_label }}">División</label>
                                 {{ detalle_form.division }}
                                 {{ detalle_form.division.errors }}
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-3">
                                 <label style="text-align:left;" class="control-label col-sm-6" for="{{ subdivision.id_for_label }}">Subdivisión</label>
                                 {{ detalle_form.subdivision }}
                                 {{ detalle_form.subdivision.errors }}
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-3">
                                 <label style="text-align:left;" class="control-label col-sm-6" for="{{ servicio.id_for_label }}">Servicio</label>
                                 {{ detalle_form.servicio }}
                                 {{ detalle_form.servicio.errors }}
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ tipo_mantencion.id_for_label }}">Tipo Mantención</label>
                                 {{ detalle_form.tipo_mantencion }}
                                 {{ detalle_form.tipo_mantencion.errors }}
                             </div>
-                            <div id="prox_man" class="col-sm-12">
+                            
+                        </div>
+                        <div class="form-group pull-in clearfix">
+                            <div class="col-sm-4">
+                                <label style="text-align:left;" class="control-label col-md-6" for="{{ des_detalle.id_for_label }}">Observación </label>
+                                {{ detalle_form.des_detalle }}
+                                {{ detalle_form.des_detalle.errors }}
+                            </div>
+                            <div id="prox_man" class="col-sm-3">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ hodometro_prox_man.id_for_label }}">Próxima Mantención</label>
                                 {{ detalle_form.hodometro_prox_man }}
                                 {{ detalle_form.hodometro_prox_man.errors }}
                             </div>
                         </div>
                         <div class="form-group pull-in clearfix">
-                            <div class="col-sm-12">
-                                <label style="text-align:left;" class="control-label col-md-6" for="{{ des_detalle.id_for_label }}">Observación </label>
-                                {{ detalle_form.des_detalle }}
-                                {{ detalle_form.des_detalle.errors }}
-                            </div>
-                        </div>
-                        <div class="form-group pull-in clearfix">
-                            <div class="col-sm-12">
+                            <div class="col-sm-4">
                                 <label style="text-align:left;" class="control-label col-sm-6" for="id_repuesto">Repuestos </label>
                                 <input type="text" name="repuesto" class="form-control" maxlength="45" id="id_repuesto" />
                             </div>
@@ -183,8 +167,8 @@
                             <button id="boton_form_detalle_add" type="submit" class="btn btn-success">Agregar detalle</button>
                         </div>
                     </form>
-                    </div>
-                      <div class="col-xs-8 col-md-8">
+                    <!--</div>-->
+                      <div class="col-xs-12 col-md-12">
                           <div class="table-responsive">
                             <table class="table" id="tabla_detalle">
 
@@ -334,7 +318,7 @@
             console.log(rep);
             var n = $('input[name="repuesto"]').length;
             var repuesto_nuevo = $("#id_repuesto").parent().parent().html();
-            $("#before").before("<div id=rep_"+n+" class='form-group pull-in clearfix'><div class='col-sm-12'>"+rep+"</div></div>");
+            $("#before").before("<div id=rep_"+n+" class='form-group pull-in clearfix'><div class='col-sm-4'>"+rep+"</div></div>");
         });
 
         $("#repuesto_less").on('click',function () {
@@ -343,7 +327,14 @@
                 n = n - 1;
                 $("#rep_"+n).remove();
             }
+
+            /*$('input[name="repuesto"]').each(function () {
+                var value = $( this ).val();
+                console.log(value);
+            });*/
         });
+
+
 
         $("#form_mantencion_detalle").on('submit',function (event) {
             event.preventDefault();
@@ -353,7 +344,7 @@
             var servicio = $("#id_servicio").val();
             var tipo_mantencion = $("#id_tipo_mantencion").val();
             var des_detalle = $("#id_des_detalle").val();
-            var prox_man = $("#prox_man").val();
+            var prox_man = $("#id_hodometro_prox_man").val();
             var bandera = true;
 
             var datos_detalle = $("#form_mantencion_detalle :hidden").serialize();
@@ -366,11 +357,11 @@
                 success:function(data){
                     console.log(data);
                     //-->NECESARIO $("#id_detalle_mantencion").val(data['pk']);
-                    $('input[name="repuesto"]').each(function () {
-                        var value = $( this ).val();
+                    $("input[name='repuesto']").each(function () {
+                        var value = $( this ).value;
                         var datos_repuesto = datos_detalle+"&detalle_mantencion="+data['pk']+"&repuesto="+value;
                         console.log(datos_repuesto);
-                        $.ajax({
+                        /*$.ajax({
                             url: "{% url 'mantencion_add_repuesto' %}",
                             type: "POST",
                             data: datos_repuesto,
@@ -382,8 +373,8 @@
                                     bandera = true;
                                 }
                             }
-                        });
-                    })
+                        });*/
+                    });
                 }
             });
 
@@ -402,12 +393,15 @@
 
                 });
                 if (prox_man === ""){
-                    $("#tabla_detalle").append("<tr><td>"+componente+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td></td></tr>");
+                    $("#tabla_detalle").append("<tr><td>"+division+"</td><td>"+subdivision+"</td><td>"+servicio+"</td><td>"+tipo_mantencion+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td></td></tr>");
                 }
                 else{
-                    $("#tabla_detalle").append("<tr><td>"+componente+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td>"+prox_man+" km</td></tr>");
+                    $("#tabla_detalle").append("<tr><td>"+division+"</td><td>"+subdivision+"</td><td>"+servicio+"</td><td>"+tipo_mantencion+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td>"+prox_man+" km</td></tr>");
                 }
-                $("#id_componente").val("");
+                $("#id_division").val("");
+                $("#id_subdivision").val("");
+                $("#id_servicio").val("");
+                $("#id_tipo_mantencion").val("");
                 $("#id_des_detalle").val("");
                 $("#id_hodometro_prox_man").val("");
                 $('input[name="repuesto"]').each(function () {

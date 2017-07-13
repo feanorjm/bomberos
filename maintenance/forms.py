@@ -17,10 +17,10 @@ class BitacoraForm(forms.ModelForm):
             'hora_salida': forms.TimeInput(attrs={'id':'hora_sal','class': 'form-control'}),
             'hora_llegada': forms.TimeInput(attrs={'id':'hora_lle','class': 'form-control'}),
             'clave': forms.Select(attrs={'class': 'form-control'}),
-            'kilometraje_salida': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
-            'kilometraje_llegada': forms.TextInput( attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
-            'hodometro_salida': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
-            'hodometro_llegada': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
+            'kilometraje_salida': forms.NumberInput(attrs={'class': 'form-control'}),
+            'kilometraje_llegada': forms.NumberInput( attrs={'class': 'form-control'}),
+            'hodometro_salida': forms.NumberInput(attrs={'class': 'form-control'}),
+            'hodometro_llegada': forms.NumberInput(attrs={'class': 'form-control'}),
             'observciones': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 90px;'}),
 
         }
@@ -42,7 +42,7 @@ class MantencionForm(forms.ModelForm):
             #'tipo_mantencion': forms.Select(attrs={'class': 'form-control'}),
             'cod_man': forms.TextInput(attrs={'class': 'form-control'}),
             #'servicio': forms.Select(),
-            'observacion': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 90px; width: 505px'}),
+            'observacion': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 90px; width: 410px'}),
             'num_factura':forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
             'valor':forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
             'taller': forms.Select(attrs={'class': 'form-control'}),

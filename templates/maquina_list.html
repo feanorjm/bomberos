@@ -110,26 +110,7 @@
     </script>
 
     <script>
-       $('td button').click(function(e) {
-            e.preventDefault()
-            var name = $(this).attr('name');
-            var tableRow = $(this).parents('tr');
-            var value = $(this).attr('value').replace('.','');
-            //console.log(name);
-            var url_delete = '/transaccion_eliminar/' + value + '/';
-            if (confirm('Quieres eliminar esta transaccion?')) {
-                $.ajax({
-                    url: url_delete,
-                    success: function() {
-                        if (name == 'delete'){
-                              tableRow.remove();
-                        }
-                    }
-                });
-            } else {
-               return false;
-            }
-       });
+       
     </script>
 
     <!-- /Datatables -->

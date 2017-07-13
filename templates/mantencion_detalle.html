@@ -14,7 +14,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Mantención máquina: {{ object.maquina }} ,fecha: {{ object.fecha|date:"Y-m-d" }}</h2>
+                    <h2>Mantencion maquina: {{ object.maquina }} ,fecha: {{ object.fecha|date:"Y-m-d" }}, {{ object.compania }}</h2>
                       <ul class=" nav navbar-right panel_toolbox">
                         <li><button type="button" onclick="location.href='{% url 'bitacora_update' pk=object.id %}';" class="btn btn-primary" >Editar</button>
                         </li>
@@ -35,7 +35,7 @@
                                   <td>{{ object.fecha|date:"Y-m-d" }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Máquina:</th>
+                                  <th>Maquina</th>
                                   <td>{{ object.maquina }}</td>
                                 </tr>
                                 <tr>
@@ -55,15 +55,15 @@
                                   <td>{{ object.ho_regreso }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Código mantención:</th>
+                                  <th>CÃ³digo mantenciÃ³n:</th>
                                   <td>{{ object.cod_man }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Observación:</th>
+                                  <th>ObservaciÃ³n:</th>
                                   <td>{{ object.observacion }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Número factura:</th>
+                                  <th>NÃºmero factura:</th>
                                   <td>{{ object.num_factura }}</td>
                                 </tr>
                                 <tr>

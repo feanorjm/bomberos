@@ -26,7 +26,7 @@
                   <div class="x_content">
                       <div class="col-xs-6 col-md-6">
                           <div class="table-responsive">
-                            <table class="table">
+                            <table class="table table-bordered">
                               <tbody>
                                 <tr>
                                   <th style="width:50%">Nombre:</th>
@@ -84,6 +84,43 @@
                                   <th>Hodometro:</th>
                                   <td>{{ object.hodometro }}</td>
                                 </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="col-xs-6 col-md-6">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <tbody>
+                                <tr>
+                                  <th style="width:50%">Vencimiento Patente:</th>
+                                  <td>{{ object.venc_patente }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Costo Patente:</th>
+                                  <td>{{ object.costo_patente }}</td>
+                                </tr>
+                                <tr>
+                                  <th>SOAP Costo:</th>
+                                  <td>{{ object.soap_costo }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Vencimiento revisión técnica:</th>
+                                  <td>{{ object.venc_rev_tec }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Costo revisión técnica:</th>
+                                  <td>{{ object.costo_rev_tec }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Costo seguro automotriz:</th>
+                                  <td>{{ object.costo_seg_auto }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Vencimiento seguro automotriz:</th>
+                                  <td>{{ object.venc_seg_auto }}</td>
+                                </tr>
+                                
                               </tbody>
                             </table>
                           </div>

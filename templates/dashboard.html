@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load staticfiles %}
+
+
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>DashBoard</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <div class="col-xs-12 col-md-12">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th align="center">Companía</th>
+                                  <th align="center">Nombre</th>
+                                  <th align="center">Vencimiento Patente</th>
+                                  <th align="center">Hodometro</th>
+                                  <th align="center">Kilometraje</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for object in object_list %}
+                                <tr>
+                                  <td align="center">{{ object.compania }}</td>
+                                  <td>{{ object.nombre }}</td>
+                                  <td>{{ object.venc_patente }}</td>
+                                  <td align="center">{{ object.hodometro }}</td>
+                                  <td align="center">{{ object.kilometraje }}</td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+      </div>
+    </div>
+    <!-- jQuery -->
+    <script type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <!-- Custom Theme Scripts -->
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+
+{% endblock %}
