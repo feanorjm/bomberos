@@ -15,12 +15,12 @@ class ClasificacionAdmin(admin.ModelAdmin):
     list_filter = ['nombre','descripcion']
 
 class ConductorAdmin(admin.ModelAdmin):
-    list_display = ('nombre','rut')
-    list_filter = ['nombre','rut']
+    list_display = ('nombre','ap_materno','ap_materno', 'compania')
+    list_filter = ['compania',]
 
 class MaquinaAdmin(admin.ModelAdmin):
-    list_display = ('nombre','clasificacion','compania')
-    list_filter = ['nombre','clasificacion','compania']
+    list_display = ('nombre','clasificacion','compania','tiene_bomba')
+    list_filter = ['clasificacion','compania','tiene_bomba']
     #filter_horizontal = ('conductor',)
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):

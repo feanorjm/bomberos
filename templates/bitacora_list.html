@@ -30,11 +30,11 @@
                         <tr>
                           <th>#</th>
                           <th>Maquina</th>
-                          <th>Dirección</th>
-                          <th>Fecha</th>
-                          <th>Hora Sal</th>
-                          <th>Hora Lle</th>
                           <th>Clave</th>
+                          <th>Fecha</th>
+                          <th>Dirección</th>
+                          <th>Despacho</th>
+                          <th>6-10</th>
                           <th>Km Sal</th>
                           <th>Km Lle</th>
                           <th>Hm Sal</th>
@@ -51,11 +51,11 @@
                         <tr>
                             <td></td>
                             <td><a style="color: orangered;text-decoration: underline;" href="{{ servicio.get_absolute_url }}">{{ servicio.maquina }}</a></td>
-                            <td>{{ servicio.direccion }}</td>
+                            <td>{{ servicio.clave }}</td>
                             <td>{{ servicio.fecha|date:"Y-m-d" }}</td>
+                            <td>{{ servicio.direccion }}</td>
                             <td>{{ servicio.hora_salida }}</td>
                             <td>{{ servicio.hora_llegada }}</td>
-                            <td>{{ servicio.clave }}</td>
                             <td align="right"> {{ servicio.kilometraje_salida }}</td>
                             <td align="right"> {{ servicio.kilometraje_llegada }}</td>
                             <td align="right"> {{ servicio.hodometro_salida }}</td>

@@ -12,32 +12,34 @@ class Compania(models.Model):
     direccion = models.CharField(max_length=45)
 
     def __str__(self):
-        return self.nombre
+        return str(self.nombre)
 
 class Clasificacion_maquina(models.Model):
     nombre = models.CharField(max_length=45)
     descripcion = models.CharField(max_length=100,null=True, blank=True)
 
     def __str__(self):
-        return self.nombre
+        return str(self.nombre)
 
 class Conductor(models.Model):
     compania = models.ForeignKey(Compania,null=True)
-    rut = models.CharField(max_length=12)
-    nombre = models.CharField(max_length=45)
-    num_licencia = models.CharField(max_length=12)
-    venc_lic = models.DateField()
+    rut = models.CharField(max_length=12, null=True,blank=True)
+    nombre = models.CharField(max_length=45, null=True,blank=True)
+    ap_paterno = models.CharField(max_length=45, null=True,blank=True)
+    ap_materno = models.CharField(max_length=45, null=True, blank=True)
+    num_licencia = models.CharField(max_length=12, null=True,blank=True)
+    venc_lic = models.DateField(null=True,blank=True)
     foto = models.FileField(upload_to='profile',null=True,blank=True)
 
     def __str__(self):
-        return self.nombre
+        return str(self.nombre) + " " + str(self.ap_paterno)
 
     def get_absolute_url(self):
         return reverse('conductor_detail', args=[str(self.id)])
 
 year_dropdown = []
 for y in range(1950, (datetime.datetime.now().year + 1)):
-    year_dropdown.append((y, y))
+    year_dropdown.append((str(y), str(y)))
 
 class Maquina(models.Model):
     nombre = models.CharField(max_length=45)
@@ -45,14 +47,17 @@ class Maquina(models.Model):
     compania = models.ForeignKey(Compania)
     marca = models.CharField(max_length=45,null=True, blank=True)
     modelo = models.CharField(max_length=45,null=True, blank=True)
-    ano = models.IntegerField(choices=year_dropdown, default=datetime.datetime.now().year,null=True, blank=True)
+    ano = models.CharField(max_length=5,choices=year_dropdown, default=datetime.datetime.now().year,null=True, blank=True)
     numero_motor = models.CharField(max_length=45,null=True, blank=True)
     numero_chasis = models.CharField(max_length=45,null=True, blank=True)
     bin = models.CharField(max_length=45,null=True, blank=True)
     patente = models.CharField(max_length=10,null=True, blank=True)
     conductor = models.ManyToManyField(Conductor, blank=True)
+    #conductor = ChainedManyToManyField(Conductor, chained_field=compania, chained_model_field=compania, blank=True)
     kilometraje = models.DecimalField(decimal_places=1,max_digits=10, null=True, blank=True)
     hodometro = models.DecimalField(decimal_places=1,max_digits=10, null=True, blank=True)
+    tiene_bomba = models.BooleanField(default=False, choices=((True,"Si"),(False,"No")))
+    hodometro_bomba = models.DecimalField(decimal_places=1,max_digits=10, null=True, blank=True)
     venc_patente = models.DateField(null=True, blank=True)  # vencimiento patente
     costo_patente = models.IntegerField(null=True, blank=True)  # costo patente
     soap_costo = models.IntegerField(null=True, blank=True)  # seguro obligatorio
@@ -63,7 +68,7 @@ class Maquina(models.Model):
     prueba = models.DecimalField(decimal_places=1,max_digits=10, null=True, blank=True)
 
     def __str__(self):
-        return self.nombre
+        return str(self.nombre)
 
     def get_absolute_url(self):
         return reverse('maquina_detail', args=[str(self.id)])
@@ -104,22 +109,22 @@ class Servicentro(models.Model):
 class Taller(models.Model):
     tipo = models.CharField(max_length=45)
     razon_social = models.CharField(max_length=45)
-    rut = models.CharField(max_length=12)
-    telefono = models.IntegerField()
-    contacto = models.CharField(max_length=45)
-    tel_contacto = models.IntegerField()
-    direccion = models.CharField(max_length=60)
-    correo = models.EmailField(max_length=45)
+    rut = models.CharField(max_length=12, null=True, blank=True)
+    telefono = models.IntegerField(null=True, blank=True)
+    contacto = models.CharField(max_length=45, null=True, blank=True)
+    tel_contacto = models.IntegerField(null=True, blank=True)
+    direccion = models.CharField(max_length=60, null=True, blank=True)
+    correo = models.EmailField(max_length=45, null=True, blank=True)
 
     def __str__(self):
-        return self.razon_social
+        return str(self.razon_social)
 
 class Componente(models.Model):
     nombre = models.CharField(max_length=45)
     descripcion = models.TextField(max_length=100)
 
     def __str__(self):
-        return self.nombre
+        return str(self.nombre)
 
 class Carguios_combustible(models.Model):
     maquina = models.ForeignKey(Maquina)
@@ -143,21 +148,21 @@ class Division(models.Model):
     nombre = models.CharField(max_length=45)
 
     def __str__(self):
-        return self.nombre
+        return str(self.nombre)
 
 class TipoMantencion(models.Model):
     nombre = models.CharField(max_length=45)
     descripcion = models.TextField(max_length=100)
 
     def __str__(self):
-        return self.nombre
+        return str(self.nombre)
 
 class Subdivision(models.Model):
     division = models.ForeignKey(Division)
     nombre = models.CharField(max_length=45)
 
     def __str__(self):
-        return self.nombre
+        return str(self.nombre)
 
 
 
@@ -170,7 +175,7 @@ class ServicioMantencion(models.Model):
     descripcion = models.CharField(max_length=75, null=True, blank=True)
 
     def __str__(self):
-        return self.nombre
+        return str(self.nombre)
 
 class Mantencion(models.Model):
     fecha = models.DateField()
@@ -213,14 +218,14 @@ class RepuestoDetalleMantencion(models.Model):
     repuesto = models.CharField(max_length=45, null=True, blank=True)
 
     def __str__(self):
-        return self.repuesto
+        return str(self.repuesto)
 
 class Clave(models.Model):
     nombre = models.CharField(max_length=45)
     descripcion = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.nombre + ' - ' + self.descripcion
+        return str(self.nombre) + ' - ' + str(self.descripcion)
 
 class Bitacora(models.Model):
     compania = models.ForeignKey(Compania)
