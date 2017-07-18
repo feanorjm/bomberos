@@ -49,7 +49,7 @@
                                 {{ form.compania.errors }}
                             </div>
                             <div class="col-sm-4">
-                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ conductor.id_for_label }}">Conductor </label>
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ conductor.id_for_label }}">Conductores</label>
                                 <div class="col-sm-12">
                                 {{ form.conductor }}
                                 {{ form.conductor.errors }}
@@ -72,13 +72,11 @@
                                 {{ form.tiene_bomba }}
                                 {{ form.tiene_bomba.errors }}
                             </div>
-                            {% if form.tiene_bomba %}
-                                <div class="col-sm-2">
+                                <div class="col-sm-2" id="tiene_bomba">
                                     <label style="text-align:left;" class="control-label col-sm-12" for="{{ hodometro_bomba.id_for_label }}">Hodometro Bomba</label>
                                     {{ form.hodometro_bomba }}
                                     {{ form.hodometro_bomba.errors }}
                                 </div>
-                            {% endif %}
                         </div>
                         <div class="form-group pull-in clearfix">
                             <div class="col-sm-3">
@@ -149,13 +147,13 @@
                             </div>
                         </div>
                         <div class="form-group pull-in clearfix">
-                        <div class="col-sm-3">
-                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ venc_seg_auto.id_for_label }}">Venc. Seguro Automotriz </label>
+                        <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ venc_seg_auto.id_for_label }}">Vencimiento Seguro </label>
                                 {{ form.venc_seg_auto }}
                                 {{ form.venc_seg_auto.errors }}
                             </div>
-                            <div class="col-sm-3">
-                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ costo_seg_auto.id_for_label }}">Valor Seguro Automotriz </label>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ costo_seg_auto.id_for_label }}">Valor Seguro</label>
                                 {{ form.costo_seg_auto }}
                                 {{ form.costo_seg_auto.errors }}
                             </div>
@@ -197,6 +195,9 @@
         console.log(maquina);
         get_conductores(compania,maquina);
 
+        var tiene_bomba = $("#id_tiene_bomba").val();
+        funcion_tiene_bomba(tiene_bomba);
+
         //$('#id_compania').block({ message: 'blocked' ,overlayCSS: { backgroundColor: '#fff'   }});
 
       });
@@ -208,6 +209,7 @@
             var compania = $("#id_compania").val();
             var maquina = $("#id_nombre").val();
             get_conductores(compania,maquina);
+
         });
 
         function get_conductores(compania,maquina){
@@ -221,7 +223,7 @@
                     $("#id_conductor").empty();
                     for(var i in data.conductores) {
 
-                        $("#id_conductor").append("<li><label for='id_conductor_"+data.conductores[i].id+"'><input type='checkbox' name='conductor' value='"+data.conductores[i].id+"' id='id_conductor_"+data.conductores[i].id+"' />"+data.conductores[i].nombre+"</label>");
+                        $("#id_conductor").append("<li><label for='id_conductor_"+data.conductores[i].id+"'><input type='checkbox' name='conductor' value='"+data.conductores[i].id+"' id='id_conductor_"+data.conductores[i].id+"' />"+data.conductores[i].nombre+" "+data.conductores[i].ap_paterno+"</label>");
                     }
                     for (var i in data.cond_maq){
                         $("#id_conductor_"+data.cond_maq[i].id).prop('checked', true);
@@ -229,6 +231,21 @@
                 }
             });
 
+        }
+
+         $("#id_tiene_bomba").change(function(){
+            funcion_tiene_bomba($(this).val());
+         });
+
+
+        function funcion_tiene_bomba(var_bool){
+            console.log(var_bool);
+            if(var_bool === "True"){
+                $("#tiene_bomba").show();
+            }
+            else{
+                $("#tiene_bomba").hide();
+            }
         }
 
 

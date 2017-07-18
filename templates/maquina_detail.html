@@ -30,67 +30,51 @@
                               <tbody>
                                 <tr>
                                   <th style="width:50%">Nombre:</th>
-                                  <td>{{ object.nombre }}</td>
+                                  <td>{{ object.nombre|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Clasificacion:</th>
-                                  <td>{{ object.clasificacion }}</td>
+                                  <td>{{ object.clasificacion|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Compania:</th>
-                                  <td>{{ object.compania }}</td>
+                                  <td>{{ object.compania|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Marca:</th>
-                                  <td>{{ object.marca }}</td>
+                                  <td>{{ object.marca|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Modelo:</th>
-                                  <td>{{ object.modelo }}</td>
+                                  <td>{{ object.modelo|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Año:</th>
-                                  <td>{{ object.ano }}</td>
+                                  <td>{{ object.ano|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Numero motor:</th>
-                                  <td>{{ object.numero_motor }}</td>
+                                  <td>{{ object.numero_motor|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Numero chasis:</th>
-                                  <td>{{ object.numero_chasis }}</td>
+                                  <td>{{ object.numero_chasis|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>BIN:</th>
-                                  <td>{{ object.bin }}</td>
+                                  <td>{{ object.bin|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Patente:</th>
-                                  <td>{{ object.patente }}</td>
+                                  <td>{{ object.patente|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Conductores:</th>
                                   <td>
                                   {% for conductor in maquina.conductor.all %}
-                                    {{ conductor.nombre }} /
+                                    {{ conductor.nombre|default_if_none:"--" }} {{ conductor.ap_paterno|default_if_none:"--" }} <br>
                                   {% endfor %}
                                   </td>
-                                </tr>
-                                <tr>
-                                  <th>Kilometraje:</th>
-                                  <td>{{ object.kilometraje }}</td>
-                                </tr>
-                                <tr>
-                                  <th>Hodometro Bomba:</th>
-                                  <td>{{ object.hodometro }}</td>
-                                </tr>
-                                <tr>
-                                  <th>Tiene Bomba:</th>
-                                  <td>{{ object.tiene_bomba }}</td>
-                                </tr>
-                                <tr>
-                                  <th>Hodometro:</th>
-                                  <td>{{ object.hodometro_bomba }}</td>
                                 </tr>
                               </tbody>
                             </table>
@@ -100,33 +84,49 @@
                           <div class="table-responsive">
                             <table class="table table-bordered">
                               <tbody>
+                              <tr>
+                                  <th>Kilometraje Máquina:</th>
+                                  <td>{{ object.kilometraje|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Hodometro Máquina:</th>
+                                  <td>{{ object.hodometro|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Tiene Bomba:</th>
+                                  <td>{{ object.tiene_bomba|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Hodometro Bomba:</th>
+                                  <td>{{ object.hodometro_bomba|default_if_none:"--" }}</td>
+                                </tr>
                                 <tr>
                                   <th style="width:50%">Vencimiento Patente:</th>
-                                  <td>{{ object.venc_patente }}</td>
+                                  <td>{{ object.venc_patente|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Costo Patente:</th>
-                                  <td>{{ object.costo_patente }}</td>
+                                  <td>{{ object.costo_patente|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>SOAP Costo:</th>
-                                  <td>{{ object.soap_costo }}</td>
+                                  <td>{{ object.soap_costo|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Vencimiento revisión técnica:</th>
-                                  <td>{{ object.venc_rev_tec }}</td>
+                                  <td>{{ object.venc_rev_tec|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Costo revisión técnica:</th>
-                                  <td>{{ object.costo_rev_tec }}</td>
+                                  <td>{{ object.costo_rev_tec|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Costo seguro automotriz:</th>
-                                  <td>{{ object.costo_seg_auto }}</td>
+                                  <td>{{ object.costo_seg_auto|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Vencimiento seguro automotriz:</th>
-                                  <td>{{ object.venc_seg_auto }}</td>
+                                  <td>{{ object.venc_seg_auto|default_if_none:"--" }}</td>
                                 </tr>
                                 
                               </tbody>

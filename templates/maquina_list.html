@@ -32,13 +32,15 @@
                           <th>Nombre</th>
                           <th>Clasificación</th>
                           <th>Compania</th>
+                          <th>Kilometraje</th>
+                          <th>Hodometro</th>
+                          <th>Tiene Bomba</th>
+                          <th>Hodometro Bomba</th>
+                          <th>Conductores</th>
                           <th>Numero motor</th>
                           <th>Numero chasis</th>
                           <th>Bin</th>
                           <th>Patente</th>
-                          <th>Conductor</th>
-                          <th>Kilometraje</th>
-                          <th>Hodometro</th>
                         </tr>
                       </thead>
 
@@ -51,17 +53,24 @@
                             <td><a style="color: orangered;text-decoration: underline;" href="{{ maquina.get_absolute_url }}">{{ maquina.nombre }}</a></td>
                             <td>{{ maquina.clasificacion }}</td>
                             <td>{{ maquina.compania }}</td>
-                            <td>{{ maquina.numero_motor }}</td>
-                            <td>{{ maquina.numero_chasis }}</td>
-                            <td>{{ maquina.bin }}</td>
-                            <td>{{ maquina.patente }}</td>
-                            <td>
-                            {% for conductor in maquina.conductor.all %}
-                              {{ conductor.nombre }},
-                            {% endfor %}
-                            </td>
                             <td align="right"> {{ maquina.kilometraje }}</td>
                             <td align="right"> {{ maquina.hodometro }}</td>
+                            {% if maquina.tiene_bomba is True %}
+                              <td align="center">Si</td>
+                              <td align="right"> {{ maquina.hodometro_bomba }}</td>
+                            {% else %}
+                              <td align="center"> No</td>
+                              <td align="right">--</td>
+                            {% endif %}                            <td>
+                            {% for conductor in maquina.conductor.all %}
+                              {{ conductor.nombre }} {{ conductor.ap_paterno }} <br>
+                            {% endfor %}
+                            </td>
+                            <td>{{ maquina.numero_motor|default_if_none:"--" }}</td>
+                            <td>{{ maquina.numero_chasis|default_if_none:"--" }}</td>
+                            <td>{{ maquina.bin|default_if_none:"--" }}</td>
+                            <td>{{ maquina.patente|default_if_none:"--" }}</td>
+                            
                         </tr>
                         {% endfor %}
                       </tbody>
@@ -105,7 +114,9 @@
     <script>
 
         $(document).ready(function() {
-            $('#datatable-responsive').DataTable();
+            $('#datatable-responsive').DataTable({
+              "iDisplayLength": 25
+            });
         });
     </script>
 

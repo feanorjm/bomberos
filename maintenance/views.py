@@ -254,7 +254,7 @@ def get_maquina_conductores(request):
         compania = request.POST.get('compania')
         maquina = request.POST.get('maquina')
         #print(compania,maquina)
-        conductores_com = Conductor.objects.filter(compania=compania).values('id','nombre')
+        conductores_com = Conductor.objects.filter(compania=compania).values('id','nombre','ap_paterno')
         conductores_maq = Conductor.objects.filter(maquina__nombre=maquina).values('id')
         #print(conductores_com)
         return JsonResponse({'conductores': list(conductores_com), 'cond_maq': list(conductores_maq)})

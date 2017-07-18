@@ -53,7 +53,7 @@ class Maquina(models.Model):
     bin = models.CharField(max_length=45,null=True, blank=True)
     patente = models.CharField(max_length=10,null=True, blank=True)
     conductor = models.ManyToManyField(Conductor, blank=True)
-    #conductor = ChainedManyToManyField(Conductor, chained_field=compania, chained_model_field=compania, blank=True)
+    #conductor = ChainedManyToManyField(Conductor, chained_field='compania', chained_model_field='compania', blank=True, horizontal=True)
     kilometraje = models.DecimalField(decimal_places=1,max_digits=10, null=True, blank=True)
     hodometro = models.DecimalField(decimal_places=1,max_digits=10, null=True, blank=True)
     tiene_bomba = models.BooleanField(default=False, choices=((True,"Si"),(False,"No")))
@@ -186,6 +186,8 @@ class Mantencion(models.Model):
     ho_salida = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     ki_regreso = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     ho_regreso = models.DecimalField(decimal_places=1,max_digits=10, null=True)
+    ho_bomba_salida = models.DecimalField(decimal_places=1, max_digits=10, null=True)
+    ho_bomba_regreso = models.DecimalField(decimal_places=1, max_digits=10, null=True)
     cod_man = models.CharField(max_length=45) #orden de trabajo
     observacion = models.TextField(max_length=200)
     num_factura = models.IntegerField()
