@@ -7,7 +7,8 @@ class BitacoraForm(forms.ModelForm):
         model = Bitacora
         fields = ['compania','maquina', 'conductor', 'direccion', 'fecha',
                   'hora_salida','hora_llegada','clave','kilometraje_salida',
-                  'kilometraje_llegada','hodometro_salida','hodometro_llegada','observciones',]
+                  'kilometraje_llegada','hodometro_salida','hodometro_llegada',
+                  'ho_bomba_salida','ho_bomba_regreso','observciones',]
         widgets = {
             'compania': forms.Select(attrs={'class': 'form-control'}),
             #'maquina': forms.Select(attrs={'class': 'form-control'}),
@@ -21,6 +22,8 @@ class BitacoraForm(forms.ModelForm):
             'kilometraje_llegada': forms.NumberInput( attrs={'class': 'form-control'}),
             'hodometro_salida': forms.NumberInput(attrs={'class': 'form-control'}),
             'hodometro_llegada': forms.NumberInput(attrs={'class': 'form-control'}),
+            'ho_bomba_salida': forms.NumberInput(attrs={'class': 'form-control'}),
+            'ho_bomba_regreso': forms.NumberInput(attrs={'class': 'form-control'}),
             'observciones': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 90px;'}),
 
         }
@@ -121,11 +124,11 @@ class MaquinaForm(forms.ModelForm):
             'tiene_bomba': forms.Select(attrs={'class': 'form-control'}),
             'hodometro_bomba': forms.NumberInput(attrs={'class': 'form-control'}),
             'venc_patente': forms.DateInput(attrs={'class': 'form-control','placeholder':'yyyy-mm-dd'}),
-            'costo_patente': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
-            'soap_costo': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
+            'costo_patente': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*','placeholder':'ej:30000'}),
+            'soap_costo': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*','placeholder':'ej:30000'}),
             'venc_rev_tec': forms.DateInput(attrs={'class': 'form-control','placeholder':'yyyy-mm-dd'}),
             'costo_rev_tec': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
-            'costo_seg_auto': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
+            'costo_seg_auto': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*','placeholder':'ej:30000'}),
             'venc_seg_auto': forms.DateInput(attrs={'class': 'form-control','placeholder':'yyyy-mm-dd'}),
         }
 
@@ -146,19 +149,20 @@ class ConductorForm(forms.ModelForm):
 class CombustibleForm(forms.ModelForm):
     class Meta:
         model = Carguios_combustible
-        fields = ['maquina','litros','servicentro','km_salida','km_regreso','hm_salida','hm_regreso','valor','conductor','obac','fecha','tarjeta_tct']
+        fields = ['compania','maquina','litros','servicentro','km_salida','km_regreso','hm_salida','hm_regreso','valor','conductor','obac','fecha','tarjeta_tct']
         widgets = {
-            'maquina': forms.Select(attrs={'class': 'form-control'}),
+            'compania': forms.Select(attrs={'class': 'form-control'}),
+            #'maquina': forms.Select(attrs={'class': 'form-control'}),
             'litros': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
             'servicentro': forms.Select(attrs={'class': 'form-control'}),
             'fecha': forms.DateInput(attrs={'id': 'fecha', 'class': 'date-picker form-control'}),
-            'km_salida': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
-            'km_regreso': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
-            'hm_salida': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
-            'hm_regreso': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
+            'km_salida': forms.NumberInput(attrs={'class': 'form-control'}),
+            'km_regreso': forms.NumberInput(attrs={'class': 'form-control'}),
+            'hm_salida': forms.NumberInput(attrs={'class': 'form-control'}),
+            'hm_regreso': forms.NumberInput(attrs={'class': 'form-control'}),
             'valor': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
             #'conductor': forms.Select(attrs={'class': 'form-control'}),
-            'obac': forms.Select(attrs={'class': 'form-control'}),
+            'obac': forms.TextInput(attrs={'class': 'form-control'}),
             'tarjeta_tct': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
         }
 

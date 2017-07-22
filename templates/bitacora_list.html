@@ -17,6 +17,8 @@
                   <div class="x_title">
                     <h2>Bitacora </h2>
                       <ul class=" nav navbar-right panel_toolbox">
+                      <li><button type="button"  id="btnExport" class="btn btn-default">Exportar a Excel</button>
+                          </li>
                         <li><button type=button onclick="location.href='{% url 'bitacora_create_view' %}';" class="btn btn-success">nuevo servicio</button>
                         </li>
                       </ul>
@@ -24,7 +26,7 @@
                   </div>
                     <div class="x_content">
                   </div>
-                  <div class="x_content">
+                  <div class="x_content" id="table-export">
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
@@ -129,6 +131,13 @@
                return false;
             }
        });
+
+       $("#btnExport").click(function (e) {
+          window.open('data:application/vnd.ms-excel,' + $('#table-export').html());
+          e.preventDefault();
+      });
+
+
     </script>
 
     <!-- /Datatables -->

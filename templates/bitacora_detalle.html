@@ -49,11 +49,11 @@
                                   <td>{{ object.fecha }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Hora salida:</th>
+                                  <th>Hora Despacho:</th>
                                   <td>{{ object.hora_salida }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Hora llegada:</th>
+                                  <th>Hora 6-10:</th>
                                   <td>{{ object.hora_llegada }}</td>
                                 </tr>
                                 <tr>
@@ -73,8 +73,16 @@
                                   <td>{{ object.hodometro_salida }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Hodometro llegada:</th>
+                                  <th>Hodometro Regreso:</th>
                                   <td>{{ object.hodometro_llegada }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Hodometro Bomba Salida:</th>
+                                  <td>{{ object.ho_bomba_salida|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Hodometro Bomba Regreso:</th>
+                                  <td>{{ object.ho_bomba_regreso|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Observaciones:</th>

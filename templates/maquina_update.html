@@ -50,10 +50,9 @@
                             </div>
                             <div class="col-sm-4">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ conductor.id_for_label }}">Conductores</label>
-                                <div class="col-sm-12">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Seleccione <span class="caret"></span></button>
                                 {{ form.conductor }}
                                 {{ form.conductor.errors }}
-                                </div>
                             </div>
                         </div>
                         <div class="form-group pull-in clearfix">
@@ -198,6 +197,8 @@
         var tiene_bomba = $("#id_tiene_bomba").val();
         funcion_tiene_bomba(tiene_bomba);
 
+        $("#id_conductor").addClass("dropdown-menu");
+
         //$('#id_compania').block({ message: 'blocked' ,overlayCSS: { backgroundColor: '#fff'   }});
 
       });
@@ -223,7 +224,9 @@
                     $("#id_conductor").empty();
                     for(var i in data.conductores) {
 
-                        $("#id_conductor").append("<li><label for='id_conductor_"+data.conductores[i].id+"'><input type='checkbox' name='conductor' value='"+data.conductores[i].id+"' id='id_conductor_"+data.conductores[i].id+"' />"+data.conductores[i].nombre+" "+data.conductores[i].ap_paterno+"</label>");
+                        $("#id_conductor").append("<li><a href='#'' data-value='option1' tabIndex='-1'><input type='checkbox' name='conductor' value='"+data.conductores[i].id+"' id='id_conductor_"+data.conductores[i].id+"' />&nbsp;"+data.conductores[i].nombre+" "+data.conductores[i].ap_paterno+"</label>");
+
+                        //$("#id_conductor").append("<li><a href='#'' data-value='option1' tabIndex='-1'><input type='checkbox'/>&nbsp;Option 1</a></li>");
                     }
                     for (var i in data.cond_maq){
                         $("#id_conductor_"+data.cond_maq[i].id).prop('checked', true);

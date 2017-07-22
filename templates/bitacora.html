@@ -90,6 +90,18 @@
                                 {{ form.kilometraje_llegada.errors }}
                             </div>
                         </div>
+                        <div class="form-group pull-in clearfix" id="tiene_bomba">
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-md-12" for="{{ ho_bomba_salida.id_for_label }}">Hodometro Bomba Salida</label>
+                                {{ form.ho_bomba_salida }}
+                                {{ form.ho_bomba_salida.errors }}
+                            </div>
+                            <div class="col-sm-3">
+                                <label style="text-align:left;" class="control-label col-md-12" for="{{ ho_bomba_regreso.id_for_label }}">Hodometro Bomba Regreso</label>
+                                {{ form.ho_bomba_regreso }}
+                                {{ form.ho_bomba_regreso.errors }}
+                            </div>
+                        </div>
                         <div class="form-group pull-in clearfix">
                             <div class="col-sm-8">
                                 <label style="text-align:left;" class="control-label col-sm-6" for="{{ observciones.id_for_label }}">Observaciones </label>
@@ -157,6 +169,10 @@
         //$('#hora_sal').datetimepicker({format: "HH:mm"});
         //$('#hora_lle').datetimepicker({format: "HH:mm"});
 
+        $("#tiene_bomba").hide();
+
+
+
       });
     </script>
 
@@ -175,6 +191,9 @@
                 success: function (data) {
                     $("#id_kilometraje_salida").empty();
                     $("#id_hodometro_salida").empty();
+                    $("#id_ho_bomba_salida").empty();
+                    $("#id_ho_bomba_regreso").empty();
+
                     for(var i in data.parametros) {
                         if(data.parametros[i].kilometraje !== null && data.parametros[i].hodometro !== null){
                             $("#id_kilometraje_salida").val(data.parametros[i].kilometraje);
@@ -184,6 +203,16 @@
                             $("#id_kilometraje_salida").val("");
                             $("#id_hodometro_salida").val("");
                         }
+
+                        if(data.parametros[i].tiene_bomba === true){
+
+                                $("#id_ho_bomba_salida").val(data.parametros[i].hodometro_bomba);
+                                $("#tiene_bomba").show();
+                            }
+                            else{
+                                $("#id_ho_bomba_salida").val("");
+                                $("#tiene_bomba").hide();
+                            }
                         
                         console.log(data.parametros[i].kilometraje);  // (o el campo que necesites)
                     }

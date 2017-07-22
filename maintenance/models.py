@@ -99,6 +99,9 @@ class UsuarioComp(models.Model):
     def __str__(self):
         return str(self.user)
 
+    def get_tipo(self):
+        return self.tipo
+
 class Servicentro(models.Model):
     nombre = models.CharField(max_length=45)
     direccion = models.CharField(max_length=100)
@@ -127,7 +130,9 @@ class Componente(models.Model):
         return str(self.nombre)
 
 class Carguios_combustible(models.Model):
-    maquina = models.ForeignKey(Maquina)
+    compania = models.ForeignKey(Compania, null=True)
+    maquina = ChainedForeignKey(Maquina, chained_field="compania", chained_model_field="compania",
+                                related_name='%(class)s_requests_created')
     litros = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     servicentro = models.ForeignKey(Servicentro)
     km_salida = models.DecimalField(decimal_places=1,max_digits=10, null=True)
@@ -138,7 +143,7 @@ class Carguios_combustible(models.Model):
     tarjeta_tct = models.IntegerField()
     conductor = ChainedForeignKey(Conductor, chained_field="maquina", chained_model_field="maquina", null=True,
                                   blank=True)
-    obac = models.ForeignKey(User)
+    obac = models.CharField(max_length=45, null=True, blank=True)
     fecha = models.DateField(null=True)
 
     def __str__(self):
@@ -186,8 +191,6 @@ class Mantencion(models.Model):
     ho_salida = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     ki_regreso = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     ho_regreso = models.DecimalField(decimal_places=1,max_digits=10, null=True)
-    ho_bomba_salida = models.DecimalField(decimal_places=1, max_digits=10, null=True)
-    ho_bomba_regreso = models.DecimalField(decimal_places=1, max_digits=10, null=True)
     cod_man = models.CharField(max_length=45) #orden de trabajo
     observacion = models.TextField(max_length=200)
     num_factura = models.IntegerField()
@@ -242,6 +245,8 @@ class Bitacora(models.Model):
     kilometraje_llegada = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     hodometro_salida = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     hodometro_llegada = models.DecimalField(decimal_places=1,max_digits=10, null=True)
+    ho_bomba_salida = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
+    ho_bomba_regreso = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
     observciones = models.TextField(max_length=300,null=True)
 
     def __str__(self):
@@ -251,24 +256,6 @@ class Bitacora(models.Model):
         return reverse('bitacora_detail', args=[str(self.id)])
 
 
-# class CambioNeumatico(models.Model):
-#     compania = models.ForeignKey(Compania)
-#     maquina = ChainedForeignKey(Maquina,chained_field="compania",chained_model_field="compania")
-#     fecha = models.DateField()
-#     kilometraje = models.IntegerField()
-#     hodometro = models.IntegerField()
-#     marca = models.CharField(max_length=45)
-#     modelo = models.CharField(max_length=45)
-#     medidas = models.CharField(max_length=45)
-#     proveedor = models.ForeignKey(Taller)
-#     valor = models.IntegerField()
-#     responsable = models.CharField(max_length=45)
-#
-#     def __str__(self):
-#         return str(self.compania) +' - '+ str(self.maquina)+' - '+ str(self.fecha)
-#
-#     def get_absolute_url(self):
-#         return "/cambioneumatico/%i/" % self.id
 
 
 

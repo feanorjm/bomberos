@@ -4,6 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/bomberos-mini.png' %}"/>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -54,13 +55,13 @@
             <!-- menu profile quick info -->
             <div class="profile">
               <div class="profile_pic">
-                <img src="{% static 'images/user.png' %}" alt="..." class="img-circle profile_img">
+                <img src="{% static 'images/bomberos-mini.png' %}" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <h2>Bienvenido
                 {% if user.is_authenticated %}
-                      <strong>{{ user.username }}</strong>
-                    {% endif %}
+                  <strong>{{ user.username }}</strong>
+                {% endif %}
                 </h2>
               </div>
             </div>
@@ -77,145 +78,64 @@
                     <ul class="nav child_menu">
                       <li><a href="{% url 'dashboard_maquina_list_view' %}">Dashboard</a>
                       </li>
-                      <!--<li><a href="index2.html">Dashboard2</a>
-                      </li>
-                      <li><a href="index3.html">Dashboard3</a>
-                      </li>-->
                     </ul>
                   </li>
-                  <!--<li><a><i class="fa fa-edit"></i> Formularios <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="#">Nueva Transacción</a>
-                      </li>
-                      <li><a href="form_advanced.html">Advanced Components</a>
-                      </li>
-                      <li><a href="form_validation.html">Form Validation</a>
-                      </li>
-                      <li><a href="form_wizards.html">Form Wizard</a>
-                      </li>
-                      <li><a href="form_upload.html">Form Upload</a>
-                      </li>
-                      <li><a href="form_buttons.html">Form Buttons</a>
-                      </li>
-                    </ul>
-                  </li>-->
-                  <!--<li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="general_elements.html">General Elements</a>
-                      </li>
-                      <li><a href="media_gallery.html">Media Gallery</a>
-                      </li>
-                      <li><a href="typography.html">Typography</a>
-                      </li>
-                      <li><a href="icons.html">Icons</a>
-                      </li>
-                      <li><a href="glyphicons.html">Glyphicons</a>
-                      </li>
-                      <li><a href="widgets.html">Widgets</a>
-                      </li>
-                      <li><a href="invoice.html">Invoice</a>
-                      </li>
-                      <li><a href="inbox.html">Inbox</a>
-                      </li>
-                      <li><a href="calendar.html">Calendar</a>
-                      </li>
-                    </ul>
-                  </li>-->
-                  <li><a><i class="fa fa-table"></i> Bitacora<span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{% url 'bitacora_list' %}">Servicios</a>
-                      </li>
-                      <li><a href="{% url 'bitacora_create_view' %}">Nuevo servicio</a>
-                      </li>
-                      <li><a href="{% url 'bitacora_create_view' %}">Carga Combustible</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-cogs"></i> Mantenimiento <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{% url 'mantencion_list' %}">Mantenciones</a>
-                      </li>
-                      <li><a href="{% url 'admin:maintenance_division_add' %}">Agregar Divisiones</a>
-                      </li>
-                      <li><a href="{% url 'admin:maintenance_subdivision_add' %}">Agregar SubDivisiones</a>
-                      </li>
-                      <li><a href="{% url 'admin:maintenance_serviciomantencion_add' %}">Agregar Servicios</a>
-                      </li>
-                      <li><a href="{% url 'admin:maintenance_taller_add' %}">Agregar Talleres</a>
-                      </li>
-                      <li><a href="{% url 'admin:maintenance_servicentro_add' %}">Agregar Servicentros</a>
-                      </li>
-                      <li><a href="{% url 'combustible_list' %}">Parte de Combustible </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-edit"></i> Personal y Máquinas <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{% url 'maquina_list' %}">Máquinas</a>
-                      </li>
-                      <li><a href="{% url 'admin:maintenance_clasificacion_maquina_add' %}">Agregar tipos de máquinas</a>
-                      </li>
-                      <li><a href="{% url 'conductor_list' %}">Conductores</a>
-                      </li>
-                      <!--li><a href="">Form Validation</a>
-                      </li>-->
-                    </ul>
-                  </li>
+                  {% if perms.maintenance.add_bitacora %}
+                    <li><a><i class="fa fa-table"></i> Bitacora<span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="{% url 'bitacora_list' %}">Servicios</a>
+                        </li>
+                        <li><a href="{% url 'bitacora_create_view' %}">Nuevo servicio</a>
+                        </li>
+                        <li><a href="{% url 'combustible_list' %}">Carga Combustible</a>
+                        </li>
+                      </ul>
+                    </li>
+                  {% endif %}
+                    <li><a><i class="fa fa-cogs"></i> Mantenimiento <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="{% url 'mantencion_list' %}">Mantenciones</a>
+                        </li>
+                        <li><a href="{% url 'admin:maintenance_division_add' %}">Agregar Divisiones</a>
+                        </li>
+                        <li><a href="{% url 'admin:maintenance_subdivision_add' %}">Agregar SubDivisiones</a>
+                        </li>
+                        <li><a href="{% url 'admin:maintenance_serviciomantencion_add' %}">Agregar Servicios</a>
+                        </li>
+                        <li><a href="{% url 'admin:maintenance_taller_add' %}">Agregar Talleres</a>
+                        </li>
+                        <li><a href="{% url 'admin:maintenance_servicentro_add' %}">Agregar Servicentros</a>
+                        </li>
+                      </ul>
+                    </li>
+                  {% if perms.maintenance.add_maquina %}
+                    <li><a><i class="fa fa-edit"></i> Personal y Máquinas <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="{% url 'maquina_list' %}">Máquinas</a>
+                        </li>
+                        <li><a href="{% url 'admin:maintenance_clasificacion_maquina_add' %}">Agregar tipos de máquinas</a>
+                        </li>
+                        <li><a href="{% url 'conductor_list' %}">Conductores</a>
+                        </li>
+                        <!--li><a href="">Form Validation</a>
+                        </li>-->
+                      </ul>
+                    </li>
+                  {% endif %}
+                    <li><a><i class="fa fa-area-chart"></i> Reportes <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="#">Reporte 1</a>
+                        </li>
+                        <li><a href="#">Reporte 2</a>
+                        </li>
+                        <li><a href="#">Reporte 3</a>
+                        </li>
+                        <!--li><a href="">Form Validation</a>
+                        </li>-->
+                      </ul>
+                    </li>
                 </ul>
               </div>
-              <!--<div class="menu_section">
-                <h3>Live On</h3>
-                <ul class="nav side-menu">
-                  <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="e_commerce.html">E-commerce</a>
-                      </li>
-                      <li><a href="projects.html">Projects</a>
-                      </li>
-                      <li><a href="project_detail.html">Project Detail</a>
-                      </li>
-                      <li><a href="contacts.html">Contacts</a>
-                      </li>
-                      <li><a href="profile.html">Profile</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="page_404.html">404 Error</a>
-                      </li>
-                      <li><a href="page_500.html">500 Error</a>
-                      </li>
-                      <li><a href="plain_page.html">Plain Page</a>
-                      </li>
-                      <li><a href="login.html">Login Page</a>
-                      </li>
-                      <li><a href="pricing_tables.html">Pricing Tables</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li><a href="#level1_1">Level One</a>
-                        <li><a>Level One<span class="fa fa-chevron-down"></span></a>
-                          <ul class="nav child_menu">
-                            <li class="sub_menu"><a href="level2.html">Level Two</a>
-                            </li>
-                            <li><a href="#level2_1">Level Two</a>
-                            </li>
-                            <li><a href="#level2_2">Level Two</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li><a href="#level1_2">Level One</a>
-                        </li>
-                    </ul>
-                  </li>
-                  <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a>
-                  </li>
-                </ul>
-              </div>-->
-
             </div>
             <!-- /sidebar menu -->
 
@@ -250,14 +170,12 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{% static 'images/bomberos-logo.png' %}" alt=""><strong>{% if user.is_authenticated %}
+                    <img src="{% static 'images/bomberos-mini.png' %}" alt=""><strong>{% if user.is_authenticated %}
                                                                                 <strong>{{ user.username }}</strong>
                                                                               {% endif %}</strong>{{ first_name }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;">Profile</a>
-                    </li>
                     <li>
                       <a href="{% url 'admin:index' %}">Administrador</a>
                     </li>

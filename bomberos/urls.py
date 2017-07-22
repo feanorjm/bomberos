@@ -3,12 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from bomberos.views import login_view,logout_view
-from maintenance.views import (bitacora_create_view, bitacora_list, bitacora_detail, bitacora_update, bitacora_delete,
-                               mantencion_create, mantencion_add_detalle, mantencion_add_repuesto,mantencion_list,mantencion_detail,
-                               maquina_detail,maquina_list,maquina_create,maquina_delete,maquina_update,get_maquina_conductores, get_parametros_maquina,
-                               conductor_list,conductor_detail,conductor_create,conductor_update,
-                               combustible_create,combustible_list,
-                               index_view,dashboard_maquina_list_view)
+from maintenance.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,9 +20,13 @@ urlpatterns = [
     url(r'^bitacora/editar/(?P<pk>\d+)$', bitacora_update, name='bitacora_update'),
     url(r'^bitacora/eliminar/(?P<pk>\d+)$', bitacora_delete, name='bitacora_delete'),
     #MANTENCIONES
-    url(r'^mantencion/add/$', mantencion_create, name='mantencion_create'),
-    url(r'^mantencion/add_detalle/$', mantencion_add_detalle, name='mantencion_add_detalle'),
-    url(r'^mantencion/add_repuesto/$', mantencion_add_repuesto, name='mantencion_add_repuesto'),
+    #url(r'^mantencion/add/$', mantencion_create, name='mantencion_create'),
+    url(r'^mantencion/add/$', mantencion_create_view, name='mantencion_create_view'),
+    url(r'^mantencion/add/nuevo', mantencion_form_view, name='mantencion_form_view'),
+    url(r'^mantencion/add/detalle$', detalle_mantencion_form_view, name='detalle_mantencion_form_view'),
+    url(r'^mantencion/add/repuesto$', repuesto_detalle_mantencion_form_view, name='repuesto_detalle_mantencion_form_view'),
+    #url(r'^mantencion/add_detalle/$', mantencion_add_detalle, name='mantencion_add_detalle'),
+    #url(r'^mantencion/add_repuesto/$', mantencion_add_repuesto, name='mantencion_add_repuesto'),
     url(r'^mantenciones/$', mantencion_list, name='mantencion_list'),
     url(r'^mantencion/detalle/(?P<pk>\d+)$', mantencion_detail, name='mantencion_detail'),
     #MAQUINA
@@ -46,7 +45,7 @@ urlpatterns = [
     url(r'^conductor/editar/(?P<pk>\d+)$', conductor_update, name='conductor_update'),
     #COMBUSTIBLE
     url(r'^combustible/add/$', combustible_create, name='combustible_create'),
-    url(r'^parte-combustible/$', combustible_list, name='combustible_list'),
+    url(r'^carga-combustible/$', combustible_list, name='combustible_list'),
 
     #DASHBOARD
     url(r'^dashboard/$', dashboard_maquina_list_view, name='dashboard_maquina_list_view'),

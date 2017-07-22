@@ -20,7 +20,7 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <form id="form_mantencion" data-parsley-validate class="form-horizontal form-label-left" action="" method="post">{% csrf_token %}
+                    <form id="form_mantencion" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'mantencion_create_view' %}" method="post">{% csrf_token %}
                         {{ form.errors }}
                         {{ form.non_field_errors }}
                         <div class="form-group pull-in clearfix">
@@ -98,7 +98,7 @@
                         <div class="ln_solid"></div>
 
                         <div class="form-group col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button id="boton_form" type="submit" class="btn btn-success">Ingresar</button>
+                            <button id="boton_form" type="submit" name="form" class="btn btn-success">Ingresar</button>
                         </div>
                     </form>
                   </div>
@@ -108,46 +108,46 @@
                   </div>
                   <div class="x_content">
                     <!--<div class="col-xs-4 col-md-4">-->
-                    <form id="form_mantencion_detalle" data-parsley-validate class="form-horizontal form-label-left" action="" method="post" >{% csrf_token %}
+                    <form id="form_mantencion_detalle" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'mantencion_create_view' %}" method="post" >{% csrf_token %}
                         <div class="form-group pull-in clearfix">
-                                {{ detalle_form.mantencion }}
+                                {{ form2.mantencion }}
                             <!--<div class="col-sm-12">
                                 <label style="text-align:left;" class="control-label col-sm-6" for="{{ componente.id_for_label }}">Componente</label>
-                                {{ detalle_form.componente }}
-                                {{ detalle_form.componente.errors }}
+                                {{ form2.componente }}
+                                {{ form2.componente.errors }}
                             </div>-->
                             <div class="col-sm-4">
                                 <label style="text-align:left;" class="control-label col-sm-6" for="{{ division.id_for_label }}">División</label>
-                                {{ detalle_form.division }}
-                                {{ detalle_form.division.errors }}
+                                {{ form2.division }}
+                                {{ form2.division.errors }}
                             </div>
                             <div class="col-sm-3">
                                 <label style="text-align:left;" class="control-label col-sm-6" for="{{ subdivision.id_for_label }}">Subdivisión</label>
-                                {{ detalle_form.subdivision }}
-                                {{ detalle_form.subdivision.errors }}
+                                {{ form2.subdivision }}
+                                {{ form2.subdivision.errors }}
                             </div>
                             <div class="col-sm-3">
                                 <label style="text-align:left;" class="control-label col-sm-6" for="{{ servicio.id_for_label }}">Servicio</label>
-                                {{ detalle_form.servicio }}
-                                {{ detalle_form.servicio.errors }}
+                                {{ form2.servicio }}
+                                {{ form2.servicio.errors }}
                             </div>
                             <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ tipo_mantencion.id_for_label }}">Tipo Mantención</label>
-                                {{ detalle_form.tipo_mantencion }}
-                                {{ detalle_form.tipo_mantencion.errors }}
+                                {{ form2.tipo_mantencion }}
+                                {{ form2.tipo_mantencion.errors }}
                             </div>
                             
                         </div>
                         <div class="form-group pull-in clearfix">
                             <div class="col-sm-4">
                                 <label style="text-align:left;" class="control-label col-md-6" for="{{ des_detalle.id_for_label }}">Observación </label>
-                                {{ detalle_form.des_detalle }}
-                                {{ detalle_form.des_detalle.errors }}
+                                {{ form2.des_detalle }}
+                                {{ form2.des_detalle.errors }}
                             </div>
                             <div id="prox_man" class="col-sm-3">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ hodometro_prox_man.id_for_label }}">Próxima Mantención</label>
-                                {{ detalle_form.hodometro_prox_man }}
-                                {{ detalle_form.hodometro_prox_man.errors }}
+                                {{ form2.hodometro_prox_man }}
+                                {{ form2.hodometro_prox_man.errors }}
                             </div>
                         </div>
                         <div class="form-group pull-in clearfix">
@@ -164,7 +164,7 @@
                         </div>
                         <div class="ln_solid"></div>
                         <div class="form-group col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button id="boton_form_detalle_add" type="submit" class="btn btn-success">Agregar detalle</button>
+                            <button id="boton_form_detalle_add" type="submit" name="form2" class="btn btn-success">Agregar detalle</button>
                         </div>
                     </form>
                     <!--</div>-->
@@ -275,6 +275,8 @@
                     success: function (data) {
                         $("#id_ki_salida").empty();
                         $("#id_ho_salida").empty();
+                        $("#id_ho_bomba_salida").empty();
+                        $("#id_ho_bomba_regreso").empty();
                         for(var i in data.parametros) {
                             if(data.parametros[i].kilometraje !== null && data.parametros[i].kilometraje !== null){
                                 $("#id_ki_salida").val(data.parametros[i].kilometraje);
@@ -299,7 +301,7 @@
           console.log(datos);
           $.ajax({
             //url: "http://localhost:8000/mantencion/add/",
-            url: "{% url 'mantencion_create' %}",
+            url: "{% url 'mantencion_form_view' %}",
             type: "POST",
             data: datos,
             success:function(data){
@@ -351,18 +353,19 @@
             var datos = datos_detalle+"&division="+division+"&subdivision="+subdivision+"&servicio="+servicio+"&tipo_mantencion="+tipo_mantencion+"&hodometro_prox_man="+prox_man+"&des_detalle="+des_detalle;
             console.log(datos);
             $.ajax({
-                url: "{% url 'mantencion_add_detalle' %}",
+                url: "{% url 'detalle_mantencion_form_view' %}",
                 type: "POST",
                 data: datos,
                 success:function(data){
                     console.log(data);
                     //-->NECESARIO $("#id_detalle_mantencion").val(data['pk']);
-                    $("input[name='repuesto']").each(function () {
-                        var value = $( this ).value;
-                        var datos_repuesto = datos_detalle+"&detalle_mantencion="+data['pk']+"&repuesto="+value;
+                    $('#id_repuesto').each(function () {
+                        var valuerep = $(this).html();
+                        console.log(valuerep);
+                        var datos_repuesto = datos_detalle+"&detalle_mantencion="+data['pk']+"&repuesto="+valuerep;
                         console.log(datos_repuesto);
                         /*$.ajax({
-                            url: "{% url 'mantencion_add_repuesto' %}",
+                            url: "{% url 'repuesto_detalle_mantencion_form_view' %}",
                             type: "POST",
                             data: datos_repuesto,
                             success: function (data) {
