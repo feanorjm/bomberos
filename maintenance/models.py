@@ -3,7 +3,7 @@ from smart_selects.db_fields import ChainedForeignKey, GroupedForeignKey, Chaine
 from django.contrib.auth.models import User
 from django.urls import reverse
 import datetime
-from _overlapped import NULL
+#from _overlapped import NULL
 
 
 class Compania(models.Model):
