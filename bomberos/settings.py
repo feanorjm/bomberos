@@ -146,7 +146,7 @@ USE_THOUSAND_SEPARATOR = True
 STATIC_URL = '/static/'
 #STATIC_ROOT = ''
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-#STATIC_ROOT = '/home/raices/app-agenda/sitio1/static/'
+#STATIC_ROOT = '/home/cmingeni/proyecto_bomberos/bomberos/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static/'),
