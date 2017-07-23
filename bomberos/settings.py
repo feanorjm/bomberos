@@ -26,6 +26,7 @@ SECRET_KEY = 'b(^xu%e8o!3cvayama63fvqho9&f8dkde-e6mbo$$xw!9p-w8+'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = ['cmingenieria.cl',]
 
 
 # Application definition
@@ -92,6 +93,19 @@ DATABASES = {
                 },
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'cmingeni_bomberos',
+#         'USER': 'cmingeni_uqaserp',
+#         'PASSWORD': '4ctGZ)Ni4@=N',
+#         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+#         'PORT': '3306',
+#         'OPTIONS': {
+#                     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#                 },
+#     }
+# }
 
 
 # Password validation
@@ -149,5 +163,6 @@ STATIC_URL = '/static/'
 #STATIC_ROOT = '/home/cmingeni/proyecto_bomberos/bomberos/static/'
 
 STATICFILES_DIRS = (
+    #'/home/cmingeni/proyecto_bomberos/bomberos/static/',
     os.path.join(BASE_DIR, 'static/'),
 )
