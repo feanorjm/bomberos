@@ -84,8 +84,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bomberos',
+        #'NAME': 'cmingeni_bomberos',
         'USER': 'root',
+        #'USER': 'cmingeni_uqaserp',
         'PASSWORD': '',
+        #'PASSWORD': '4ctGZ)Ni4@=N',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
         'OPTIONS': {
@@ -93,19 +96,6 @@ DATABASES = {
                 },
     }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'cmingeni_bomberos',
-#         'USER': 'cmingeni_uqaserp',
-#         'PASSWORD': '4ctGZ)Ni4@=N',
-#         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-#         'PORT': '3306',
-#         'OPTIONS': {
-#                     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-#                 },
-#     }
-# }
 
 
 # Password validation
