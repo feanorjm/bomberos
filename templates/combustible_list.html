@@ -15,10 +15,8 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Parte de Combustible </h2>
+                    <h2>Carga de Combustible </h2>
                       <ul class=" nav navbar-right panel_toolbox">
-                        <li><button type="button"  id="btnExport" class="btn btn-default">Exportar a Excel</button>
-                          </li>
                         <li><button type=button onclick="location.href='{% url 'combustible_create' %}';" class="btn btn-success">Nueva carga</button>
                         </li>
                       </ul>
@@ -48,20 +46,20 @@
 
                       <tbody>
 
-                        {% for parte in object_list %}
+                        {% for carga in object_list %}
                         <tr>
                             <td></td>
-                            <td>{{ parte.maquina }}</td>
-                            <td>{{ parte.fecha }}</td>
-                            <td>{{ parte.litros }}</td>
-                            <td>{{ parte.servicentro }}</td>
-                            <td align="right">{{ parte.km_salida }}</td>
-                            <td align="right">{{ parte.km_regreso }}</td>
-                            <td align="right">{{ parte.hm_salida }}</td>
-                            <td align="right">{{ parte.hm_regreso }}</td>
-                            <td align="right">{{ parte.valor }}</td>
-                            <td>{{ parte.conductor }}</td>
-                            <td>{{ parte.obac }}</td>
+                            <td><a style="color: orangered;text-decoration: underline;" href="{{ carga.get_absolute_url }}">{{ carga.maquina }}</a></td>
+                            <td>{{ carga.fecha }}</td>
+                            <td>{{ carga.litros }}</td>
+                            <td>{{ carga.servicentro }}</td>
+                            <td align="right">{{ carga.km_salida }}</td>
+                            <td align="right">{{ carga.km_regreso }}</td>
+                            <td align="right">{{ carga.hm_salida }}</td>
+                            <td align="right">{{ carga.hm_regreso }}</td>
+                            <td align="right">{{ carga.valor }}</td>
+                            <td>{{ carga.conductor }}</td>
+                            <td>{{ carga.obac }}</td>
                         </tr>
                         {% endfor %}
                       </tbody>
@@ -98,7 +96,7 @@
     <script type="text/javascript" src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/datatables.net-scroller/js/datatables.scroller.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
 
     <!-- Custom Theme Scripts -->
     <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
@@ -107,7 +105,9 @@
     <script>
 
         $(document).ready(function() {
-          $('#datatable-responsive').DataTable();
+          $('#datatable-responsive').DataTable({
+            'searching':false,
+          });
 
           
 

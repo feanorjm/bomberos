@@ -30,11 +30,11 @@
                               <tbody>
                                 <tr>
                                   <th style="width:50%">NOMBRE:</th>
-                                  <td>{{ object.nombre }}</td>
+                                  <td>{{ object.nombre}} {{object.ap_paterno }} {{object.ap_materno }}</td>
                                 </tr>
                                 <tr>
                                   <th>RUT:</th>
-                                  <td>{{ object.rut }}</td>
+                                  <td>{{ object.rut|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>COMPAÑÍA:</th>
@@ -42,13 +42,13 @@
                                 </tr>
                                 <tr>
                                   <th>NÚMERO LICENCIA:</th>
-                                  <td>{{ object.num_licencia }}</td>
+                                  <td>{{ object.num_licencia|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>VENCIMIENTO LICENCIA:</th>
-                                  <td>{{ object.venc_lic }}</td>
+                                  <td>{{ object.venc_lic|default_if_none:"--" }}</td>
                                 </tr>
-                                {% if object.foto %}
+                                {% if object.foto|default_if_none:"--" %}
                                 <tr>
                                   <th>IMAGEN:</th>
                                   <td><img src="{{ object.foto.url }}" height="100" width="100"></td>

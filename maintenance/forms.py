@@ -65,7 +65,7 @@ class DetalleMantencionForm(forms.ModelForm):
             'tipo_mantencion': forms.Select(attrs={'class': 'form-control'}),
             #'servicio': forms.Select(attrs={'class': 'form-control'}),
             'des_detalle': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 90px;'}),
-            'hodometro_prox_man': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ingrese Hodometro', 'pattern': '[0-9]*'}),
+            'hodometro_prox_man': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
 class RepuestoDetalleMantencionForm(forms.ModelForm):
@@ -153,7 +153,7 @@ class CombustibleForm(forms.ModelForm):
         widgets = {
             'compania': forms.Select(attrs={'class': 'form-control'}),
             #'maquina': forms.Select(attrs={'class': 'form-control'}),
-            'litros': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
+            'litros': forms.NumberInput(attrs={'class': 'form-control'}),
             'servicentro': forms.Select(attrs={'class': 'form-control'}),
             'fecha': forms.DateInput(attrs={'id': 'fecha', 'class': 'date-picker form-control'}),
             'km_salida': forms.NumberInput(attrs={'class': 'form-control'}),

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load staticfiles %}
+
+
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Detalle Carga Combustible</h2>
+                      <ul class=" nav navbar-right panel_toolbox">
+                        <li><button type="button" onclick="location.href='{% url 'combustible_update' pk=object.id %}';" class="btn btn-primary" >Editar</button>
+                        </li>
+                          <li><button type="button" onclick="location.href='{% url 'combustible_delete' pk=object.id %}';" class="btn btn-danger">Eliminar</button>
+                        </li>
+                      </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <div class="col-xs-6 col-md-6">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <tbody>
+                                <tr>
+                                  <th style="width:50%">Compañía:</th>
+                                  <td>{{ object.compania|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Maquina:</th>
+                                  <td>{{ object.maquina|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Fecha:</th>
+                                  <td>{{ object.fecha|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Litros:</th>
+                                  <td>{{ object.litros|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Servicentro:</th>
+                                  <td>{{ object.servicentro|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Km salida:</th>
+                                  <td>{{ object.km_salida|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Km regreso:</th>
+                                  <td>{{ object.km_regreso|default_if_none:"--" }}</td>
+                                </tr>
+                                
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="col-xs-6 col-md-6">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <tbody>
+                              <tr>
+                                  <th>Hm Salida:</th>
+                                  <td>{{ object.hm_salida|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Hm Regreso:</th>
+                                  <td>{{ object.hm_regreso|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Valor:</th>
+                                  <td>{{ object.valor|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Conductor:</th>
+                                  <td>{{ object.conductor|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>OBAC:</th>
+                                  <td>{{ object.obac|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Boucher tct:</th>
+                                  {% load l10n %}
+                                  <td>{{ object.tarjeta_tct|unlocalize }}</td>
+                                </tr>
+                                
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+      </div>
+    </div>
+    <!-- jQuery -->
+    <script type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <!-- Custom Theme Scripts -->
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+
+{% endblock %}

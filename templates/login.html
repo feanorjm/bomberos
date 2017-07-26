@@ -15,6 +15,21 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css" href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
+
+    <style>          
+           body::after {
+             content: "";
+             background: url("{% static 'images/bomberos-logo.png' %}");
+             opacity: 0.4;
+             top: 0;
+             left: 0;
+             bottom: 0;
+             right: 0;
+             position: absolute;
+             z-index: -1;
+             background-repeat:repeat-x;
+           }           
+        </style>
   </head>
 
   <body style="background:#F7F7F7;">
@@ -43,10 +58,10 @@
                 <div class="clearfix"></div>
                 <br />
                 <div>
-                  <h1><i class="fa fa-paw" style="font-size: 26px;"></i> Bomberos Osorno</h1>
+                  <h1>Cuerpo de Bomberos Osorno</h1>
                     <h1> Material Mayor</h1>
 
-                  <p>©2017 All Rights Reserved. Bomberos Osorno!</p>
+                  <p>©2017 Todos los derechos reservados. Bomberos Osorno!</p>
                 </div>
               </div>
             </form>

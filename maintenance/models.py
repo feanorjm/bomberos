@@ -149,6 +149,9 @@ class Carguios_combustible(models.Model):
     def __str__(self):
         return str(self.maquina)
 
+    def get_absolute_url(self):
+        return reverse('combustible_detail', args=[str(self.id)])
+
 class Division(models.Model):
     nombre = models.CharField(max_length=45)
 
@@ -193,8 +196,8 @@ class Mantencion(models.Model):
     ho_regreso = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     cod_man = models.CharField(max_length=45) #orden de trabajo
     observacion = models.TextField(max_length=200)
-    num_factura = models.IntegerField()
-    valor = models.IntegerField()
+    num_factura = models.IntegerField(null=True, blank=True)
+    valor = models.IntegerField(null=True, blank=True)
     taller = models.ForeignKey(Taller)
     responsable = models.CharField(max_length=45)
 
@@ -211,10 +214,10 @@ class DetalleMantencion(models.Model):
     tipo_mantencion = models.ForeignKey(TipoMantencion, default=1, null=True)
     servicio = ChainedForeignKey(ServicioMantencion, chained_field="subdivision", chained_model_field="subdivision", null=True, related_name='%(class)s_requests_created')
     des_detalle = models.TextField(max_length=200, null=True, blank=True)
-    hodometro_prox_man = models.IntegerField(null=True, blank=True)
+    hodometro_prox_man = models.DecimalField(decimal_places=1,max_digits=10, null=True, blank=True)
 
     def __str__(self):
-        return str(self.des_detalle)
+        return str(self.servicio)
 
 
 class RepuestoDetalleMantencion(models.Model):

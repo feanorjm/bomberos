@@ -24,6 +24,21 @@
                   </div>
                     <div class="x_content">
                   </div>
+                  <div>
+                    <form id="form-busqueda" data-parsley-validate class="form-horizontal form-label-left" action="" method="post">{% csrf_token %}
+                      <div class="form-group pull-in clearfix">
+                        <div class="col-sm-2">
+                            <input type="text" name="fecha_ini" id="fecha_ini" class="form-control" placeholder="fecha inicial" value="{{ datos_list.fecha_ini }}">
+                        </div>
+                      <div class="col-sm-2">
+                          <input type="text" name="fecha_fin" id="fecha_fin" class="form-control" placeholder="fecha final" value="{{ datos_list.fecha_fin }}">
+                      </div>
+                      <div class="col-sm-3">
+                        <button type="submit" class="btn btn-success">Aplicar Filtro</button>
+                      </div>
+                      </div>
+                    </form>
+                  </div>
                   <div class="x_content">
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
@@ -58,8 +73,8 @@
                             <td align="right">{{ mantencion.ho_regreso }}</td>
                             <td>{{ mantencion.cod_man }}</td>
                             <td> {{ mantencion.observacion }}</td>
-                            <td align="right"> {{ mantencion.num_factura }}</td>
-                            <td align="right"> $ {{ mantencion.valor }}</td>
+                            <td align="right"> {{ mantencion.num_factura|default_if_none:"No ingresado" }}</td>
+                            <td align="right"> $ {{ mantencion.valor|default_if_none:"No ingresado" }}</td>
                             <td> {{ mantencion.taller }}</td>
                             <td>{{ mantencion.responsable }}</td>
                         </tr>
@@ -80,7 +95,7 @@
     <!-- Bootstrap -->
     <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
-    <script type="text/javascript" src="{% static 'js/datepicker/daterangepicker.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/datepicker/bootstrap-datepicker.js' %}"></script>
     <!-- Datatables -->
     <script type="text/javascript" src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
@@ -101,11 +116,28 @@
     <!-- Custom Theme Scripts -->
     <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
 
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/pdfmake.min.js"></script>
+    <script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/vfs_fonts.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.print.min.js"></script>
+
     <!-- Datatables -->
     <script>
 
         $(document).ready(function() {
-            $('#datatable-responsive').DataTable();
+            $('#datatable-responsive').DataTable({
+              'searching': false,
+              dom: 'lBfrtip',
+              buttons: [
+                  'copy', 'csv', 'excel'
+              ]
+            });
+
+            $('#fecha_ini').datepicker({format: "yyyy-mm-dd",weekStart: 1});
+            $('#fecha_fin').datepicker({format: "yyyy-mm-dd",weekStart: 1});
         });
     </script>
 

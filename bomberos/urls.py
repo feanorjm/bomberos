@@ -46,9 +46,12 @@ urlpatterns = [
     #COMBUSTIBLE
     url(r'^combustible/add/$', combustible_create, name='combustible_create'),
     url(r'^carga-combustible/$', combustible_list, name='combustible_list'),
+    url(r'^carga-combustible/eliminar/(?P<pk>\d+)$', combustible_delete, name='combustible_delete'),
+    url(r'^carga-combustible/detalle/(?P<pk>\d+)$', combustible_detail, name='combustible_detail'),
+    url(r'^carga-combustible/editar/(?P<pk>\d+)$', combustible_update, name='combustible_update'),
 
     #DASHBOARD
-    url(r'^dashboard/$', dashboard_maquina_list_view, name='dashboard_maquina_list_view'),
+    url(r'^dashboard/$', dashboard_list_view, name='dashboard_list_view'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

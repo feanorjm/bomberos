@@ -14,30 +14,103 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>DashBoard</h2>
+                    <h2>Bandeja de Entrada Cuerpo de Bomberos de Osorno</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                       <div class="col-xs-12 col-md-12">
                           <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap">
                               <thead>
                                 <tr>
                                   <th align="center">Companía</th>
                                   <th align="center">Nombre</th>
-                                  <th align="center">Vencimiento Patente</th>
                                   <th align="center">Hodometro</th>
                                   <th align="center">Kilometraje</th>
+                                  <th align="center">Bomba</th>
+                                  <th align="center">Rev. Técnica</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 {% for object in object_list %}
                                 <tr>
-                                  <td align="center">{{ object.compania }}</td>
+                                  <td align="center">{{ object.compania__nombre }}</td>
                                   <td>{{ object.nombre }}</td>
-                                  <td>{{ object.venc_patente }}</td>
                                   <td align="center">{{ object.hodometro }}</td>
                                   <td align="center">{{ object.kilometraje }}</td>
+                                  {% if object.tiene_bomba %}
+                                    <td align="center">{{ object.hodometro_bomba }}</td>
+                                  {% else %}
+                                    <td align="center">No tiene</td>
+                                  {% endif %}
+                                  <td>{{ object.venc_rev_tec|default_if_none:"--" }}</td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Ranking Conductores</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <div class="col-xs-12 col-md-12">
+                          <div class="table-responsive">
+                            <table id="datatable-ranking" class="table table-striped table-bordered dt-responsive nowrap">
+                              <thead>
+                                <tr>
+                                  <th align="center">Companía</th>
+                                  <th align="center">Conductor</th>
+                                  <th align="center">Horas</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for ranking in ranking_list %}
+                                <tr>
+                                  <td>{{ ranking.compania__nombre }}</td>
+                                  <td>{{ ranking.conductor__nombre }} {{ ranking.conductor__ap_paterno }}</td>
+                                  <td>{{ ranking.horas }}</td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Proximas Mantenciones</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <div class="col-xs-12 col-md-12">
+                          <div class="table-responsive">
+                            <table id="datatable-mantencion" class="table table-striped table-bordered dt-responsive nowrap">
+                              <thead>
+                                <tr>
+                                  <th align="center">Máquina</th>
+                                  <th align="center">Servicio</th>
+                                  <th align="center">Prox. Mantención</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for mantencion in mantencion_list %}
+                                <tr>
+                                  <td>{{ mantencion.mantencion__maquina__nombre }}</td>
+                                  <td>{{ mantencion.servicio__nombre }}</td>
+                                  <td>{{ mantencion.hodometro_prox_man }}</td>
                                 </tr>
                                 {% endfor %}
                               </tbody>
@@ -59,5 +132,45 @@
     <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
     <!-- Custom Theme Scripts -->
     <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-scroller/js/datatables.scroller.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>
+
+    <!-- Datatables -->
+    <script>
+
+        $(document).ready(function() {
+            $('#datatable-responsive').DataTable({
+              "iDisplayLength": 25,
+              "searching": false,
+            });
+
+            $('#datatable-ranking').DataTable({
+              "iDisplayLength": 10,
+              "searching": false,
+            });
+
+            $('#datatable-mantencion').DataTable({
+              "iDisplayLength": 10,
+              "searching": false,
+            });
+        });
+    </script>
+
+
 
 {% endblock %}

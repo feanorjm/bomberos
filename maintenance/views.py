@@ -18,6 +18,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse, HttpResponse,HttpResponseRedirect
+import datetime
+from django.db.models import Sum, F
 
 #VISTAS PARA BITACORA
 
@@ -34,13 +36,71 @@ class BitacoraList(ListView):
     template_name = 'bitacora_list.html'
 
     def get_queryset(self):
+        today = datetime.datetime.now()
         if (self.request.user.username == 'admin'):
-            queryset = Bitacora.objects.all().order_by('-fecha')
+            queryset = Bitacora.objects.filter(fecha__month=today.month).order_by('-fecha')
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
-            queryset = Bitacora.objects.filter(compania=user_comp).order_by('-fecha')
+            queryset = Bitacora.objects.filter(compania=user_comp,fecha__month=today.month).order_by('-fecha')
 
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(BitacoraList, self).get_context_data(**kwargs)
+        claves_list = Clave.objects.all()
+        context['claves_list'] = claves_list
+        return context
+
+    def post(self, request, *args, **kwargs):
+        today = datetime.datetime.now()
+        fecha_ini = self.request.POST.get('fecha_ini')
+        fecha_fin = self.request.POST.get('fecha_fin')
+        clave = self.request.POST.get('clave')
+        datos_list = {}
+
+        if (fecha_ini != '' and fecha_fin != '' and clave != ''):
+            clave_obj = Clave.objects.get(pk=clave)
+            datos_list = {'fecha_ini':fecha_ini, 'fecha_fin':fecha_fin,'clave':clave_obj.pk}
+
+            if (self.request.user.username == 'admin'):
+                servicios = Bitacora.objects.filter(fecha__range=(fecha_ini,fecha_fin),clave=clave_obj).order_by('-fecha')
+            else:
+                user_comp = self.request.user.usuariocomp.compania.pk
+                servicios = Bitacora.objects.filter(compania=user_comp,fecha__range=(fecha_ini,fecha_fin),clave=clave_obj).order_by('-fecha')
+
+        elif (fecha_ini != '' and fecha_fin != ''):
+            datos_list = {'fecha_ini':fecha_ini, 'fecha_fin':fecha_fin}
+            if (self.request.user.username == 'admin'):
+                servicios = Bitacora.objects.filter(fecha__range=(fecha_ini,fecha_fin)).order_by('-fecha')
+            else:
+                user_comp = self.request.user.usuariocomp.compania.pk
+                servicios = Bitacora.objects.filter(compania=user_comp,fecha__range=(fecha_ini,fecha_fin)).order_by('-fecha')
+
+        elif (clave != ''):
+            clave_obj = Clave.objects.get(pk=clave)
+            datos_list = {'clave':clave_obj.pk}
+
+            if (self.request.user.username == 'admin'):
+                servicios = Bitacora.objects.filter(clave=clave_obj).order_by('-fecha')
+            else:
+                user_comp = self.request.user.usuariocomp.compania.pk
+                servicios = Bitacora.objects.filter(compania=user_comp,clave=clave_obj).order_by('-fecha')
+
+        else:
+            if (self.request.user.username == 'admin'):
+                servicios = Bitacora.objects.filter(fecha__month=today.month).order_by('-fecha')
+            else:
+                user_comp = self.request.user.usuariocomp.compania.pk
+                servicios = Bitacora.objects.filter(compania=user_comp,fecha__month=today.month).order_by('-fecha')
+
+        context = {}
+        claves_list = Clave.objects.all()
+        context['claves_list'] = claves_list
+        context['object_list'] = servicios
+        context['datos_list'] = datos_list
+
+        return render(request,self.template_name,context=context)
+
 
 
 @method_decorator(login_required, name='dispatch')
@@ -265,8 +325,47 @@ def get_parametros_maquina(request):
 
 @method_decorator(login_required, name='dispatch')
 class MantencionListView(ListView):
-    model = Mantencion
+    #model = Mantencion
     template_name = 'mantencion_list.html'
+
+    def get_queryset(self):
+        if (self.request.user.username == 'admin'):
+            queryset = Mantencion.objects.all().order_by('-fecha')
+        else:
+            user_comp = self.request.user.usuariocomp.compania.pk
+            queryset = Mantencion.objects.filter(compania=user_comp).order_by('-fecha')
+
+        return queryset
+
+
+    def post(self, request, *args, **kwargs):
+        today = datetime.datetime.now()
+        fecha_ini = self.request.POST.get('fecha_ini')
+        fecha_fin = self.request.POST.get('fecha_fin')
+        datos_list = {}
+
+        if (fecha_ini != '' and fecha_fin != ''):
+            datos_list = {'fecha_ini':fecha_ini, 'fecha_fin':fecha_fin}
+
+            if (self.request.user.username == 'admin'):
+                mantenciones = Mantencion.objects.filter(fecha__range=(fecha_ini,fecha_fin)).order_by('-fecha')
+
+            else:
+                user_comp = self.request.user.usuariocomp.compania.pk
+                mantenciones = Mantencion.objects.filter(compania=user_comp,fecha__range=(fecha_ini,fecha_fin)).order_by('-fecha')
+
+        else:
+            if (self.request.user.username == 'admin'):
+                mantenciones = Mantencion.objects.all().order_by('-fecha')
+            else:
+                user_comp = self.request.user.usuariocomp.compania.pk
+                mantenciones = Mantencion.objects.filter(compania=user_comp).order_by('-fecha')
+
+        context = {}
+        context['object_list'] = mantenciones
+        context['datos_list'] = datos_list
+
+        return render(request,self.template_name,context=context)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -275,6 +374,18 @@ class MantencionDetailView(DetailView):
     template_name = 'mantencion_detalle.html'
 
     #DEFINIR EL CONTEXT DATA Y HACER QUERYSET Y BUSCAR LOS DATOS DEL DETALLE Y LOS REPUESTOS
+    def get_context_data(self, *args, **kwargs):
+        context = super(MantencionDetailView, self).get_context_data(*args, **kwargs)
+        today = datetime.datetime.now()
+
+        mantencion_obj = context['object']
+
+        detalle_mantencion_list = DetalleMantencion.objects.filter(mantencion=mantencion_obj)
+        repuesto_detalle_mantencion_list = RepuestoDetalleMantencion.objects.filter(mantencion=mantencion_obj)
+
+        context['detalle_mantencion_list'] = detalle_mantencion_list
+        context['repuesto_detalle_mantencion_list'] = repuesto_detalle_mantencion_list
+        return context
 
 mantencion_list = MantencionListView.as_view()
 mantencion_detail = MantencionDetailView.as_view()
@@ -341,6 +452,8 @@ class ConductorDetailView(DetailView):
     model = Conductor
     template_name = 'conductor_detail.html'
 
+
+
 @method_decorator(login_required, name='dispatch')
 class ConductorCreateView(CreateView):
     form_class = ConductorForm
@@ -358,8 +471,53 @@ class ConductorCreateView(CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class ConductorListView(ListView):
-    model = Conductor
+    #model = Conductor
     template_name = 'conductor_list.html'
+
+    def get_queryset(self):
+        today = datetime.datetime.now()
+        if (self.request.user.username == 'admin'):
+            queryset = Conductor.objects.all().order_by('compania','nombre')
+        else:
+            user_comp = self.request.user.usuariocomp.compania.pk
+            queryset = Conductor.objects.filter(compania=user_comp).order_by('compania','nombre')
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(ConductorListView, self).get_context_data(**kwargs)
+        companias_list = Compania.objects.all()
+        context['companias_list'] = companias_list
+        return context
+
+    def post(self, request, *args, **kwargs):
+        compania = self.request.POST.get('compania')
+        datos_list = {}
+
+        if (compania != ''):
+            compania_obj = Compania.objects.get(pk=compania)
+            datos_list = {'compania':compania_obj.pk}
+            if (self.request.user.username == 'admin'):
+                conductores = Conductor.objects.filter(compania=compania_obj).order_by('compania','nombre')
+
+            else:
+                user_comp = self.request.user.usuariocomp.compania.pk
+                conductores = Conductor.objects.filter(compania=user_comp).order_by('compania','nombre')
+
+        else:
+            if (self.request.user.username == 'admin'):
+                conductores = Conductor.objects.all().order_by('compania','nombre')
+            else:
+                user_comp = self.request.user.usuariocomp.compania.pk
+                conductores = Conductor.objects.filter(compania=user_comp).order_by('compania','nombre')
+
+        context = {}
+        companias_list = Compania.objects.all()
+        context['companias_list'] = companias_list
+        context['object_list'] = conductores
+        context['datos_list'] = datos_list
+
+        return render(request,self.template_name,context=context)
 
 @method_decorator(login_required, name='dispatch')
 class ConductorUpdateView(UpdateView):
@@ -437,15 +595,50 @@ class CombustibleListView(ListView):
 
     def get_queryset(self):
         if (self.request.user.username == 'admin'):
-            queryset = Carguios_combustible.objects.all()
+            queryset = Carguios_combustible.objects.all().order_by('fecha')
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
-            queryset = Carguios_combustible.objects.filter(compania=user_comp)
+            queryset = Carguios_combustible.objects.filter(compania=user_comp).order_by('-fecha')
 
         return queryset
 
+@method_decorator(login_required, name='dispatch')
+class CombustibleDeleteView(DeleteView):
+    model = Carguios_combustible
+    template_name = 'combustible_delete.html'
+    success_url = reverse_lazy('combustible_list')
+
+@method_decorator(login_required, name='dispatch')
+class CombustibleDetailView(DetailView):
+    #context_object_name = "bitacora_detail"
+    model = Carguios_combustible
+    template_name = 'combustible_detalle.html'
+
+@method_decorator(login_required, name='dispatch')
+class CombustibleUpdateView(UpdateView):
+
+    # Esta clase no actualiza el kilometraje ni el hodometro, para no armar conflictos
+
+    model = Carguios_combustible
+    form_class = CombustibleForm
+    template_name = 'combustible_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CombustibleUpdateView, self).get_context_data(**kwargs)
+        if (self.request.user.username == 'admin'):
+            context['form'].fields['compania'].queryset = Compania.objects.all()
+        else:
+            user_comp = self.request.user.usuariocomp.compania.pk
+            context['form'].fields['compania'].queryset = Compania.objects.filter(pk=user_comp)
+            #print(context)
+        return context
+
+
 combustible_create = CombustibleCreateView.as_view()
 combustible_list = CombustibleListView.as_view()
+combustible_delete = CombustibleDeleteView.as_view()
+combustible_detail = CombustibleDetailView.as_view()
+combustible_update = CombustibleUpdateView.as_view()
 
 
 class IndexView(TemplateView):
@@ -453,9 +646,48 @@ class IndexView(TemplateView):
 
 index_view = IndexView.as_view()
 
-class DashboardMaquinasListView(ListView):
+class DashboardListView(ListView):
     #queryset = Book.objects.filter(publisher__name='ACME Publishing')
-    queryset = Maquina.objects.values('compania','nombre','venc_patente','hodometro','kilometraje')
+    #queryset = Maquina.objects.values('compania','nombre','venc_patente','hodometro','kilometraje')
     template_name = 'dashboard.html'
 
-dashboard_maquina_list_view = DashboardMaquinasListView.as_view()
+    def get_queryset(self):
+        if (self.request.user.username == 'admin'):
+            queryset = Maquina.objects.values('compania__nombre','nombre','venc_rev_tec',
+                                              'hodometro','kilometraje','tiene_bomba',
+                                              'hodometro_bomba').order_by('compania','nombre')
+        else:
+            user_comp = self.request.user.usuariocomp.compania.pk
+            queryset = Maquina.objects.values('compania__nombre','nombre','venc_rev_tec',
+                                              'hodometro','kilometraje','tiene_bomba',
+                                              'hodometro_bomba').filter(compania=user_comp)
+
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(DashboardListView, self).get_context_data(*args, **kwargs)
+        today = datetime.datetime.now()
+        if (self.request.user.username == 'admin'):
+            ranking_list = Bitacora.objects.filter(fecha__year=today.year).\
+                values('compania__nombre','conductor__nombre','conductor__ap_paterno').\
+                annotate(horas=Sum(F('hodometro_llegada')-F('hodometro_salida'))).order_by('compania')
+
+            mantencion_list = DetalleMantencion.objects.filter(tipo_mantencion__nombre='Preventiva').\
+                values('mantencion__maquina__nombre','division__nombre','subdivision__nombre',
+                       'servicio__nombre','hodometro_prox_man')
+
+        else:
+            user_comp = self.request.user.usuariocomp.compania.pk
+            ranking_list = Bitacora.objects.filter(fecha__year=today.year,compania=user_comp). \
+                values('compania__nombre', 'conductor__nombre', 'conductor__ap_paterno'). \
+                annotate(horas=Sum(F('hodometro_llegada') - F('hodometro_salida'))).order_by('compania')
+
+            mantencion_list = DetalleMantencion.objects.filter(tipo_mantencion__nombre='Preventiva',mantencion__compania=user_comp). \
+                values('mantencion__compania__nombre','mantencion__maquina__nombre', 'division__nombre', 'subdivision__nombre',
+                       'servicio__nombre', 'hodometro_prox_man')
+
+        context['ranking_list'] = ranking_list
+        context['mantencion_list'] = mantencion_list
+        return context
+
+dashboard_list_view = DashboardListView.as_view()
