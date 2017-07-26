@@ -691,3 +691,59 @@ class DashboardListView(ListView):
         return context
 
 dashboard_list_view = DashboardListView.as_view()
+
+class ReporteCombustibleListView(ListView):
+    #queryset = Book.objects.filter(publisher__name='ACME Publishing')
+    #queryset = Maquina.objects.values('compania','nombre','venc_patente','hodometro','kilometraje')
+    template_name = 'reporte_combustible.html'
+
+    def get_queryset(self):
+        today = datetime.datetime.now()
+        if (self.request.user.username == 'admin'):
+            maquinas = Maquina.objects.all()
+            servicios = {}
+            for maquina_obj in maquinas:
+                queryset_serv = Bitacora.objects.filter(maquina=maquina_obj,fecha__month=today.month).values('compania__nombre','maquina__nombre')
+                servicios['maquina'] = queryset_serv
+                # queryset = Maquina.objects.values('compania__nombre','nombre','venc_rev_tec',
+                #                                   'hodometro','kilometraje','tiene_bomba',
+                #                                   'hodometro_bomba').order_by('compania','nombre')
+
+            queryset = servicios
+
+        else:
+            user_comp = self.request.user.usuariocomp.compania.pk
+            queryset = Maquina.objects.filter(compania=user_comp,fecha__month=today.month)
+
+        print(queryset)
+
+        return queryset
+
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super(DashboardListView, self).get_context_data(*args, **kwargs)
+    #     today = datetime.datetime.now()
+    #     if (self.request.user.username == 'admin'):
+    #         ranking_list = Bitacora.objects.filter(fecha__year=today.year).\
+    #             values('compania__nombre','conductor__nombre','conductor__ap_paterno').\
+    #             annotate(horas=Sum(F('hodometro_llegada')-F('hodometro_salida'))).order_by('compania')
+    #
+    #         mantencion_list = DetalleMantencion.objects.filter(tipo_mantencion__nombre='Preventiva').\
+    #             values('mantencion__maquina__nombre','division__nombre','subdivision__nombre',
+    #                    'servicio__nombre','hodometro_prox_man')
+    #
+    #     else:
+    #         user_comp = self.request.user.usuariocomp.compania.pk
+    #         ranking_list = Bitacora.objects.filter(fecha__year=today.year,compania=user_comp). \
+    #             values('compania__nombre', 'conductor__nombre', 'conductor__ap_paterno'). \
+    #             annotate(horas=Sum(F('hodometro_llegada') - F('hodometro_salida'))).order_by('compania')
+    #
+    #         mantencion_list = DetalleMantencion.objects.filter(tipo_mantencion__nombre='Preventiva',mantencion__compania=user_comp). \
+    #             values('mantencion__compania__nombre','mantencion__maquina__nombre', 'division__nombre', 'subdivision__nombre',
+    #                    'servicio__nombre', 'hodometro_prox_man')
+    #
+    #     context['ranking_list'] = ranking_list
+    #     context['mantencion_list'] = mantencion_list
+    #     return context
+
+reporte_combustible_list_view = ReporteCombustibleListView.as_view()
+

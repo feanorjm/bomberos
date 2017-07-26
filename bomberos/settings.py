@@ -84,12 +84,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bomberos',
-        #'NAME': 'cmingeni_bomberos',
+        #'NAME': 'cmingenieria$qasbomberos',
         'USER': 'root',
-        #'USER': 'cmingeni_uqaserp',
+        #'USER': 'cmingenieria',
         'PASSWORD': '',
         #'PASSWORD': '4ctGZ)Ni4@=N',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'HOST': 'localhost',
+        #'HOST': 'cmingenieria.mysql.pythonanywhere-services.com',
         'PORT': '3306',
         'OPTIONS': {
                     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",

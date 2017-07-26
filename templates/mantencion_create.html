@@ -361,7 +361,7 @@
                 success:function(data){
                     console.log(data);
                     //-->NECESARIO $("#id_detalle_mantencion").val(data['pk']);
-                    $('#id_repuesto').each(function () {
+                    $('input[name="repuesto"]').each(function () {
                         var valuerep = $(this).html();
                         console.log(valuerep);
                         var datos_repuesto = datos_detalle+"&detalle_mantencion="+data['pk']+"&repuesto="+valuerep;
@@ -397,11 +397,15 @@
                     cont++;
 
                 });
+                var division_text = $("#id_division option:selected").text();
+                var subdivision_text = $("#id_subdivision option:selected").text();
+                var servicio_text = $("#id_servicio option:selected").text();
+                var tipo_mantencion_text = $("#id_tipo_mantencion option:selected").text();
                 if (prox_man === ""){
-                    $("#tabla_detalle").append("<tr><td>"+division+"</td><td>"+subdivision+"</td><td>"+servicio+"</td><td>"+tipo_mantencion+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td></td></tr>");
+                    $("#tabla_detalle").append("<tr><td>"+division_text+"</td><td>"+subdivision_text+"</td><td>"+servicio_text+"</td><td>"+tipo_mantencion_text+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td></td></tr>");
                 }
                 else{
-                    $("#tabla_detalle").append("<tr><td>"+division+"</td><td>"+subdivision+"</td><td>"+servicio+"</td><td>"+tipo_mantencion+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td>"+prox_man+" km</td></tr>");
+                    $("#tabla_detalle").append("<tr><td>"+division_text+"</td><td>"+subdivision_text+"</td><td>"+servicio_text+"</td><td>"+tipo_mantencion_text+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td>"+prox_man+" km</td></tr>");
                 }
                 $("#id_division").val("");
                 $("#id_subdivision").val("");
