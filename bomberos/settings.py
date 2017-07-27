@@ -26,7 +26,7 @@ SECRET_KEY = 'b(^xu%e8o!3cvayama63fvqho9&f8dkde-e6mbo$$xw!9p-w8+'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-#ALLOWED_HOSTS = ['cmingenieria.cl',]
+#ALLOWED_HOSTS = ['cbo.cmingenieria.cl',]
 
 
 # Application definition
@@ -151,9 +151,11 @@ USE_THOUSAND_SEPARATOR = True
 STATIC_URL = '/static/'
 #STATIC_ROOT = ''
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-#STATIC_ROOT = '/home/cmingeni/proyecto_bomberos/bomberos/static/'
 
+#esto descomentarlo en pythonanywhere
+#STATIC_ROOT = '/home/cmingenieria/proyecto_bomberos/bomberos/static/'
+
+#esto comentarlo en pythonanywhere
 STATICFILES_DIRS = (
-    #'/home/cmingeni/proyecto_bomberos/bomberos/static/',
     os.path.join(BASE_DIR, 'static/'),
 )

@@ -37,7 +37,7 @@ class BitacoraList(ListView):
 
     def get_queryset(self):
         today = datetime.datetime.now()
-        if (self.request.user.username == 'admin'):
+        if (self.request.user.usuariocomp.tipo in ('2','3')):
             queryset = Bitacora.objects.filter(fecha__month=today.month).order_by('-fecha')
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
@@ -62,7 +62,7 @@ class BitacoraList(ListView):
             clave_obj = Clave.objects.get(pk=clave)
             datos_list = {'fecha_ini':fecha_ini, 'fecha_fin':fecha_fin,'clave':clave_obj.pk}
 
-            if (self.request.user.username == 'admin'):
+            if (self.request.user.usuariocomp.tipo in ('2','3')):
                 servicios = Bitacora.objects.filter(fecha__range=(fecha_ini,fecha_fin),clave=clave_obj).order_by('-fecha')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
@@ -70,7 +70,7 @@ class BitacoraList(ListView):
 
         elif (fecha_ini != '' and fecha_fin != ''):
             datos_list = {'fecha_ini':fecha_ini, 'fecha_fin':fecha_fin}
-            if (self.request.user.username == 'admin'):
+            if (self.request.user.usuariocomp.tipo in ('2','3')):
                 servicios = Bitacora.objects.filter(fecha__range=(fecha_ini,fecha_fin)).order_by('-fecha')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
@@ -80,14 +80,14 @@ class BitacoraList(ListView):
             clave_obj = Clave.objects.get(pk=clave)
             datos_list = {'clave':clave_obj.pk}
 
-            if (self.request.user.username == 'admin'):
+            if (self.request.user.usuariocomp.tipo in ('2','3')):
                 servicios = Bitacora.objects.filter(clave=clave_obj).order_by('-fecha')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
                 servicios = Bitacora.objects.filter(compania=user_comp,clave=clave_obj).order_by('-fecha')
 
         else:
-            if (self.request.user.username == 'admin'):
+            if (self.request.user.usuariocomp.tipo in ('2','3')):
                 servicios = Bitacora.objects.filter(fecha__month=today.month).order_by('-fecha')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
@@ -114,7 +114,7 @@ class BitacoraCreateView(CreateView):
         #context['username'] = self.request.user.username
         context['form'].fields['clave'].queryset = Clave.objects.exclude(nombre='6--14')
 
-        if (self.request.user.username == 'admin'):
+        if (self.request.user.usuariocomp.tipo in ('2','3')):
             context['form'].fields['compania'].queryset = Compania.objects.all()
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
@@ -151,7 +151,7 @@ class BitacoraUpdateView(UpdateView):
         #context['username'] = self.request.user.username
         context['form'].fields['clave'].queryset = Clave.objects.exclude(nombre='6--14')
 
-        if (self.request.user.username == 'admin'):
+        if (self.request.user.usuariocomp.tipo in ('2','3')):
             context['form'].fields['compania'].queryset = Compania.objects.all()
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
@@ -218,7 +218,7 @@ class MantencionCreateView(TemplateView):
         context = self.get_context_data(**kwargs)
         context['form'] = form
         context['form2'] = form2
-        if (self.request.user.username == 'admin'):
+        if (self.request.user.usuariocomp.tipo in ('2','3')):
             context['form'].fields['compania'].queryset = Compania.objects.all()
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
@@ -329,7 +329,7 @@ class MantencionListView(ListView):
     template_name = 'mantencion_list.html'
 
     def get_queryset(self):
-        if (self.request.user.username == 'admin'):
+        if (self.request.user.usuariocomp.tipo in ('2','3')):
             queryset = Mantencion.objects.all().order_by('-fecha')
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
@@ -347,7 +347,7 @@ class MantencionListView(ListView):
         if (fecha_ini != '' and fecha_fin != ''):
             datos_list = {'fecha_ini':fecha_ini, 'fecha_fin':fecha_fin}
 
-            if (self.request.user.username == 'admin'):
+            if (self.request.user.usuariocomp.tipo in ('2','3')):
                 mantenciones = Mantencion.objects.filter(fecha__range=(fecha_ini,fecha_fin)).order_by('-fecha')
 
             else:
@@ -355,7 +355,7 @@ class MantencionListView(ListView):
                 mantenciones = Mantencion.objects.filter(compania=user_comp,fecha__range=(fecha_ini,fecha_fin)).order_by('-fecha')
 
         else:
-            if (self.request.user.username == 'admin'):
+            if (self.request.user.usuariocomp.tipo in ('2','3')):
                 mantenciones = Mantencion.objects.all().order_by('-fecha')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
@@ -476,7 +476,7 @@ class ConductorListView(ListView):
 
     def get_queryset(self):
         today = datetime.datetime.now()
-        if (self.request.user.username == 'admin'):
+        if (self.request.user.usuariocomp.tipo in ('2','3')):
             queryset = Conductor.objects.all().order_by('compania','nombre')
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
@@ -497,7 +497,7 @@ class ConductorListView(ListView):
         if (compania != ''):
             compania_obj = Compania.objects.get(pk=compania)
             datos_list = {'compania':compania_obj.pk}
-            if (self.request.user.username == 'admin'):
+            if (self.request.user.usuariocomp.tipo in ('2','3')):
                 conductores = Conductor.objects.filter(compania=compania_obj).order_by('compania','nombre')
 
             else:
@@ -505,7 +505,7 @@ class ConductorListView(ListView):
                 conductores = Conductor.objects.filter(compania=user_comp).order_by('compania','nombre')
 
         else:
-            if (self.request.user.username == 'admin'):
+            if (self.request.user.usuariocomp.tipo in ('2','3')):
                 conductores = Conductor.objects.all().order_by('compania','nombre')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
@@ -542,7 +542,7 @@ class CombustibleCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CombustibleCreateView, self).get_context_data(**kwargs)
-        if (self.request.user.username == 'admin'):
+        if (self.request.user.usuariocomp.tipo in ('2','3')):
             context['form'].fields['compania'].queryset = Compania.objects.all()
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
@@ -594,7 +594,7 @@ class CombustibleListView(ListView):
     template_name = 'combustible_list.html'
 
     def get_queryset(self):
-        if (self.request.user.username == 'admin'):
+        if (self.request.user.usuariocomp.tipo in ('2','3')):
             queryset = Carguios_combustible.objects.all().order_by('fecha')
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
@@ -625,7 +625,7 @@ class CombustibleUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(CombustibleUpdateView, self).get_context_data(**kwargs)
-        if (self.request.user.username == 'admin'):
+        if (self.request.user.usuariocomp.tipo in ('2','3')):
             context['form'].fields['compania'].queryset = Compania.objects.all()
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
@@ -652,7 +652,7 @@ class DashboardListView(ListView):
     template_name = 'dashboard.html'
 
     def get_queryset(self):
-        if (self.request.user.username == 'admin'):
+        if (self.request.user.usuariocomp.tipo in ('2','3')):
             queryset = Maquina.objects.values('compania__nombre','nombre','venc_rev_tec',
                                               'hodometro','kilometraje','tiene_bomba',
                                               'hodometro_bomba').order_by('compania','nombre')
@@ -667,7 +667,7 @@ class DashboardListView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(DashboardListView, self).get_context_data(*args, **kwargs)
         today = datetime.datetime.now()
-        if (self.request.user.username == 'admin'):
+        if (self.request.user.usuariocomp.tipo in ('2','3')):
             ranking_list = Bitacora.objects.filter(fecha__year=today.year).\
                 values('compania__nombre','conductor__nombre','conductor__ap_paterno').\
                 annotate(horas=Sum(F('hodometro_llegada')-F('hodometro_salida'))).order_by('compania')
@@ -699,7 +699,7 @@ class ReporteCombustibleListView(ListView):
 
     def get_queryset(self):
         today = datetime.datetime.now()
-        if (self.request.user.username == 'admin'):
+        if (self.request.user.usuariocomp.tipo in ('2','3')):
             maquinas = Maquina.objects.all()
             servicios = {}
             for maquina_obj in maquinas:
@@ -722,7 +722,7 @@ class ReporteCombustibleListView(ListView):
     # def get_context_data(self, *args, **kwargs):
     #     context = super(DashboardListView, self).get_context_data(*args, **kwargs)
     #     today = datetime.datetime.now()
-    #     if (self.request.user.username == 'admin'):
+    #     if (self.request.user.usuariocomp.tipo in ('2','3')):
     #         ranking_list = Bitacora.objects.filter(fecha__year=today.year).\
     #             values('compania__nombre','conductor__nombre','conductor__ap_paterno').\
     #             annotate(horas=Sum(F('hodometro_llegada')-F('hodometro_salida'))).order_by('compania')
