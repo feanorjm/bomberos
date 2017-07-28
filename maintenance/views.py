@@ -725,61 +725,67 @@ class ReporteCombustibleListView(ListView):
         user_comp = self.request.user.usuariocomp.compania.pk
         compania_obj = Compania.objects.get(pk=user_comp)
         maquina_default = Maquina.objects.filter(compania=compania_obj).order_by('id')[:1]
-        carga_mes_anterior = Carguios_combustible.objects.filter(maquina=maquina_default,fecha__month=today.month -1).latest('fecha')
+        carga_mes_anterior = Carguios_combustible.objects.filter(maquina=maquina_default,fecha__month=today.month -1)
         cargas = Carguios_combustible.objects.filter(maquina=maquina_default,fecha__month=today.month).order_by('fecha')
 
-        total_cargas = len(cargas)
-        list_object = []
-        for i in range(len(cargas)):
-            if i == 0:
-                carga_anterior = carga_mes_anterior
-                carga_actual = cargas[i]
-            else:
-                carga_anterior = cargas[i-1]
-                carga_actual = cargas[i]
+        if (len(carga_mes_anterior) > 0 and len(cargas) > 0):
+            carga_mes_anterior = carga_mes_anterior.latest('fecha')
 
-            fecha_dia = carga_actual.fecha.day
+            total_cargas = len(cargas)
+            list_object = []
+            for i in range(len(cargas)):
+                if i == 0:
+                    carga_anterior = carga_mes_anterior
+                    carga_actual = cargas[i]
+                else:
+                    carga_anterior = cargas[i-1]
+                    carga_actual = cargas[i]
 
-            kilometraje_anterior = carga_anterior.km_salida
-            kilometraje_actual = carga_actual.km_salida
-            kilometraje_diferencia = kilometraje_actual - kilometraje_anterior
+                fecha_dia = carga_actual.fecha.day
 
-            litros_cargados = carga_anterior.litros
+                kilometraje_anterior = carga_anterior.km_salida
+                kilometraje_actual = carga_actual.km_salida
+                kilometraje_diferencia = kilometraje_actual - kilometraje_anterior
 
-            hodometro_bomba_anterior = carga_anterior.ho_bomba_salida
-            hodometro_bomba_actual = carga_actual.ho_bomba_salida
-            hodometro_diferencia = hodometro_bomba_actual - hodometro_bomba_anterior
+                litros_cargados = carga_anterior.litros
 
-            hodometro_motor_anterior = carga_anterior.hm_salida
-            hodometro_motor_actual = carga_actual.hm_salida
-            hodometro_motor_diferencia = hodometro_motor_actual - hodometro_motor_anterior
+                hodometro_bomba_anterior = carga_anterior.ho_bomba_salida
+                hodometro_bomba_actual = carga_actual.ho_bomba_salida
+                hodometro_diferencia = hodometro_bomba_actual - hodometro_bomba_anterior
 
-            factor = (hodometro_bomba_actual - hodometro_bomba_anterior)*10
+                hodometro_motor_anterior = carga_anterior.hm_salida
+                hodometro_motor_actual = carga_actual.hm_salida
+                hodometro_motor_diferencia = hodometro_motor_actual - hodometro_motor_anterior
 
-            litros_motor = litros_cargados - factor
-            litros_consumo = litros_motor + factor
+                factor = (hodometro_bomba_actual - hodometro_bomba_anterior)*10
 
-            rendimiento = round((kilometraje_actual - kilometraje_anterior)/litros_motor,1)
+                litros_motor = litros_cargados - factor
+                litros_consumo = litros_motor + factor
+
+                rendimiento = round((kilometraje_actual - kilometraje_anterior)/litros_motor,1)
 
 
-            list_query = {'num':i+1,
-                          'fecha_dia':fecha_dia,
-                          'km_anterior':kilometraje_anterior,
-                          'km_actual': kilometraje_actual,
-                          'km_dif': kilometraje_diferencia,
-                          'litros_cargados': litros_cargados,
-                          'bomba_anterior':hodometro_bomba_anterior,
-                          'bomba_actual':hodometro_bomba_actual,
-                          'bomba_dif':hodometro_diferencia,
-                          'motor_anterior': hodometro_motor_anterior,
-                          'motor_actual':hodometro_motor_actual,
-                          'motor_dif':hodometro_motor_diferencia,
-                          'factor':factor,
-                          'litros_motor':litros_motor,
-                          'rendimiento': rendimiento
-                          }
+                list_query = {'num':i+1,
+                              'fecha_dia':fecha_dia,
+                              'km_anterior':kilometraje_anterior,
+                              'km_actual': kilometraje_actual,
+                              'km_dif': kilometraje_diferencia,
+                              'litros_cargados': litros_cargados,
+                              'bomba_anterior':hodometro_bomba_anterior,
+                              'bomba_actual':hodometro_bomba_actual,
+                              'bomba_dif':hodometro_diferencia,
+                              'motor_anterior': hodometro_motor_anterior,
+                              'motor_actual':hodometro_motor_actual,
+                              'motor_dif':hodometro_motor_diferencia,
+                              'factor':factor,
+                              'litros_motor':litros_motor,
+                              'rendimiento': rendimiento
+                              }
 
-            list_object.append(list_query)
+                list_object.append(list_query)
+
+        else:
+            list_object = []
 
 
         queryset = list_object
