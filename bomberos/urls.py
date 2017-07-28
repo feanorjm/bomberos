@@ -29,6 +29,7 @@ urlpatterns = [
     #url(r'^mantencion/add_repuesto/$', mantencion_add_repuesto, name='mantencion_add_repuesto'),
     url(r'^mantenciones/$', mantencion_list, name='mantencion_list'),
     url(r'^mantencion/detalle/(?P<pk>\d+)$', mantencion_detail, name='mantencion_detail'),
+    url(r'^mantencion/eliminar/(?P<pk>\d+)$', mantencion_delete, name='mantencion_delete'),
     #MAQUINA
     url(r'^maquina/detalle/(?P<pk>\d+)$', maquina_detail, name='maquina_detail'),
     url(r'^maquinas/$', maquina_list, name='maquina_list'),

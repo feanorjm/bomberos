@@ -387,8 +387,14 @@ class MantencionDetailView(DetailView):
         context['repuesto_detalle_mantencion_list'] = repuesto_detalle_mantencion_list
         return context
 
+class MantencionDeleteView(DeleteView):
+    model = Mantencion
+    template_name = 'mantencion_delete.html'
+    success_url = reverse_lazy('mantencion_list')
+
 mantencion_list = MantencionListView.as_view()
 mantencion_detail = MantencionDetailView.as_view()
+mantencion_delete = MantencionDeleteView.as_view()
 
 #CRUD PARA MAQUINAS
 

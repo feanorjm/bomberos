@@ -16,10 +16,12 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Conductores </h2>
+                    {% if perms.maintenance.add_conductor %}
                       <ul class=" nav navbar-right panel_toolbox">
                         <li><button type=button onclick="location.href='{% url 'conductor_create' %}';" class="btn btn-success">Nuevo Conductor</button>
                         </li>
                       </ul>
+                    {% endif %}
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
