@@ -16,10 +16,14 @@
                   <div class="x_title">
                     <h2>Detalle Máquina</h2>
                       <ul class=" nav navbar-right panel_toolbox">
+                      {% if perms.maintenance.change_maquina %}
                         <li><button type="button" onclick="location.href='{% url 'maquina_update' pk=object.id %}';" class="btn btn-primary" >Editar</button>
                         </li>
+                      {% endif %}
+                        {% if perms.maintenance.delete_maquina %}
                           <li><button type="button" onclick="location.href='{% url 'maquina_delete' pk=object.id %}';" class="btn btn-danger">Eliminar</button>
                         </li>
+                        {% endif %}
                       </ul>
                     <div class="clearfix"></div>
                   </div>

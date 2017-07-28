@@ -56,6 +56,14 @@
                                   <th>Km regreso:</th>
                                   <td>{{ object.km_regreso|default_if_none:"--" }}</td>
                                 </tr>
+                                <tr>
+                                  <th>Hm Salida:</th>
+                                  <td>{{ object.hm_salida|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Hm Regreso:</th>
+                                  <td>{{ object.hm_regreso|default_if_none:"--" }}</td>
+                                </tr>
                                 
                               </tbody>
                             </table>
@@ -65,13 +73,13 @@
                           <div class="table-responsive">
                             <table class="table table-bordered">
                               <tbody>
-                              <tr>
-                                  <th>Hm Salida:</th>
-                                  <td>{{ object.hm_salida|default_if_none:"--" }}</td>
+                                <tr>
+                                  <th>Hm Bomba Salida:</th>
+                                  <td>{{ object.ho_bomba_salida|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Hm Regreso:</th>
-                                  <td>{{ object.hm_regreso|default_if_none:"--" }}</td>
+                                  <th>Hm Bomba Regreso:</th>
+                                  <td>{{ object.ho_bomba_regreso|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Valor:</th>

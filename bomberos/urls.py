@@ -54,7 +54,7 @@ urlpatterns = [
     url(r'^dashboard/$', dashboard_list_view, name='dashboard_list_view'),
 
     #REPORTES
-    url(r'^reporte1/$', reporte_combustible_list_view, name='reporte_combustible_list_view'),
+    url(r'^reporte/parte-combustible$', reporte_combustible_list_view, name='reporte_combustible_list_view'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -401,8 +401,18 @@ class MaquinaDetailView(DetailView):
 
 @method_decorator(login_required, name='dispatch')
 class MaquinaListView(ListView):
-    model = Maquina
+    #model = Maquina
     template_name = 'maquina_list.html'
+
+    def get_queryset(self):
+        today = datetime.datetime.now()
+        if (self.request.user.usuariocomp.tipo in ('2','3')):
+            queryset = Maquina.objects.all().order_by('compania')
+        else:
+            user_comp = self.request.user.usuariocomp.compania.pk
+            queryset = Maquina.objects.filter(compania=user_comp).order_by('compania')
+
+        return queryset
 
 
 @method_decorator(login_required, name='dispatch')
@@ -487,12 +497,20 @@ class ConductorListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ConductorListView, self).get_context_data(**kwargs)
         companias_list = Compania.objects.all()
+        if (self.request.user.usuariocomp.tipo not in ('2', '3')):
+            user_comp = self.request.user.usuariocomp.compania.pk
+            compania_obj = Compania.objects.get(pk=user_comp)
+            companias_list = {compania_obj, }
+
         context['companias_list'] = companias_list
         return context
 
     def post(self, request, *args, **kwargs):
         compania = self.request.POST.get('compania')
         datos_list = {}
+        context = {}
+
+        companias_list = Compania.objects.all()
 
         if (compania != ''):
             compania_obj = Compania.objects.get(pk=compania)
@@ -500,9 +518,11 @@ class ConductorListView(ListView):
             if (self.request.user.usuariocomp.tipo in ('2','3')):
                 conductores = Conductor.objects.filter(compania=compania_obj).order_by('compania','nombre')
 
+
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
                 conductores = Conductor.objects.filter(compania=user_comp).order_by('compania','nombre')
+                companias_list = {compania_obj,}
 
         else:
             if (self.request.user.usuariocomp.tipo in ('2','3')):
@@ -510,9 +530,8 @@ class ConductorListView(ListView):
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
                 conductores = Conductor.objects.filter(compania=user_comp).order_by('compania','nombre')
+                companias_list = {compania_obj, }
 
-        context = {}
-        companias_list = Compania.objects.all()
         context['companias_list'] = companias_list
         context['object_list'] = conductores
         context['datos_list'] = datos_list
@@ -559,6 +578,8 @@ class CombustibleCreateView(CreateView):
         hm_salidaform  = form.cleaned_data['hm_salida']
         km_regresoform  = form.cleaned_data['km_regreso']
         hm_regresoform  = form.cleaned_data['hm_regreso']
+        hm_bomba_salidaform = form.cleaned_data['ho_bomba_salida']
+        hm_bomba_regresoform = form.cleaned_data['ho_bomba_regreso']
         valorform  = form.cleaned_data['valor']
         #conductorform  = form.cleaned_data['conductor']
         obacform  = form.cleaned_data['obac']
@@ -570,6 +591,7 @@ class CombustibleCreateView(CreateView):
         maquina = Maquina.objects.get(pk=maquina_id)
         maquina.kilometraje = km_regresoform
         maquina.hodometro = hm_regresoform
+        maquina.hodometro_bomba = hm_bomba_regresoform
         maquina.save()
 
         # Creamos un nuevo servicio
@@ -583,6 +605,7 @@ class CombustibleCreateView(CreateView):
                             fecha=fechaform,hora_salida='00:00',hora_llegada='00:00',clave=clave_obj,
                             kilometraje_salida=km_salidaform,kilometraje_llegada=km_regresoform,
                             hodometro_salida=hm_salidaform,hodometro_llegada=hm_regresoform,
+                            ho_bomba_salida=hm_bomba_salidaform,ho_bomba_regreso=hm_bomba_regresoform,
                             observciones='Carga combustible de '+ str(litrosform) +' litros, valor: $'+str(valorform)+', obac: '+obacform+', boucher TCT: '+str(tarjeta_tctform))
         servicio.save()
 
@@ -699,51 +722,167 @@ class ReporteCombustibleListView(ListView):
 
     def get_queryset(self):
         today = datetime.datetime.now()
-        if (self.request.user.usuariocomp.tipo in ('2','3')):
-            maquinas = Maquina.objects.all()
-            servicios = {}
-            for maquina_obj in maquinas:
-                queryset_serv = Bitacora.objects.filter(maquina=maquina_obj,fecha__month=today.month).values('compania__nombre','maquina__nombre')
-                servicios['maquina'] = queryset_serv
-                # queryset = Maquina.objects.values('compania__nombre','nombre','venc_rev_tec',
-                #                                   'hodometro','kilometraje','tiene_bomba',
-                #                                   'hodometro_bomba').order_by('compania','nombre')
+        user_comp = self.request.user.usuariocomp.compania.pk
+        compania_obj = Compania.objects.get(pk=user_comp)
+        maquina_default = Maquina.objects.filter(compania=compania_obj).order_by('id')[:1]
+        carga_mes_anterior = Carguios_combustible.objects.filter(maquina=maquina_default,fecha__month=today.month -1).latest('fecha')
+        cargas = Carguios_combustible.objects.filter(maquina=maquina_default,fecha__month=today.month).order_by('fecha')
 
-            queryset = servicios
+        total_cargas = len(cargas)
+        list_object = []
+        for i in range(len(cargas)):
+            if i == 0:
+                carga_anterior = carga_mes_anterior
+                carga_actual = cargas[i]
+            else:
+                carga_anterior = cargas[i-1]
+                carga_actual = cargas[i]
 
-        else:
-            user_comp = self.request.user.usuariocomp.compania.pk
-            queryset = Maquina.objects.filter(compania=user_comp,fecha__month=today.month)
+            fecha_dia = carga_actual.fecha.day
 
-        print(queryset)
+            kilometraje_anterior = carga_anterior.km_salida
+            kilometraje_actual = carga_actual.km_salida
+            kilometraje_diferencia = kilometraje_actual - kilometraje_anterior
+
+            litros_cargados = carga_anterior.litros
+
+            hodometro_bomba_anterior = carga_anterior.ho_bomba_salida
+            hodometro_bomba_actual = carga_actual.ho_bomba_salida
+            hodometro_diferencia = hodometro_bomba_actual - hodometro_bomba_anterior
+
+            hodometro_motor_anterior = carga_anterior.hm_salida
+            hodometro_motor_actual = carga_actual.hm_salida
+            hodometro_motor_diferencia = hodometro_motor_actual - hodometro_motor_anterior
+
+            factor = (hodometro_bomba_actual - hodometro_bomba_anterior)*10
+
+            litros_motor = litros_cargados - factor
+            litros_consumo = litros_motor + factor
+
+            rendimiento = round((kilometraje_actual - kilometraje_anterior)/litros_motor,1)
+
+
+            list_query = {'num':i+1,
+                          'fecha_dia':fecha_dia,
+                          'km_anterior':kilometraje_anterior,
+                          'km_actual': kilometraje_actual,
+                          'km_dif': kilometraje_diferencia,
+                          'litros_cargados': litros_cargados,
+                          'bomba_anterior':hodometro_bomba_anterior,
+                          'bomba_actual':hodometro_bomba_actual,
+                          'bomba_dif':hodometro_diferencia,
+                          'motor_anterior': hodometro_motor_anterior,
+                          'motor_actual':hodometro_motor_actual,
+                          'motor_dif':hodometro_motor_diferencia,
+                          'factor':factor,
+                          'litros_motor':litros_motor,
+                          'rendimiento': rendimiento
+                          }
+
+            list_object.append(list_query)
+
+
+        queryset = list_object
 
         return queryset
 
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super(DashboardListView, self).get_context_data(*args, **kwargs)
-    #     today = datetime.datetime.now()
-    #     if (self.request.user.usuariocomp.tipo in ('2','3')):
-    #         ranking_list = Bitacora.objects.filter(fecha__year=today.year).\
-    #             values('compania__nombre','conductor__nombre','conductor__ap_paterno').\
-    #             annotate(horas=Sum(F('hodometro_llegada')-F('hodometro_salida'))).order_by('compania')
-    #
-    #         mantencion_list = DetalleMantencion.objects.filter(tipo_mantencion__nombre='Preventiva').\
-    #             values('mantencion__maquina__nombre','division__nombre','subdivision__nombre',
-    #                    'servicio__nombre','hodometro_prox_man')
-    #
-    #     else:
-    #         user_comp = self.request.user.usuariocomp.compania.pk
-    #         ranking_list = Bitacora.objects.filter(fecha__year=today.year,compania=user_comp). \
-    #             values('compania__nombre', 'conductor__nombre', 'conductor__ap_paterno'). \
-    #             annotate(horas=Sum(F('hodometro_llegada') - F('hodometro_salida'))).order_by('compania')
-    #
-    #         mantencion_list = DetalleMantencion.objects.filter(tipo_mantencion__nombre='Preventiva',mantencion__compania=user_comp). \
-    #             values('mantencion__compania__nombre','mantencion__maquina__nombre', 'division__nombre', 'subdivision__nombre',
-    #                    'servicio__nombre', 'hodometro_prox_man')
-    #
-    #     context['ranking_list'] = ranking_list
-    #     context['mantencion_list'] = mantencion_list
-    #     return context
+
+    def get_context_data(self, **kwargs):
+        context = super(ReporteCombustibleListView, self).get_context_data(**kwargs)
+        today = datetime.datetime.now()
+        user_comp = self.request.user.usuariocomp.compania.pk
+        compania_obj = Compania.objects.get(pk=user_comp)
+        maquinas_list = Maquina.objects.filter(compania=compania_obj).order_by('id')
+        context['maquinas_list'] = maquinas_list
+        return context
+
+    def post(self, request, *args, **kwargs):
+        today = datetime.datetime.now()
+        maquina_id = self.request.POST.get('maquina')
+        datos_list = {}
+
+        if (maquina_id != ''):
+            user_comp = self.request.user.usuariocomp.compania.pk
+            compania_obj = Compania.objects.get(pk=user_comp)
+            maquina_obj = Maquina.objects.get(pk=maquina_id)
+            maquinas_list = Maquina.objects.filter(compania=compania_obj).order_by('id')
+            datos_list = {'maquina':maquina_obj.pk}
+
+
+            maquina_default = maquina_obj
+            carga_mes_anterior = Carguios_combustible.objects.filter(maquina=maquina_default,
+                                                                     fecha__month=today.month - 1)
+            cargas = Carguios_combustible.objects.filter(maquina=maquina_default, fecha__month=today.month).order_by(
+                'fecha')
+
+            if (len(carga_mes_anterior) > 0 and len(cargas) > 0):
+                carga_mes_anterior = carga_mes_anterior.latest('fecha')
+
+                total_cargas = len(cargas)
+                list_object = []
+                for i in range(len(cargas)):
+                    if i == 0:
+                        carga_anterior = carga_mes_anterior
+                        carga_actual = cargas[i]
+                    else:
+                        carga_anterior = cargas[i - 1]
+                        carga_actual = cargas[i]
+
+                    fecha_dia = carga_actual.fecha.day
+
+                    kilometraje_anterior = carga_anterior.km_salida
+                    kilometraje_actual = carga_actual.km_salida
+                    kilometraje_diferencia = kilometraje_actual - kilometraje_anterior
+
+                    litros_cargados = carga_anterior.litros
+
+                    hodometro_bomba_anterior = carga_anterior.ho_bomba_salida
+                    hodometro_bomba_actual = carga_actual.ho_bomba_salida
+                    hodometro_diferencia = hodometro_bomba_actual - hodometro_bomba_anterior
+
+                    hodometro_motor_anterior = carga_anterior.hm_salida
+                    hodometro_motor_actual = carga_actual.hm_salida
+                    hodometro_motor_diferencia = hodometro_motor_actual - hodometro_motor_anterior
+
+                    factor = (hodometro_bomba_actual - hodometro_bomba_anterior) * 10
+
+                    litros_motor = litros_cargados - factor
+                    litros_consumo = litros_motor + factor
+
+                    rendimiento = round((kilometraje_actual - kilometraje_anterior) / litros_motor, 1)
+
+                    list_query = {'num': i + 1,
+                                  'fecha_dia': fecha_dia,
+                                  'km_anterior': kilometraje_anterior,
+                                  'km_actual': kilometraje_actual,
+                                  'km_dif': kilometraje_diferencia,
+                                  'litros_cargados': litros_cargados,
+                                  'bomba_anterior': hodometro_bomba_anterior,
+                                  'bomba_actual': hodometro_bomba_actual,
+                                  'bomba_dif': hodometro_diferencia,
+                                  'motor_anterior': hodometro_motor_anterior,
+                                  'motor_actual': hodometro_motor_actual,
+                                  'motor_dif': hodometro_motor_diferencia,
+                                  'factor': factor,
+                                  'litros_motor': litros_motor,
+                                  'rendimiento': rendimiento
+                                  }
+
+                    list_object.append(list_query)
+
+            else:
+                list_object = []
+                datos_list = {'mensaje': 'No exiten datos para la Máquina solicitada'}
+
+
+        context = {}
+        context['maquinas_list'] = maquinas_list
+        print(context)
+        context['object_list'] = list_object
+        context['datos_list'] = datos_list
+
+
+        return render(request,self.template_name,context=context)
 
 reporte_combustible_list_view = ReporteCombustibleListView.as_view()
 

@@ -16,10 +16,12 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Máquinas </h2>
+                    {% if perms.maintenance.add_maquina %}
                       <ul class=" nav navbar-right panel_toolbox">
                         <li><button type=button onclick="location.href='{% url 'maquina_create' %}';" class="btn btn-success">Nueva máquina</button>
                         </li>
                       </ul>
+                    {% endif %}
                     <div class="clearfix"></div>
                   </div>
                     <div class="x_content">
@@ -115,7 +117,8 @@
 
         $(document).ready(function() {
             $('#datatable-responsive').DataTable({
-              "iDisplayLength": 30
+              "iDisplayLength": 30,
+              "searching": false,
             });
         });
     </script>

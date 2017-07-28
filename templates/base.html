@@ -102,16 +102,26 @@
                       <ul class="nav child_menu">
                         <li><a href="{% url 'mantencion_list' %}">Mantenciones</a>
                         </li>
+                        {% if perms.maintenance.add_division %}
                         <li><a href="{% url 'admin:maintenance_division_add' %}">Agregar Divisiones</a>
                         </li>
+                        {% endif %}
+                        {% if perms.maintenance.add_subdivision %}
                         <li><a href="{% url 'admin:maintenance_subdivision_add' %}">Agregar SubDivisiones</a>
                         </li>
+                        {% endif %}
+                        {% if perms.maintenance.add_serviciomantencion %}
                         <li><a href="{% url 'admin:maintenance_serviciomantencion_add' %}">Agregar Servicios</a>
                         </li>
+                        {% endif %}
+                        {% if perms.maintenance.add_taller %}
                         <li><a href="{% url 'admin:maintenance_taller_add' %}">Agregar Talleres</a>
                         </li>
+                        {% endif %}
+                        {% if perms.maintenance.add_servicentro %}
                         <li><a href="{% url 'admin:maintenance_servicentro_add' %}">Agregar Servicentros</a>
                         </li>
+                        {% endif %}
                       </ul>
                     </li>
                   {% endif %}
@@ -120,8 +130,10 @@
                       <ul class="nav child_menu">
                         <li><a href="{% url 'maquina_list' %}">Máquinas</a>
                         </li>
+                        {% if perms.maintenance.add_clasificacion_maquina %}
                         <li><a href="{% url 'admin:maintenance_clasificacion_maquina_add' %}">Agregar tipos de máquinas</a>
                         </li>
+                        {% endif %}
                         <li><a href="{% url 'conductor_list' %}">Conductores</a>
                         </li>
                         <!--li><a href="">Form Validation</a>
@@ -132,7 +144,7 @@
                   {% if user.usuariocomp.tipo != "1" %}
                     <li><a><i class="fa fa-area-chart"></i> Reportes <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                        <li><a href="#">Reporte 1</a>
+                        <li><a href="{% url 'reporte_combustible_list_view' %}">Parte de Combustible</a>
                         </li>
                         <li><a href="#">Reporte 2</a>
                         </li>

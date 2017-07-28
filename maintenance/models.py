@@ -139,6 +139,8 @@ class Carguios_combustible(models.Model):
     hm_salida = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     km_regreso = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     hm_regreso = models.DecimalField(decimal_places=1,max_digits=10, null=True)
+    ho_bomba_salida = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
+    ho_bomba_regreso = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
     valor = models.IntegerField()
     tarjeta_tct = models.IntegerField()
     conductor = ChainedForeignKey(Conductor, chained_field="maquina", chained_model_field="maquina", null=True,
@@ -238,7 +240,7 @@ class Clave(models.Model):
 class Bitacora(models.Model):
     compania = models.ForeignKey(Compania)
     maquina = ChainedForeignKey(Maquina,chained_field="compania",chained_model_field="compania", related_name='%(class)s_requests_created')
-    conductor = ChainedForeignKey(Conductor,chained_field="maquina",chained_model_field="maquina" , null=True, blank=True)
+    conductor = ChainedForeignKey(Conductor,chained_field="maquina",chained_model_field="maquina" , null=True)
     direccion = models.CharField(max_length=100,null=True)
     fecha = models.DateField(auto_now=False, auto_now_add=False,null=True)
     hora_salida = models.TimeField(null=True)

@@ -149,7 +149,8 @@ class ConductorForm(forms.ModelForm):
 class CombustibleForm(forms.ModelForm):
     class Meta:
         model = Carguios_combustible
-        fields = ['compania','maquina','litros','servicentro','km_salida','km_regreso','hm_salida','hm_regreso','valor','conductor','obac','fecha','tarjeta_tct']
+        fields = ['compania','maquina','litros','servicentro','km_salida','km_regreso','hm_salida','hm_regreso',
+                  'ho_bomba_salida','ho_bomba_regreso','valor','conductor','obac','fecha','tarjeta_tct']
         widgets = {
             'compania': forms.Select(attrs={'class': 'form-control'}),
             #'maquina': forms.Select(attrs={'class': 'form-control'}),
@@ -160,26 +161,11 @@ class CombustibleForm(forms.ModelForm):
             'km_regreso': forms.NumberInput(attrs={'class': 'form-control'}),
             'hm_salida': forms.NumberInput(attrs={'class': 'form-control'}),
             'hm_regreso': forms.NumberInput(attrs={'class': 'form-control'}),
+            'ho_bomba_salida': forms.NumberInput(attrs={'class': 'form-control'}),
+            'ho_bomba_regreso': forms.NumberInput(attrs={'class': 'form-control'}),
             'valor': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
             #'conductor': forms.Select(attrs={'class': 'form-control'}),
             'obac': forms.TextInput(attrs={'class': 'form-control'}),
             'tarjeta_tct': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
         }
 
-# class CambioNeumaticoForm(forms.ModelForm):
-#     class Meta:
-#         model = CambioNeumatico
-#         fields = ['compania', 'maquina', 'fecha', 'kilometraje','hodometro', 'marca', 'modelo','medidas', 'proveedor','valor','responsable']
-#         widgets = {
-#             'compania': forms.Select(attrs={'class': 'form-control'}),
-#             'maquina': forms.Select(attrs={'class': 'form-control'}),
-#             'fecha': forms.DateInput(attrs={'id': 'fecha', 'class': 'date-picker form-control'}),
-#             'kilometraje': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
-#             'hodometro': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
-#             'marca': forms.TextInput(attrs={'class': 'form-control'}),
-#             'modelo': forms.TextInput(attrs={'class': 'form-control'}),
-#             'medidas': forms.TextInput(attrs={'class': 'form-control'}),
-#             'proveedor': forms.Select(attrs={'class': 'form-control'}),
-#             'valor': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
-#             'responsable': forms.TextInput(attrs={'class': 'form-control'}),
-#         }
