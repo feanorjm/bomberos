@@ -57,6 +57,7 @@
                       <thead>
                         <tr>
                           <th>#</th>
+                          <th>ID</th>
                           <th>Maquina</th>
                           <th>Clave</th>
                           <th>Fecha</th>
@@ -79,6 +80,7 @@
 
                         <tr>
                             <td></td>
+                            <td>{{ servicio.id }}</td>
                             <td><a style="color: orangered;text-decoration: underline;" href="{{ servicio.get_absolute_url }}">{{ servicio.maquina }}</a></td>
                             <td>{{ servicio.clave }}</td>
                             <td>{{ servicio.fecha|date:"Y-m-d" }}</td>
