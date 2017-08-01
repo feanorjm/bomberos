@@ -318,9 +318,13 @@ def get_parametros_maquina(request):
         maquina = request.POST.get('maquina')
         print(maquina)
         parametros = Maquina.objects.filter(id=maquina).values('kilometraje','hodometro','tiene_bomba', 'hodometro_bomba')
+
+        ultimo_servicio = Bitacora.objects.filter(maquina__id=maquina).values('fecha').order_by('-fecha')[:1]
+        print(ultimo_servicio)
+
         #conductores_maq = Conductor.objects.filter(maquina__nombre=maquina).values('id')
         print(parametros)
-        return JsonResponse({'parametros': list(parametros)})
+        return JsonResponse({'parametros': list(parametros), 'ultimo_servicio': list(ultimo_servicio)})
 
 
 @method_decorator(login_required, name='dispatch')
@@ -382,6 +386,13 @@ class MantencionDetailView(DetailView):
 
         detalle_mantencion_list = DetalleMantencion.objects.filter(mantencion=mantencion_obj)
         repuesto_detalle_mantencion_list = RepuestoDetalleMantencion.objects.filter(mantencion=mantencion_obj)
+
+        for obj in detalle_mantencion_list:
+            print(obj.id)
+
+        for obj in repuesto_detalle_mantencion_list:
+            print(obj.detalle_mantencion.pk)
+
 
         context['detalle_mantencion_list'] = detalle_mantencion_list
         context['repuesto_detalle_mantencion_list'] = repuesto_detalle_mantencion_list
@@ -550,10 +561,17 @@ class ConductorUpdateView(UpdateView):
     form_class = ConductorForm
     template_name = 'conductor_update.html'
 
+@method_decorator(login_required, name='dispatch')
+class ConductorDeleteView(DeleteView):
+    model = Conductor
+    template_name = 'conductor_delete.html'
+    success_url = reverse_lazy('conductor_list')
+
 conductor_list = ConductorListView.as_view()
 conductor_detail = ConductorDetailView.as_view()
 conductor_create = ConductorCreateView.as_view()
 conductor_update = ConductorUpdateView.as_view()
+conductor_delete = ConductorDeleteView.as_view()
 
 #CRUD PARA CARGA COMBUSTIBLE
 

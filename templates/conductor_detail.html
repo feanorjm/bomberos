@@ -21,7 +21,7 @@
                         </li>
                       {% endif %}
                       {% if perms.maintenance.delete_conductor %}
-                          <li><button type="button" onclick="location.href='{% url 'maquina_delete' pk=object.id %}';" class="btn btn-danger">Eliminar</button>
+                          <li><button type="button" onclick="location.href='{% url 'conductor_delete' pk=object.id %}';" class="btn btn-danger">Eliminar</button>
                         </li>
                       {% endif %}
                       </ul>
@@ -33,8 +33,16 @@
                             <table class="table">
                               <tbody>
                                 <tr>
-                                  <th style="width:50%">NOMBRE:</th>
-                                  <td>{{ object.nombre}} {{object.ap_paterno }} {{object.ap_materno }}</td>
+                                  <th style="width:50%">NOMBRES:</th>
+                                  <td>{{ object.nombre}}</td>
+                                </tr>
+                                <tr>
+                                  <th style="width:50%">APELLIDO PATERNO:</th>
+                                  <td>{{object.ap_paterno }}</td>
+                                </tr>
+                                <tr>
+                                  <th style="width:50%">APELLIDO MATERNO:</th>
+                                  <td>{{object.ap_materno }}</td>
                                 </tr>
                                 <tr>
                                   <th>RUT:</th>

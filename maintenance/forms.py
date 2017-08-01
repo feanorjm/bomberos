@@ -136,11 +136,13 @@ class ConductorForm(forms.ModelForm):
     class Meta:
         model = Conductor
         #use_required_attribute = False
-        fields = ['compania','rut', 'nombre', 'num_licencia', 'venc_lic','foto']
+        fields = ['compania','rut', 'nombre', 'ap_paterno','ap_materno', 'num_licencia', 'venc_lic','foto']
         widgets = {
             'compania': forms.Select(attrs={'class': 'form-control'}),
             'rut': forms.TextInput(attrs={'class': 'form-control'}),
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'ap_paterno': forms.TextInput(attrs={'class': 'form-control'}),
+            'ap_materno': forms.TextInput(attrs={'class': 'form-control'}),
             'num_licencia': forms.TextInput(attrs={'class': 'form-control'}),
             'venc_lic': forms.DateInput(attrs={'id': 'fecha', 'class': 'form-control'}),
             'foto': forms.FileInput(attrs={'class': 'form-control'})

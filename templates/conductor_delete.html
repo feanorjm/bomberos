@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load staticfiles %}
+
+
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Eliminar Conductor</h2>
+
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                        <form action="" method="post">{% csrf_token %}
+                            <p>¿Estas seguro de eliminar el conductor "{{ object.nombre }} {{ object.ap_paterno }} {{ object.ap_materno }}" del sistema?</p>
+                            <input class="btn btn-danger" type="submit" value="Confirmar" />
+                            <button type="button" onclick="location.href='{% url 'conductor_detail' pk=object.id %}';" class="btn btn-success">Cancelar</button>
+                        </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+      </div>
+    </div>
+    <!-- jQuery -->
+    <script type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <!-- Custom Theme Scripts -->
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+
+{% endblock %}

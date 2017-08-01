@@ -112,7 +112,7 @@
                         <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button id="boton_tipo" type="submit" class="btn btn-success" onclick="enviar()">Ingresar</button>
+                          <button id="enviar" type="submit" class="btn btn-success">Ingresar</button>
                           <button type="button" id="limpiar" class="btn btn-default">Limpiar</button>
                         </div>
                       </div>
@@ -141,6 +141,9 @@
     <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'js/datepicker/bootstrap-datepicker.js' %}"></script>
+    
+    <script type="text/javascript" src="{% static 'js/moment-with-locales.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/datetime-picker/bootstrap-datetimepicker.min.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
@@ -155,6 +158,8 @@
     <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.2.0/jquery-confirm.min.js"></script>
+
     <!-- Custom Theme Scripts -->
     <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
 
@@ -165,12 +170,10 @@
         $('#id_maquina').addClass('form-control');
         $('#id_conductor').addClass('form-control');
 
-        $('#fecha').datepicker({format: "yyyy-mm-dd"});
-        //$('#hora_sal').datetimepicker({format: "HH:mm"});
-        //$('#hora_lle').datetimepicker({format: "HH:mm"});
-
-        $("#tiene_bomba").hide();
-
+        $('#fecha').datetimepicker({
+            format: "YYYY-MM-DD",
+            pickTime: false,
+        });
 
 
       });
@@ -214,12 +217,141 @@
                                 $("#tiene_bomba").hide();
                             }
                         
-                        console.log(data.parametros[i].kilometraje);  // (o el campo que necesites)
                     }
+                    cant = data.ultimo_servicio.length;
+
+                    $('#fecha').data('DateTimePicker').destroy();
+
+                    if (cant > 0) {
+                        for(var i in data.ultimo_servicio) {
+                            if(data.ultimo_servicio[i].fecha !== null){
+                                var ultimo_servicio = data.ultimo_servicio[i].fecha;
+                                //console.log(ultimo_servicio);
+                                $('#fecha').datetimepicker({
+                                    format: "YYYY-MM-DD",
+                                    minDate: ultimo_servicio,
+                                    pickTime: false,
+                                });
+                            }
+                        }
+                    }
+                    else{
+                        $('#fecha').datetimepicker({
+                            format: "YYYY-MM-DD",
+                            pickTime: false,
+                        });
+                    }
+
+                    
                 }
             });
         }
     });
+
+    $("#id_hodometro_llegada").on('blur',function(){
+        var Hm_salida = $("#id_hodometro_salida").val();
+        var Hm_regreso = $("#id_hodometro_llegada").val();
+
+        if (parseFloat(Hm_regreso) < parseFloat(Hm_salida)){
+            $.confirm({
+                title: 'Cuidado!',
+                content: "El HODOMETRO REGRESO no debe ser MENOR que el HODOMETRO SALIDA",
+                buttons: {
+                    aceptar: function () {
+                        $("#id_hodometro_llegada").focus();
+                    },
+                }
+            });
+        }
+
+    });
+
+    $("#id_kilometraje_llegada").on('blur',function(){
+        var km_salida = $("#id_kilometraje_salida").val();
+        var km_regreso = $("#id_kilometraje_llegada").val();
+        var diferencia = parseFloat(km_regreso) - parseFloat(km_salida);
+
+        if (parseFloat(km_regreso) < parseFloat(km_salida)){
+            $.confirm({
+                title: 'Cuidado!',
+                content: "El KILOMETRAJE REGRESO no debe ser MENOR que el KILOMETRAJE SALIDA",
+                buttons: {
+                    aceptar: function () {
+                        $("#id_kilometraje_llegada").focus();
+                    },
+                }
+            });
+        }
+        if (diferencia > 999){
+            $.confirm({
+                title: 'Cuidado!',
+                content: "La diferencia de kilometraje no debe ser mayor a 999",
+                buttons: {
+                    aceptar: function () {
+                        $("#id_kilometraje_llegada").focus();
+                    },
+                }
+            });
+        }
+
+    });
+
+    $("#id_ho_bomba_regreso").on('blur',function(){
+        var Hm_bomba_salida = $("#id_ho_bomba_salida").val();
+        var Hm_bomba_regreso = $("#id_ho_bomba_regreso").val();
+
+        console.log(Hm_bomba_salida + ", " + Hm_bomba_regreso);
+
+        if (parseFloat(Hm_bomba_regreso) < parseFloat(Hm_bomba_salida)){
+            $.confirm({
+                title: 'Cuidado!',
+                content: "El HODOMETRO BOMBA REGRESO no debe ser MENOR que el HODOMETRO BOMBA SALIDA",
+                buttons: {
+                    aceptar: function () {
+                        $("#id_ho_bomba_regreso").focus();
+                    },
+                }
+            });
+        }
+
+    });
+
+    
+
+    $("#form_bitacora").submit(function(){
+        if ($("#tiene_bomba").css('display') == 'block'){
+            var Hm_bomba_salida = $("#id_ho_bomba_salida").val();
+            var Hm_bomba_regreso = $("#id_ho_bomba_regreso").val();
+
+            if(Hm_bomba_salida === "" || Hm_bomba_regreso === ""){
+                $.alert({
+                    title: 'Cuidado!',
+                    content: "Debe completar los campos HODOMETRO BOMBA",
+                });
+                return false;
+            }
+
+
+            else if (parseFloat(Hm_bomba_regreso) < parseFloat(Hm_bomba_salida)){
+                $.confirm({
+                    title: 'Cuidado!',
+                    content: "El HODOMETRO BOMBA REGRESO no debe ser MENOR que el HODOMETRO BOMBA SALIDA",
+                    buttons: {
+                        aceptar: function () {
+                            $("#id_ho_bomba_salida").focus();
+                        },
+                    }
+                });
+                return false;
+            }
+            else{
+                return true
+            }
+            
+        }
+    });
+
+
 
     function commaSeparateNumber(valor){
         while (/(\d+)(\d{3})/.test(valor.toString())){

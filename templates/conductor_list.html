@@ -52,10 +52,11 @@
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>Nombre</th>
+                          <th>Nombres</th>
+                          <th>Ap Paterno</th>
+                          <th>Ap Materno</th>
                           <th>Rut</th>
                           <th>Compañía</th>
-                          <th>Número licencia</th>
                           <th>Vencimiento licencia</th>
                         </tr>
                       </thead>
@@ -66,10 +67,11 @@
                         {% for conductor in object_list %}
                         <tr>
                             <td></td>
-                            <td><a style="color: orangered;text-decoration: underline;" href="{{ conductor.get_absolute_url }}">{{ conductor.nombre }} {{ conductor.ap_paterno }}</a></td>
+                            <td><a style="color: orangered;text-decoration: underline;" href="{{ conductor.get_absolute_url }}">{{ conductor.nombre }}</a></td>
+                            <td>{{ conductor.ap_paterno }}</td>
+                            <td>{{ conductor.ap_materno }}</td>
                             <td>{{ conductor.rut|default_if_none:"--" }}</td>
                             <td>{{ conductor.compania }}</td>
-                            <td>{{ conductor.num_licencia|default_if_none:"--" }}</td>
                             <td>{{ conductor.venc_lic|default_if_none:"--" }}</td>
                         </tr>
                         {% endfor %}

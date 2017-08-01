@@ -113,13 +113,15 @@
                                 </tr>
                                 <tr>
                                   <th>Hodometro Próx. Mantención:</th>
-                                  <td>{{ mantencion_list.hodometro_prox_man }}</td>
+                                  <td>{{ mantencion_list.hodometro_prox_man|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Repuestos:</th>
                                   <td>
-                                    {% for repuesto_list in repuesto_detalle_mantencion_list%}
-                                      {{ repuesto_list.repuesto }} <br>
+                                    {% for repuesto in repuesto_detalle_mantencion_list%}
+                                      {% if repuesto.detalle_mantencion.id == mantencion_list.id %}
+                                          {{ repuesto.repuesto }} <br>
+                                      {% endif %}
                                     {% endfor %}
                                   </td>
                                 </tr>

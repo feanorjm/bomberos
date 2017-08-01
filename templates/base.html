@@ -35,6 +35,9 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
 
     <link rel="stylesheet" type="text/css" href="{% static 'js/datepicker/datepicker.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'js/datetime-picker/bootstrap-datetimepicker.min.css' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.2.0/jquery-confirm.min.css">
 
 
 
@@ -103,23 +106,23 @@
                         <li><a href="{% url 'mantencion_list' %}">Mantenciones</a>
                         </li>
                         {% if perms.maintenance.add_division %}
-                        <li><a href="{% url 'admin:maintenance_division_add' %}">Agregar Divisiones</a>
+                        <li><a href="{% url 'admin:maintenance_division_add' %}">Agregar y Editar Divisiones</a>
                         </li>
                         {% endif %}
                         {% if perms.maintenance.add_subdivision %}
-                        <li><a href="{% url 'admin:maintenance_subdivision_add' %}">Agregar SubDivisiones</a>
+                        <li><a href="{% url 'admin:maintenance_subdivision_add' %}">Agregar y Editar SubDivisiones</a>
                         </li>
                         {% endif %}
                         {% if perms.maintenance.add_serviciomantencion %}
-                        <li><a href="{% url 'admin:maintenance_serviciomantencion_add' %}">Agregar Servicios</a>
+                        <li><a href="{% url 'admin:maintenance_serviciomantencion_add' %}">Agregar y Editar Servicios</a>
                         </li>
                         {% endif %}
                         {% if perms.maintenance.add_taller %}
-                        <li><a href="{% url 'admin:maintenance_taller_add' %}">Agregar Talleres</a>
+                        <li><a href="{% url 'admin:maintenance_taller_add' %}">Agregar y Editar Talleres</a>
                         </li>
                         {% endif %}
                         {% if perms.maintenance.add_servicentro %}
-                        <li><a href="{% url 'admin:maintenance_servicentro_add' %}">Agregar Servicentros</a>
+                        <li><a href="{% url 'admin:maintenance_servicentro_add' %}">Agregar y Editar Servicentros</a>
                         </li>
                         {% endif %}
                       </ul>

@@ -24,15 +24,17 @@ class Clasificacion_maquina(models.Model):
 class Conductor(models.Model):
     compania = models.ForeignKey(Compania,null=True)
     rut = models.CharField(max_length=12, null=True,blank=True)
-    nombre = models.CharField(max_length=45, null=True,blank=True)
-    ap_paterno = models.CharField(max_length=45, null=True,blank=True)
-    ap_materno = models.CharField(max_length=45, null=True, blank=True)
+    nombre = models.CharField(max_length=45, null=True)
+    ap_paterno = models.CharField(max_length=45, null=True)
+    ap_materno = models.CharField(max_length=45, null=True)
     num_licencia = models.CharField(max_length=12, null=True,blank=True)
     venc_lic = models.DateField(null=True,blank=True)
     foto = models.FileField(upload_to='profile',null=True,blank=True)
 
     def __str__(self):
-        return str(self.nombre) + " " + str(self.ap_paterno)
+        nombre = self.nombre
+        nombre = nombre.split(" ")
+        return nombre[0] + " " + str(self.ap_paterno) + " " + str(self.ap_materno)
 
     def get_absolute_url(self):
         return reverse('conductor_detail', args=[str(self.id)])

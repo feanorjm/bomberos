@@ -44,6 +44,8 @@ urlpatterns = [
     url(r'^conductor/detalle/(?P<pk>\d+)$', conductor_detail, name='conductor_detail'),
     url(r'^conductor/add/$', conductor_create, name='conductor_create'),
     url(r'^conductor/editar/(?P<pk>\d+)$', conductor_update, name='conductor_update'),
+    url(r'^conductor/eliminar/(?P<pk>\d+)$', conductor_delete, name='conductor_delete'),
+
     #COMBUSTIBLE
     url(r'^combustible/add/$', combustible_create, name='combustible_create'),
     url(r'^carga-combustible/$', combustible_list, name='combustible_list'),
