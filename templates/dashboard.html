@@ -25,9 +25,9 @@
                                 <tr>
                                   <th align="center">Companía</th>
                                   <th align="center">Nombre</th>
-                                  <th align="center">Horometro Motor</th>
                                   <th align="center">Kilometraje</th>
-                                  <th align="center">Bomba</th>
+                                  <th align="center">Horometro Motor</th>
+                                  <th align="center">Horometro Bomba</th>
                                   <th align="center">Rev. Técnica</th>
                                 </tr>
                               </thead>
@@ -36,8 +36,8 @@
                                 <tr>
                                   <td align="center">{{ object.compania__nombre }}</td>
                                   <td>{{ object.nombre }}</td>
-                                  <td align="center">{{ object.hodometro }}</td>
                                   <td align="center">{{ object.kilometraje }}</td>
+                                  <td align="center">{{ object.hodometro }}</td>
                                   {% if object.tiene_bomba %}
                                     <td align="center">{{ object.hodometro_bomba }}</td>
                                   {% else %}

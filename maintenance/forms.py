@@ -65,7 +65,7 @@ class DetalleMantencionForm(forms.ModelForm):
             'tipo_mantencion': forms.Select(attrs={'class': 'form-control'}),
             #'servicio': forms.Select(attrs={'class': 'form-control'}),
             'des_detalle': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 90px;'}),
-            'hodometro_prox_man': forms.NumberInput(attrs={'class': 'form-control'}),
+            'hodometro_prox_man': forms.NumberInput(attrs={'class': 'form-control','placeholder':'horometro motor'}),
         }
 
 class RepuestoDetalleMantencionForm(forms.ModelForm):
