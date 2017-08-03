@@ -50,20 +50,33 @@
                         </form>
                       </div>
                       <div class="table-responsive">
-                        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap">
+                        <table id="datatable-responsive" class="table table-striped table-bordered">
                           <thead>
                             <tr>
-                              <th colspan="2"></th>
-                              <th colspan="1" align="center">Consumo petroleo</th>
+                              <th colspan="4">CARRO: {{ datos_list.nombre }}</th>
+                              <th colspan="4">PATENTE: {{ datos_list.petente }}</th>
+                              <th colspan="3">MES: {{ datos_list.mes }}</th>
+                              <th colspan="3"></th>
+                              <th colspan="3"></th>
+                              <th colspan="1"></th>
+                            </tr>
+                            <tr>
+                              <th colspan="4"></th>
+                              <th colspan="4" align="center">CONSUMO PETROLEO</th>
                               <th colspan="3">KILOMETRAJE RECORRIDO</th>
                               <th colspan="3">HORAS BOMBA</th>
                               <th colspan="3">HORAS MOTOR</th>
-                              <th colspan="3"></th>
+                              <th colspan="1"></th>
                             </tr>
                             <tr>
                               <th align="center">Nº</th>
                               <th align="center">Día</th>
-                              <th align="center">Petroleo colocado</th>
+                              <th align="center">Servicio</th>
+                              <th align="center">Direccion acto</th>
+                              <th align="center">Petróleo Anterior</th>
+                              <th align="center">Petróleo colocado</th>
+                              <th align="center">Petróleo Consumo</th>
+                              <th align="center">Petróleo Actual</th>
                               <th align="center">Km actual</th>
                               <th align="center">Km anterior</th>
                               <th align="center">Km diferencia</th>
@@ -73,9 +86,8 @@
                               <th align="center">Motor actual</th>
                               <th align="center">Motor anterior</th>
                               <th align="center">Motor Diferencia</th>
-                              <th align="center">Factor</th>
-                              <th align="center">Lts Motor</th>
-                              <th align="center">Rendimiento</th>
+                              <th align="center">Conductor</th>
+                              <!--<th align="center">Rendimiento</th>-->
                             </tr>
                           </thead>
                           <tbody>
@@ -83,7 +95,12 @@
                             <tr>
                               <td align="right">{{ object.num }}</td>
                               <td align="right">{{ object.fecha_dia }}</td>
-                              <td align="right">{{ object.litros_cargados }}</td>
+                              <td align="right">{{ object.clave }}</td>
+                              <td align="right">{{ object.direccion }}</td>
+                              <td align="right">{{ object.petroleo_anterior }}</td>
+                              <td align="right">{{ object.petroleo_colocado }}</td>
+                              <td align="right">{{ object.petroleo_consumo }}</td>
+                              <td align="right">{{ object.petroleo_actual }}</td>
                               <td align="right">{{ object.km_actual }}</td>
                               <td align="right">{{ object.km_anterior }}</td>
                               <td align="right">{{ object.km_dif }}</td>
@@ -93,9 +110,7 @@
                               <td align="right">{{ object.motor_actual }}</td>
                               <td align="right">{{ object.motor_anterior }}</td>
                               <td align="right">{{ object.motor_dif }}</td>
-                              <td align="right">{{ object.factor }}</td>
-                              <td align="right">{{ object.litros_motor }}</td>
-                              <td align="right">{{ object.rendimiento }}</td>
+                              <td align="right">{{ object.conductor }}</td>
                             </tr>
                             {% endfor %}
                           </tbody>
@@ -124,7 +139,7 @@
     <script type="text/javascript" src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <!--<script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>-->
     <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
@@ -133,8 +148,16 @@
     <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>
+    <!--<script type="text/javascript" src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>-->
+    <!--<script type="text/javascript" src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>-->
+
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/dataTables.buttons.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/buttons.flash.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/jszip.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/pdfmake.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/vfs_fonts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/buttons.print.min.js' %}"></script>
 
     <!-- Datatables -->
     <script>
@@ -144,6 +167,17 @@
               "iDisplayLength": 25,
               "searching": false,
             });*/
+
+            $('#datatable-responsive').DataTable({
+              'searching': false,
+              "paging":   false,
+              "ordering": false,
+              "info":     false,
+              dom: 'lBfrtip',
+              buttons: [
+                  'copy', 'csv', 'excel'
+              ]
+            });
         });
     </script>
 

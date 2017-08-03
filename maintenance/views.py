@@ -20,6 +20,7 @@ from django.utils.decorators import method_decorator
 from django.http import JsonResponse, HttpResponse,HttpResponseRedirect
 import datetime
 from django.db.models import Sum, F
+from decimal import *
 
 #VISTAS PARA BITACORA
 
@@ -632,6 +633,11 @@ class CombustibleCreateView(CreateView):
                             ho_bomba_salida=hm_bomba_salidaform,ho_bomba_regreso=hm_bomba_regresoform,
                             observciones='Carga combustible de '+ str(litrosform) +' litros, valor: $'+str(valorform)+', obac: '+obacform+', boucher TCT: '+str(tarjeta_tctform))
         servicio.save()
+        self.object = form.save()
+
+        combustible_obj = self.object
+        combustible_obj.servicio = servicio
+        combustible_obj.save()
 
         return super(CombustibleCreateView, self).form_valid(form)
 
@@ -679,6 +685,53 @@ class CombustibleUpdateView(UpdateView):
             context['form'].fields['compania'].queryset = Compania.objects.filter(pk=user_comp)
             #print(context)
         return context
+
+    def form_valid(self, form):
+        self.object = form.save()
+
+        combustible_obj = self.object
+
+        # instanciamos el objeto Bitacora de referencia
+        servicio = combustible_obj.servicio
+
+        #traemos los datos del formulario de Combustible
+        litrosform = form.cleaned_data['litros']
+        servicentroform = form.cleaned_data['servicentro']
+        km_salidaform = form.cleaned_data['km_salida']
+        hm_salidaform = form.cleaned_data['hm_salida']
+        km_regresoform = form.cleaned_data['km_regreso']
+        hm_regresoform = form.cleaned_data['hm_regreso']
+        hm_bomba_salidaform = form.cleaned_data['ho_bomba_salida']
+        hm_bomba_regresoform = form.cleaned_data['ho_bomba_regreso']
+        valorform = form.cleaned_data['valor']
+        obacform = form.cleaned_data['obac']
+        fechaform = form.cleaned_data['fecha']
+        tarjeta_tctform = form.cleaned_data['tarjeta_tct']
+
+        maquina_id = int(self.request.POST.get('maquina'))
+        maquina = Maquina.objects.get(pk=maquina_id)
+        compania_id = int(self.request.POST.get('compania'))
+        conductor_id = int(self.request.POST.get('conductor'))
+        compania_obj = Compania.objects.get(pk=compania_id)
+        conductor_obj = Conductor.objects.get(pk=conductor_id)
+
+        servicio.compania = compania_obj
+        servicio.maquina = maquina
+        servicio.conductor = conductor_obj
+        servicio.direccion = servicentroform.nombre + " - " + servicentroform.direccion
+        servicio.fecha = fechaform
+        servicio.kilometraje_salida = km_salidaform
+        servicio.kilometraje_llegada = km_regresoform
+        servicio.hodometro_salida = hm_salidaform
+        servicio.hodometro_llegada = hm_regresoform
+        servicio.ho_bomba_salida = hm_bomba_salidaform
+        servicio.ho_bomba_regreso = hm_bomba_regresoform
+        servicio.observciones = 'Carga combustible de ' + str(litrosform) + ' litros, valor: $' + \
+                                str(valorform) + ', obac: ' + obacform + ', boucher TCT: ' + str(tarjeta_tctform)
+
+        servicio.save()
+
+        return super(CombustibleUpdateView, self).form_valid(form)
 
 
 combustible_create = CombustibleCreateView.as_view()
@@ -740,81 +793,103 @@ class DashboardListView(ListView):
 dashboard_list_view = DashboardListView.as_view()
 
 class ReporteCombustibleListView(ListView):
-    #queryset = Book.objects.filter(publisher__name='ACME Publishing')
-    #queryset = Maquina.objects.values('compania','nombre','venc_patente','hodometro','kilometraje')
     template_name = 'reporte_combustible.html'
 
     def get_queryset(self):
         today = datetime.datetime.now()
+        clave_obj = Clave.objects.get(nombre='6--14')
         user_comp = self.request.user.usuariocomp.compania.pk
         compania_obj = Compania.objects.get(pk=user_comp)
         maquina_default = Maquina.objects.filter(compania=compania_obj).order_by('id')[:1]
-        carga_mes_anterior = Carguios_combustible.objects.filter(maquina=maquina_default,fecha__month=today.month -1)
-        cargas = Carguios_combustible.objects.filter(maquina=maquina_default,fecha__month=today.month).order_by('fecha')
+        #print(maquina_default)
 
-        if (len(carga_mes_anterior) > 0 and len(cargas) > 0):
-            carga_mes_anterior = carga_mes_anterior.latest('fecha')
+        servicios = Bitacora.objects.filter(maquina=maquina_default,fecha__month=today.month).order_by('id')
 
-            total_cargas = len(cargas)
-            list_object = []
-            for i in range(len(cargas)):
-                if i == 0:
-                    carga_anterior = carga_mes_anterior
-                    carga_actual = cargas[i]
-                else:
-                    carga_anterior = cargas[i-1]
-                    carga_actual = cargas[i]
+        list_object = []
 
-                fecha_dia = carga_actual.fecha.day
+        petroleo_anterior = 100
 
-                kilometraje_anterior = carga_anterior.km_salida
-                kilometraje_actual = carga_actual.km_salida
+        if len(servicios) > 0:
+            for servicio in servicios:
+                maquina = servicio.maquina
+                #petroleo
+                petroleo_colocado = 0
+                if (servicio.clave.id == clave_obj.id):
+                    carga = Carguios_combustible.objects.get(servicio=servicio)
+                    petroleo_colocado = carga.litros
+
+                #kilometraje
+                kilometraje_anterior = servicio.kilometraje_salida
+                kilometraje_actual = servicio.kilometraje_llegada
                 kilometraje_diferencia = kilometraje_actual - kilometraje_anterior
 
-                litros_cargados = carga_anterior.litros
+                #horas motor
+                horas_motor_anterior = servicio.hodometro_salida
+                horas_motor_actual = servicio.hodometro_llegada
+                horas_motor_diferencia = horas_motor_actual - horas_motor_anterior
 
-                hodometro_bomba_anterior = carga_anterior.ho_bomba_salida
-                hodometro_bomba_actual = carga_actual.ho_bomba_salida
-                hodometro_diferencia = hodometro_bomba_actual - hodometro_bomba_anterior
+                #horas bomba
+                if (maquina.tiene_bomba == True):
+                    horas_bomba_anterior = servicio.ho_bomba_salida
+                    horas_bomba_actual = servicio.ho_bomba_regreso
+                    horas_bomba_diferencia = horas_bomba_actual - horas_bomba_anterior
+                else:
+                    horas_bomba_anterior = 0
+                    horas_bomba_actual = 0
+                    horas_bomba_diferencia = 0
 
-                hodometro_motor_anterior = carga_anterior.hm_salida
-                hodometro_motor_actual = carga_actual.hm_salida
-                hodometro_motor_diferencia = hodometro_motor_actual - hodometro_motor_anterior
+                #print(kilometraje_anterior,kilometraje_actual,kilometraje_diferencia,
+                #      horas_bomba_anterior,horas_bomba_actual,horas_bomba_diferencia,
+                #      horas_motor_anterior,horas_motor_actual,horas_motor_diferencia
+                #      )
 
-                factor = (hodometro_bomba_actual - hodometro_bomba_anterior)*10
+                #calculo de litros
+                consumo_bomba = (horas_bomba_actual - horas_bomba_anterior) * 10
+                consumo_motor = round(float(kilometraje_diferencia) / float(1.4),1)
+                petroleo_consumo = round(consumo_bomba + Decimal(consumo_motor),1)
 
-                litros_motor = litros_cargados - factor
-                litros_consumo = litros_motor + factor
+                petroleo_actual = round(petroleo_anterior - petroleo_consumo + petroleo_colocado,1)
+                rendimiento = round(float(kilometraje_diferencia) / float(consumo_motor), 1)
 
-                rendimiento = round((kilometraje_actual - kilometraje_anterior)/litros_motor,1)
+                #otros datos
+                fecha_dia = servicio.fecha.day
+                servicio_id = servicio.id
+                clave = servicio.clave.nombre
+                direccion = servicio.direccion
+                conductor = servicio.conductor
 
+                list_query = {'num': servicio_id,
+                              'fecha_dia': fecha_dia,
+                              'clave': clave,
+                              'direccion': direccion,
 
-                list_query = {'num':i+1,
-                              'fecha_dia':fecha_dia,
-                              'km_anterior':kilometraje_anterior,
+                              'petroleo_anterior': petroleo_anterior,
+                              'petroleo_colocado': petroleo_colocado,
+                              'petroleo_consumo': petroleo_consumo,
+                              'petroleo_actual': petroleo_actual,
+
+                              'km_anterior': kilometraje_anterior,
                               'km_actual': kilometraje_actual,
                               'km_dif': kilometraje_diferencia,
-                              'litros_cargados': litros_cargados,
-                              'bomba_anterior':hodometro_bomba_anterior,
-                              'bomba_actual':hodometro_bomba_actual,
-                              'bomba_dif':hodometro_diferencia,
-                              'motor_anterior': hodometro_motor_anterior,
-                              'motor_actual':hodometro_motor_actual,
-                              'motor_dif':hodometro_motor_diferencia,
-                              'factor':factor,
-                              'litros_motor':litros_motor,
-                              'rendimiento': rendimiento
+
+                              'bomba_anterior': horas_bomba_anterior,
+                              'bomba_actual': horas_bomba_actual,
+                              'bomba_dif': horas_bomba_diferencia,
+
+                              'motor_anterior': horas_motor_anterior,
+                              'motor_actual': horas_motor_actual,
+                              'motor_dif': horas_motor_diferencia,
+
+                              'conductor': conductor
                               }
 
                 list_object.append(list_query)
 
-        else:
-            list_object = []
+                petroleo_anterior = petroleo_actual
 
+            queryset = list_object
 
-        queryset = list_object
-
-        return queryset
+            return queryset
 
 
     def get_context_data(self, **kwargs):
@@ -822,12 +897,19 @@ class ReporteCombustibleListView(ListView):
         today = datetime.datetime.now()
         user_comp = self.request.user.usuariocomp.compania.pk
         compania_obj = Compania.objects.get(pk=user_comp)
-        maquinas_list = Maquina.objects.filter(compania=compania_obj).order_by('id')
+        maquina_obj = Maquina.objects.filter(compania=compania_obj).order_by('id')[:1][0]
+        datos_list = {'maquina': maquina_obj.pk, 'nombre': maquina_obj.nombre, 'patente': maquina_obj.patente,
+                      'mes': str(today.month) + " - " + str(today.year)}
+        #print(maquina_obj)
+        context['datos_list'] = datos_list
+        maquinas_list = Maquina.objects.filter(compania=compania_obj)
         context['maquinas_list'] = maquinas_list
+
         return context
 
     def post(self, request, *args, **kwargs):
         today = datetime.datetime.now()
+        clave_obj = Clave.objects.get(nombre='6--14')
         maquina_id = self.request.POST.get('maquina')
         datos_list = {}
 
@@ -836,78 +918,102 @@ class ReporteCombustibleListView(ListView):
             compania_obj = Compania.objects.get(pk=user_comp)
             maquina_obj = Maquina.objects.get(pk=maquina_id)
             maquinas_list = Maquina.objects.filter(compania=compania_obj).order_by('id')
-            datos_list = {'maquina':maquina_obj.pk}
+            datos_list = {'maquina':maquina_obj.pk, 'nombre':maquina_obj.nombre, 'patente':maquina_obj.patente, 'mes':str(today.month) +" - "+ str(today.year)}
 
 
             maquina_default = maquina_obj
-            carga_mes_anterior = Carguios_combustible.objects.filter(maquina=maquina_default,
-                                                                     fecha__month=today.month - 1)
-            cargas = Carguios_combustible.objects.filter(maquina=maquina_default, fecha__month=today.month).order_by(
-                'fecha')
 
-            if (len(carga_mes_anterior) > 0 and len(cargas) > 0):
-                carga_mes_anterior = carga_mes_anterior.latest('fecha')
+            servicios = Bitacora.objects.filter(maquina=maquina_default, fecha__month=today.month).order_by('id')
 
-                total_cargas = len(cargas)
-                list_object = []
-                for i in range(len(cargas)):
-                    if i == 0:
-                        carga_anterior = carga_mes_anterior
-                        carga_actual = cargas[i]
-                    else:
-                        carga_anterior = cargas[i - 1]
-                        carga_actual = cargas[i]
+            list_object = []
 
-                    fecha_dia = carga_actual.fecha.day
+            petroleo_anterior = 100
 
-                    kilometraje_anterior = carga_anterior.km_salida
-                    kilometraje_actual = carga_actual.km_salida
+            if len(servicios) > 0:
+                for servicio in servicios:
+                    maquina = servicio.maquina
+                    # petroleo
+                    petroleo_colocado = 0
+                    if (servicio.clave.id == clave_obj.id):
+                        carga = Carguios_combustible.objects.get(servicio=servicio)
+                        petroleo_colocado = Decimal(carga.litros)
+
+                    # kilometraje
+                    kilometraje_anterior = servicio.kilometraje_salida
+                    kilometraje_actual = servicio.kilometraje_llegada
                     kilometraje_diferencia = kilometraje_actual - kilometraje_anterior
 
-                    litros_cargados = carga_anterior.litros
+                    # horas motor
+                    horas_motor_anterior = servicio.hodometro_salida
+                    horas_motor_actual = servicio.hodometro_llegada
+                    horas_motor_diferencia = horas_motor_actual - horas_motor_anterior
 
-                    hodometro_bomba_anterior = carga_anterior.ho_bomba_salida
-                    hodometro_bomba_actual = carga_actual.ho_bomba_salida
-                    hodometro_diferencia = hodometro_bomba_actual - hodometro_bomba_anterior
+                    # horas bomba
+                    if (maquina.tiene_bomba == True):
+                        horas_bomba_anterior = servicio.ho_bomba_salida
+                        horas_bomba_actual = servicio.ho_bomba_regreso
+                        horas_bomba_diferencia = horas_bomba_actual - horas_bomba_anterior
+                    else:
+                        horas_bomba_anterior = 0
+                        horas_bomba_actual = 0
+                        horas_bomba_diferencia = 0
 
-                    hodometro_motor_anterior = carga_anterior.hm_salida
-                    hodometro_motor_actual = carga_actual.hm_salida
-                    hodometro_motor_diferencia = hodometro_motor_actual - hodometro_motor_anterior
+                    # print(kilometraje_anterior,kilometraje_actual,kilometraje_diferencia,
+                    #      horas_bomba_anterior,horas_bomba_actual,horas_bomba_diferencia,
+                    #      horas_motor_anterior,horas_motor_actual,horas_motor_diferencia
+                    #      )
 
-                    factor = (hodometro_bomba_actual - hodometro_bomba_anterior) * 10
+                    # calculo de litros
+                    consumo_bomba = (horas_bomba_actual - horas_bomba_anterior) * 10
+                    consumo_motor = round(float(kilometraje_diferencia) / float(1.4), 1)
+                    petroleo_consumo = Decimal(round(consumo_bomba + Decimal(consumo_motor), 1))
 
-                    litros_motor = litros_cargados - factor
-                    litros_consumo = litros_motor + factor
+                    petroleo_actual = Decimal(round(petroleo_anterior - petroleo_consumo + petroleo_colocado, 1))
+                    rendimiento = Decimal(round(float(kilometraje_diferencia) / float(consumo_motor), 1))
 
-                    rendimiento = round((kilometraje_actual - kilometraje_anterior) / litros_motor, 1)
+                    # otros datos
+                    fecha_dia = servicio.fecha.day
+                    servicio_id = servicio.id
+                    clave = servicio.clave.nombre
+                    direccion = servicio.direccion
+                    conductor = servicio.conductor
 
-                    list_query = {'num': i + 1,
+                    list_query = {'num': servicio_id,
                                   'fecha_dia': fecha_dia,
+                                  'clave': clave,
+                                  'direccion': direccion,
+
+                                  'petroleo_anterior': petroleo_anterior,
+                                  'petroleo_colocado': petroleo_colocado,
+                                  'petroleo_consumo': petroleo_consumo,
+                                  'petroleo_actual': petroleo_actual,
+
                                   'km_anterior': kilometraje_anterior,
                                   'km_actual': kilometraje_actual,
                                   'km_dif': kilometraje_diferencia,
-                                  'litros_cargados': litros_cargados,
-                                  'bomba_anterior': hodometro_bomba_anterior,
-                                  'bomba_actual': hodometro_bomba_actual,
-                                  'bomba_dif': hodometro_diferencia,
-                                  'motor_anterior': hodometro_motor_anterior,
-                                  'motor_actual': hodometro_motor_actual,
-                                  'motor_dif': hodometro_motor_diferencia,
-                                  'factor': factor,
-                                  'litros_motor': litros_motor,
-                                  'rendimiento': rendimiento
+
+                                  'bomba_anterior': horas_bomba_anterior,
+                                  'bomba_actual': horas_bomba_actual,
+                                  'bomba_dif': horas_bomba_diferencia,
+
+                                  'motor_anterior': horas_motor_anterior,
+                                  'motor_actual': horas_motor_actual,
+                                  'motor_dif': horas_motor_diferencia,
+
+                                  'conductor': conductor
                                   }
 
                     list_object.append(list_query)
 
+                    petroleo_anterior = Decimal(petroleo_actual)
+
             else:
                 list_object = []
-                datos_list = {'mensaje': 'No exiten datos para la Máquina solicitada'}
+                datos_list = {'mensaje': 'No exiten datos para la Máquina solicitada','maquina':maquina_obj.pk}
 
 
         context = {}
         context['maquinas_list'] = maquinas_list
-        print(context)
         context['object_list'] = list_object
         context['datos_list'] = datos_list
 

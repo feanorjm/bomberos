@@ -43,7 +43,7 @@ class TallerAdmin(admin.ModelAdmin):
     list_filter = ['razon_social','tipo','telefono']
 
 class CarguioAdmin(admin.ModelAdmin):
-    list_display = ('compania','maquina','litros','servicentro','valor')
+    list_display = ('id','compania','servicio_id','maquina','litros','servicentro','valor')
     list_filter = ['compania','maquina',]
 
 class TipoMantencionAdmin(admin.ModelAdmin):
@@ -67,7 +67,7 @@ class RepuestoDetalleMantencionAdmin(admin.ModelAdmin):
     list_filter = ['mantencion','detalle_mantencion','repuesto']
 
 class BitacoraAdmin(admin.ModelAdmin):
-    list_display = ('compania', 'maquina', 'conductor','clave','fecha','observciones')
+    list_display = ('id','compania', 'maquina', 'conductor','clave','fecha','observciones')
     list_filter = ['compania', 'maquina']
 
 class ComponenteAdmin(admin.ModelAdmin):

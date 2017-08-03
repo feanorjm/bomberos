@@ -29,6 +29,7 @@
                       <thead>
                         <tr>
                           <th>#</th>
+                          <th>Servicio</th>
                           <th>Maquina</th>
                           <th>Fecha</th>
                           <th>Litros</th>
@@ -51,6 +52,7 @@
                         {% for carga in object_list %}
                         <tr>
                             <td></td>
+                            <td>{{ carga.servicio.id }}</td>
                             <td><a style="color: orangered;text-decoration: underline;" href="{{ carga.get_absolute_url }}">{{ carga.maquina }}</a></td>
                             <td>{{ carga.fecha }}</td>
                             <td>{{ carga.litros }}</td>
