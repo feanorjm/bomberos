@@ -23,6 +23,25 @@
                       <div>
                         <form id="form-busqueda" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'reporte_combustible_list_view' %}" method="post">{% csrf_token %}
                           <div class="form-group pull-in clearfix">
+                          {% if user.usuariocomp.tipo == '2' or user.usuariocomp.tipo == '3' %}
+                            <div class="col-sm-1">
+                              <label style="text-align:left;" class="control-label col-sm-12" for="{{ compania.id_for_label }}">Compañía </label>
+                            </div>
+                            <div class="col-sm-3">
+                              <select class="form-control" name="compania" id="id_compania">
+                                {% for compania in companias_list %}
+                                  {% if compania.id == datos_list.compania %}
+                                    <option value="{{ compania.id }}" selected="selected">{{ compania }}</option>
+                                  {% else %}
+                                    <option value="{{ compania.id }}">{{ compania }}</option>
+                                  {% endif %}
+                                {% endfor %}
+                              </select>
+                            </div>
+                          {% endif %}
+                            <div class="col-sm-1">
+                              <label style="text-align:left;" class="control-label col-sm-12" for="{{ compania.id_for_label }}">Máquina </label>
+                            </div>
                             <div class="col-sm-2">
                               <select class="form-control" name="maquina" id="maquina">
                                 {% for maquina in maquinas_list %}
@@ -35,7 +54,7 @@
                               </select>
                             </div>
                             <div class="col-sm-2">
-                              <button type="submit" class="btn btn-success">Aplicar Filtro</button>
+                              <button type="submit" class="btn btn-success">Buscar</button>
                             </div>
                             {% if datos_list.mensaje %}
                               <div class="col-sm-5">
@@ -179,6 +198,33 @@
               ]
             });
         });
+    </script>
+
+    <script type="text/javascript">
+
+      $("#id_compania").change(function(){
+            var compania = this.value;
+            if(compania !== ""){
+                var datos_form = $("#form-busqueda :hidden").serialize();
+                var datos = datos_form+"&compania="+compania;
+                console.log(datos);
+                $.ajax({
+                    url: "{% url 'get_maquinas_compania' %}",
+                    type: "POST",
+                    data: datos,
+                    success: function (data) {
+                        $("#maquina").empty();
+                        for(var i in data.maquinas) {
+                            if(data.maquinas[i].id !== null && data.maquinas[i].nombre !== null){
+                                $("#maquina").append("<option value="+data.maquinas[i].id+">"+data.maquinas[i].nombre+"</option>");
+                            }
+                            
+                        }
+                    }
+                });
+            }
+        });
+
     </script>
 
 

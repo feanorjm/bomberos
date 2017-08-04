@@ -807,16 +807,16 @@ class ReporteCombustibleListView(ListView):
 
         list_object = []
 
-        petroleo_anterior = 100
+        petroleo_anterior = Decimal(100)
 
         if len(servicios) > 0:
             for servicio in servicios:
                 maquina = servicio.maquina
                 #petroleo
-                petroleo_colocado = 0
+                petroleo_colocado = Decimal(0)
                 if (servicio.clave.id == clave_obj.id):
                     carga = Carguios_combustible.objects.get(servicio=servicio)
-                    petroleo_colocado = carga.litros
+                    petroleo_colocado = Decimal(carga.litros)
 
                 #kilometraje
                 kilometraje_anterior = servicio.kilometraje_salida
@@ -846,9 +846,9 @@ class ReporteCombustibleListView(ListView):
                 #calculo de litros
                 consumo_bomba = (horas_bomba_actual - horas_bomba_anterior) * 10
                 consumo_motor = round(float(kilometraje_diferencia) / float(1.4),1)
-                petroleo_consumo = round(consumo_bomba + Decimal(consumo_motor),1)
+                petroleo_consumo = Decimal(round(consumo_bomba + Decimal(consumo_motor),1))
 
-                petroleo_actual = round(petroleo_anterior - petroleo_consumo + petroleo_colocado,1)
+                petroleo_actual = Decimal(round(petroleo_anterior - petroleo_consumo + petroleo_colocado,1))
                 rendimiento = round(float(kilometraje_diferencia) / float(consumo_motor), 1)
 
                 #otros datos
@@ -895,15 +895,25 @@ class ReporteCombustibleListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ReporteCombustibleListView, self).get_context_data(**kwargs)
         today = datetime.datetime.now()
-        user_comp = self.request.user.usuariocomp.compania.pk
-        compania_obj = Compania.objects.get(pk=user_comp)
-        maquina_obj = Maquina.objects.filter(compania=compania_obj).order_by('id')[:1][0]
-        datos_list = {'maquina': maquina_obj.pk, 'nombre': maquina_obj.nombre, 'patente': maquina_obj.patente,
-                      'mes': str(today.month) + " - " + str(today.year)}
-        #print(maquina_obj)
-        context['datos_list'] = datos_list
-        maquinas_list = Maquina.objects.filter(compania=compania_obj)
-        context['maquinas_list'] = maquinas_list
+        if (self.request.user.usuariocomp.tipo in ('2', '3')):
+            companias_list = Compania.objects.all()
+            context['companias_list'] = companias_list
+            context['object_list'] = {}
+            compania_obj = Compania.objects.all().order_by('id')[:1][0]
+            maquinas_list = Maquina.objects.filter(compania=compania_obj)
+            context['maquinas_list'] = maquinas_list
+
+        else:
+            user_comp = self.request.user.usuariocomp.compania.pk
+            compania_obj = Compania.objects.get(pk=user_comp)
+            maquina_obj = Maquina.objects.filter(compania=compania_obj).order_by('id')[:1][0]
+            datos_list = {'maquina': maquina_obj.pk, 'nombre': maquina_obj.nombre, 'patente': maquina_obj.patente,
+                          'mes': str(today.month) + " - " + str(today.year)}
+            #print(maquina_obj)
+            context['datos_list'] = datos_list
+            maquinas_list = Maquina.objects.filter(compania=compania_obj)
+            context['maquinas_list'] = maquinas_list
+
 
         return context
 
@@ -912,13 +922,24 @@ class ReporteCombustibleListView(ListView):
         clave_obj = Clave.objects.get(nombre='6--14')
         maquina_id = self.request.POST.get('maquina')
         datos_list = {}
-
+        context = {}
         if (maquina_id != ''):
-            user_comp = self.request.user.usuariocomp.compania.pk
-            compania_obj = Compania.objects.get(pk=user_comp)
-            maquina_obj = Maquina.objects.get(pk=maquina_id)
-            maquinas_list = Maquina.objects.filter(compania=compania_obj).order_by('id')
-            datos_list = {'maquina':maquina_obj.pk, 'nombre':maquina_obj.nombre, 'patente':maquina_obj.patente, 'mes':str(today.month) +" - "+ str(today.year)}
+            if (self.request.user.usuariocomp.tipo in ('2', '3')):
+                companias_list = Compania.objects.all()
+                context['companias_list'] = companias_list
+                compania_id = self.request.POST.get('compania')
+                compania_obj = Compania.objects.get(pk=compania_id)
+                maquinas_list = Maquina.objects.filter(compania=compania_obj)
+                maquina_obj = Maquina.objects.get(pk=maquina_id)
+                #context['maquinas_list'] = maquinas_list
+                datos_list = {'compania': compania_obj.pk, 'maquina': maquina_obj.pk, 'nombre': maquina_obj.nombre, 'patente': maquina_obj.patente,
+                              'mes': str(today.month) + " - " + str(today.year)}
+            else:
+                user_comp = self.request.user.usuariocomp.compania.pk
+                compania_obj = Compania.objects.get(pk=user_comp)
+                maquina_obj = Maquina.objects.get(pk=maquina_id)
+                maquinas_list = Maquina.objects.filter(compania=compania_obj).order_by('id')
+                datos_list = {'maquina':maquina_obj.pk, 'nombre':maquina_obj.nombre, 'patente':maquina_obj.patente, 'mes':str(today.month) +" - "+ str(today.year)}
 
 
             maquina_default = maquina_obj
@@ -927,13 +948,13 @@ class ReporteCombustibleListView(ListView):
 
             list_object = []
 
-            petroleo_anterior = 100
+            petroleo_anterior = Decimal(100)
 
             if len(servicios) > 0:
                 for servicio in servicios:
                     maquina = servicio.maquina
                     # petroleo
-                    petroleo_colocado = 0
+                    petroleo_colocado = Decimal(0)
                     if (servicio.clave.id == clave_obj.id):
                         carga = Carguios_combustible.objects.get(servicio=servicio)
                         petroleo_colocado = Decimal(carga.litros)
@@ -969,7 +990,7 @@ class ReporteCombustibleListView(ListView):
                     petroleo_consumo = Decimal(round(consumo_bomba + Decimal(consumo_motor), 1))
 
                     petroleo_actual = Decimal(round(petroleo_anterior - petroleo_consumo + petroleo_colocado, 1))
-                    rendimiento = Decimal(round(float(kilometraje_diferencia) / float(consumo_motor), 1))
+                    #rendimiento = Decimal(round(float(kilometraje_diferencia) / float(consumo_motor), 1))
 
                     # otros datos
                     fecha_dia = servicio.fecha.day
@@ -1005,14 +1026,17 @@ class ReporteCombustibleListView(ListView):
 
                     list_object.append(list_query)
 
-                    petroleo_anterior = Decimal(petroleo_actual)
+                    petroleo_anterior = petroleo_actual
 
             else:
                 list_object = []
-                datos_list = {'mensaje': 'No exiten datos para la Máquina solicitada','maquina':maquina_obj.pk}
+                if (self.request.user.usuariocomp.tipo in ('2', '3')):
+                    datos_list = {'mensaje': 'No exiten datos para la Máquina solicitada','compania': compania_obj.pk, 'maquina':maquina_obj.pk}
+                else:
+                    datos_list = {'mensaje': 'No exiten datos para la Máquina solicitada', 'maquina': maquina_obj.pk}
 
 
-        context = {}
+
         context['maquinas_list'] = maquinas_list
         context['object_list'] = list_object
         context['datos_list'] = datos_list
@@ -1022,3 +1046,105 @@ class ReporteCombustibleListView(ListView):
 
 reporte_combustible_list_view = ReporteCombustibleListView.as_view()
 
+def get_maquinas_compania(request):
+    if request.method == 'POST' and request.is_ajax():
+        compania = request.POST.get('compania')
+        maquinas = Maquina.objects.filter(compania=compania).values('id','nombre')
+        return JsonResponse({'maquinas': list(maquinas)})
+
+
+class ReporteMaquinistasListView(ListView):
+    template_name = 'reporte_maquinistas.html'
+
+    def get_queryset(self):
+        list_object = []
+
+        queryset = list_object
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(ReporteMaquinistasListView, self).get_context_data(**kwargs)
+        today = datetime.datetime.now()
+        if (self.request.user.usuariocomp.tipo in ('2', '3')):
+            companias_list = Compania.objects.all()
+            context['companias_list'] = companias_list
+
+        else:
+            user_comp = self.request.user.usuariocomp.compania.pk
+            compania_obj = Compania.objects.get(pk=user_comp)
+            #datos_list = {'maquina': maquina_obj.pk, 'nombre': maquina_obj.nombre, 'patente': maquina_obj.patente,'mes': str(today.month) + " - " + str(today.year)}
+            #print(maquina_obj)
+            #context['datos_list'] = datos_list
+
+        context['object_list'] = {}
+
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        today = datetime.datetime.now()
+        compania_id = self.request.POST.get('compania')
+        fecha_ini = self.request.POST.get('fecha_ini')
+        fecha_fin = self.request.POST.get('fecha_fin')
+
+        context = {}
+
+        if (self.request.user.usuariocomp.tipo in ('2', '3') and compania_id != ''):
+
+            companias_list = Compania.objects.all()
+            context['companias_list'] = companias_list
+            compania_id = self.request.POST.get('compania')
+            compania_obj = Compania.objects.get(pk=compania_id)
+            #maquinas_list = Maquina.objects.filter(compania=compania_obj)
+            #maquina_obj = Maquina.objects.get(pk=maquina_id)
+            #context['maquinas_list'] = maquinas_list
+            #datos_list = {'compania': compania_obj.pk, 'maquina': maquina_obj.pk, 'nombre': maquina_obj.nombre, 'patente': maquina_obj.patente,
+            #              'mes': str(today.month) + " - " + str(today.year)}
+            datos_list = {'fecha_ini': fecha_ini, 'fecha_fin': fecha_fin, 'compania':compania_obj.pk}
+        else:
+            user_comp = self.request.user.usuariocomp.compania.pk
+            compania_obj = Compania.objects.get(pk=user_comp)
+            #maquina_obj = Maquina.objects.get(pk=maquina_id)
+            #maquinas_list = Maquina.objects.filter(compania=compania_obj).order_by('id')
+            #datos_list = {'maquina':maquina_obj.pk, 'nombre':maquina_obj.nombre, 'patente':maquina_obj.patente, 'mes':str(today.month) +" - "+ str(today.year)}
+            datos_list = {'fecha_ini': fecha_ini, 'fecha_fin': fecha_fin, }
+
+
+        maquinistas = Conductor.objects.filter(compania=compania_obj).order_by('id')
+        maquinas = Maquina.objects.filter(compania=compania_obj).order_by('id')
+
+        list_object = []
+
+        if len(maquinistas) > 0:
+            for maquinista in maquinistas:
+                horas = []
+                horas_totales = 0
+                for maquina in maquinas:
+                    servicios = Bitacora.objects.filter(maquina=maquina,conductor=maquinista,fecha__range=(fecha_ini,fecha_fin)).order_by('id')
+                    horas_manejadas = 0
+                    for servicio in servicios:
+                        horas_manejadas += servicio.hodometro_llegada - servicio.hodometro_salida
+
+                    horas_totales += horas_manejadas
+
+                    horas.append({'maquina':maquina.nombre,'horas':horas_manejadas})
+                nombre = maquinista.nombre.split(" ")
+                maquinista_list =  {'compania':maquinista.compania.nombre,
+                                    'nombre':nombre[0]+ " " + maquinista.ap_paterno + " " + maquinista.ap_materno,
+                                    'rut':maquinista.rut,
+                                    'venc':maquinista.venc_lic,
+                                    'horas':horas,
+                                    'total':horas_totales}
+
+                list_object.append(maquinista_list)
+
+
+        context['object_list'] = list_object
+        context['maquinas_list'] = maquinas
+        context['datos_list'] = datos_list
+
+
+        return render(request,self.template_name,context=context)
+
+reporte_maquinistas_list_view = ReporteMaquinistasListView.as_view()

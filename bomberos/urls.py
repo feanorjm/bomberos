@@ -57,7 +57,9 @@ urlpatterns = [
     url(r'^dashboard/$', dashboard_list_view, name='dashboard_list_view'),
 
     #REPORTES
-    url(r'^reporte/parte-combustible$', reporte_combustible_list_view, name='reporte_combustible_list_view'),
+    url(r'^reporte/parte-combustible/$', reporte_combustible_list_view, name='reporte_combustible_list_view'),
+    url(r'^reporte/maquinistas/$', reporte_maquinistas_list_view, name='reporte_maquinistas_list_view'),
+    url(r'^get_maquinas_compania/$', get_maquinas_compania, name='get_maquinas_compania'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
