@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^mantenciones/$', mantencion_list, name='mantencion_list'),
     url(r'^mantencion/detalle/(?P<pk>\d+)$', mantencion_detail, name='mantencion_detail'),
     url(r'^mantencion/eliminar/(?P<pk>\d+)$', mantencion_delete, name='mantencion_delete'),
+    url(r'^mantencion/editar/(?P<pk>\d+)$', mantencion_update, name='mantencion_update'),
     #MAQUINA
     url(r'^maquina/detalle/(?P<pk>\d+)$', maquina_detail, name='maquina_detail'),
     url(r'^maquinas/$', maquina_list, name='maquina_list'),
@@ -59,7 +60,13 @@ urlpatterns = [
     #REPORTES
     url(r'^reporte/parte-combustible/$', reporte_combustible_list_view, name='reporte_combustible_list_view'),
     url(r'^reporte/maquinistas/$', reporte_maquinistas_list_view, name='reporte_maquinistas_list_view'),
+    url(r'^reporte/servicios/$', reporte_servicios_list_view, name='reporte_servicios_list_view'),
+    url(r'^reporte/mantenciones/$', reporte_mantenciones_list_view, name='reporte_mantenciones_list_view'),
+    url(r'^reporte/talleres/$', reporte_talleres_list_view, name='reporte_talleres_list_view'),
     url(r'^get_maquinas_compania/$', get_maquinas_compania, name='get_maquinas_compania'),
+
+    #UTIL
+    url(r'^get_all_conductores/$', get_all_conductores, name='get_all_conductores'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

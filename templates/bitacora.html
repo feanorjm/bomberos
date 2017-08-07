@@ -181,6 +181,26 @@
 
     <script>
 
+    $("#id_compania").change(function(){
+        if($("#id_compania").val() === "9"){
+            var datos_form = $("#form_bitacora :hidden").serialize();
+            var datos = datos_form;
+            console.log(datos);
+            $.ajax({
+                url: "{% url 'get_all_conductores' %}",
+                type: "POST",
+                data: datos,
+                success: function (data) {
+                    $("#id_conductor").empty();
+                    for(var i in data.conductores) {
+                        $("#id_conductor").append("<option value="+data.conductores[i].id+">"+data.conductores[i].nombre+"</option>");
+                        
+                    }
+                }
+            });
+        }
+    });
+
     $("#id_maquina").change(function(){
         var maquina = this.value;
         if(maquina !== ""){

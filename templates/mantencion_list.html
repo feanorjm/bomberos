@@ -46,15 +46,15 @@
                           <th>#</th>
                           <th>Fecha</th>
                           <th>Maquina</th>
-                          <th>km salida</th>
-                          <th>km Regreso</th>
-                          <th>Hr salida</th>
-                          <th>Hr Regreso</th>
-                          <th>Cod_man</th>
+                          <th>Mantención</th>
                           <th>Observacion</th>
                           <th>Factura</th>
                           <th>Valor</th>
                           <th>Taller</th>
+                          <th>km salida</th>
+                          <th>km Regreso</th>
+                          <th>Hr salida</th>
+                          <th>Hr Regreso</th>
                           <th>Responsable</th>
                         </tr>
                       </thead>
@@ -67,15 +67,16 @@
                             <td></td>
                             <td><a style="color: orangered;text-decoration: underline;" href="{{ mantencion.get_absolute_url }}">{{ mantencion.fecha|date:"Y-m-d" }}</a></td>
                             <td>{{ mantencion.maquina }}</td>
+                            <td>{{ mantencion.cod_man }}</td>
+                            <td> {{ mantencion.observacion }}</td>
+                            {% load l10n %}
+                            <td align="right"> {{ mantencion.num_factura|unlocalize|default_if_none:"No ingresado" }}</td>
+                            <td align="right"> $ {{ mantencion.valor|default_if_none:"No ingresado" }}</td>
+                            <td> {{ mantencion.taller }}</td>
                             <td align="right">{{ mantencion.ki_salida }}</td>
                             <td align="right">{{ mantencion.ki_regreso }}</td>
                             <td align="right">{{ mantencion.ho_salida }}</td>
                             <td align="right">{{ mantencion.ho_regreso }}</td>
-                            <td>{{ mantencion.cod_man }}</td>
-                            <td> {{ mantencion.observacion }}</td>
-                            <td align="right"> {{ mantencion.num_factura|default_if_none:"No ingresado" }}</td>
-                            <td align="right"> $ {{ mantencion.valor|default_if_none:"No ingresado" }}</td>
-                            <td> {{ mantencion.taller }}</td>
                             <td>{{ mantencion.responsable }}</td>
                         </tr>
                         {% endfor %}

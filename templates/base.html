@@ -97,14 +97,14 @@
                         </li>
                         <li><a href="{% url 'combustible_list' %}">Carga Combustible</a>
                         </li>
+                        <li><a href="{% url 'mantencion_list' %}">Mantenciones</a>
+                        </li>
                       </ul>
                     </li>
                   {% endif %}
-                  {% if user.usuariocomp.tipo != "1" %}
+                  {% if user.usuariocomp.tipo == "2" or user.usuariocomp.tipo == "3" %}
                     <li><a><i class="fa fa-cogs"></i> Mantenimiento <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                        <li><a href="{% url 'mantencion_list' %}">Mantenciones</a>
-                        </li>
                         {% if perms.maintenance.add_division %}
                         <li><a href="{% url 'admin:maintenance_division_add' %}">Agregar y Editar Divisiones</a>
                         </li>
@@ -151,10 +151,12 @@
                         </li>
                         <li><a href="{% url 'reporte_maquinistas_list_view' %}">Reporte Maquinistas</a>
                         </li>
-                        <li><a href="#">Reporte 3</a>
+                        <li><a href="{% url 'reporte_servicios_list_view' %}">Reporte Servicios</a>
                         </li>
-                        <!--li><a href="">Form Validation</a>
-                        </li>-->
+                        <li><a href="{% url 'reporte_mantenciones_list_view' %}">Reporte Mantenciones</a>
+                        </li>
+                        <li><a href="{% url 'reporte_talleres_list_view' %}">Reporte Talleres</a>
+                        </li>
                       </ul>
                     </li>
                   {% endif %}
@@ -162,23 +164,6 @@
               </div>
             </div>
             <!-- /sidebar menu -->
-
-            <!-- /menu footer buttons -->
-            <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Settings">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Lock">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-              </a>
-            </div>
-            <!-- /menu footer buttons -->
           </div>
         </div>
 

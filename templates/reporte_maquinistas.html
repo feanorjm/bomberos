@@ -61,24 +61,8 @@
                         </form>
                       </div>
                       <div class="table-responsive">
-                        <table id="datatable-responsive" class="table table-striped table-bordered">
+                        <table id="datatable-responsive" class="table table-striped table-bordered table-bordered nowrap">
                           <thead>
-                            <!--<tr>
-                              <th colspan="4">CARRO: {{ datos_list.nombre }}</th>
-                              <th colspan="4">PATENTE: {{ datos_list.patente }}</th>
-                              <th colspan="3">MES: {{ datos_list.mes }}</th>
-                              <th colspan="3"></th>
-                              <th colspan="3"></th>
-                              <th colspan="1"></th>
-                            </tr>
-                            <tr>
-                              <th colspan="4"></th>
-                              <th colspan="4" align="center">CONSUMO PETROLEO</th>
-                              <th colspan="3">KILOMETRAJE RECORRIDO</th>
-                              <th colspan="3">HORAS BOMBA</th>
-                              <th colspan="3">HORAS MOTOR</th>
-                              <th colspan="1"></th>
-                            </tr>-->
                             <tr>
                               <th align="center">Compañía</th>
                               <th align="center">Nombre</th>
@@ -94,8 +78,8 @@
                           <tbody>
                             {% for object in object_list %}
                             <tr>
-                              <td align="right">{{ object.compania }}</td>
-                              <td align="right">{{ object.nombre }}</td>
+                              <td align="center">{{ object.compania }}</td>
+                              <td>{{ object.nombre }}</td>
                               <td align="right">{{ object.rut|default_if_none:"--" }}</td>
                               <td align="right">{{ object.venc|default_if_none:"--" }}</td>
                               {% for hora in object.horas %}
@@ -153,6 +137,9 @@
     <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/buttons.print.min.js' %}"></script>
 
     <!-- Datatables -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.2.0/jquery-confirm.min.js"></script>
+
     <script>
 
         $(document).ready(function() {
@@ -171,13 +158,47 @@
               "info":     false,
               dom: 'lBfrtip',
               buttons: [
-                  'copy', 'csv', 'excel'
+                'copy', 
+                'csv',
+                {
+                  extend: 'excel',
+                  exportOptions: {
+                      columns: ':visible',
+                      format: {
+                          body: function(data, row, column, node) {
+                              data = $('<p>' + data + '</p>').text();
+                              return $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
+                          }
+                      }
+                  }
+                }
               ]
             });
         });
     </script>
 
     <script type="text/javascript">
+
+      $("#form-busqueda").submit(function(){
+        if ($("#fecha_ini").val() === ""){
+          $.alert({
+              title: 'Cuidado!',
+              content: "Debe completar fecha Inicial",
+          });
+          return false;
+        }
+        else if ($("#fecha_fin").val() === ""){
+          $.alert({
+              title: 'Cuidado!',
+              content: "Debe completar fecha Final",
+          });
+          return false;
+        }
+        else{
+          return true;
+        }
+
+      });
 
       /*$("#id_compania").change(function(){
             var compania = this.value;
