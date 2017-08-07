@@ -30,7 +30,7 @@
                   <div class="x_content">
                       <div class="col-xs-12 col-md-12">
                           <div class="table-responsive">
-                            <table class="table">
+                            <table id="table-responsive" class="table table-bordered nowrap">
                               <tbody>
                                 <tr>
                                   <th style="width:50%">NOMBRES:</th>
@@ -51,6 +51,10 @@
                                 <tr>
                                   <th>COMPAÑÍA:</th>
                                   <td>{{ object.compania }}</td>
+                                </tr>
+                                <tr>
+                                  <th>MÁQUINAS ASIGNADAS:</th>
+                                  <td>{{ maquinas_list }}</td>
                                 </tr>
                                 <tr>
                                   <th>VENCIMIENTO LICENCIA:</th>
@@ -81,5 +85,74 @@
     <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
     <!-- Custom Theme Scripts -->
     <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/datepicker/bootstrap-datepicker.js' %}"></script>
+
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <!--<script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>-->
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
+    <!--<script type="text/javascript" src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>-->
+    <!--<script type="text/javascript" src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>-->
+
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/dataTables.buttons.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/buttons.flash.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/jszip.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/pdfmake.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/vfs_fonts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datatable-new/buttons.print.min.js' %}"></script>
+
+    <script>
+
+        $(document).ready(function() {
+
+            /*$('#table-responsive').DataTable({
+              'searching': false,
+              "paging":   false,
+              "ordering": false,
+              "info":     false,
+              "language": {
+                  "decimal": ",",
+                  "thousands": "."
+              },
+              dom: 'lBfrtip',
+              buttons: [
+                'copy',
+                //'excel',
+                {
+                  extend: 'excel',
+                  title : $('#titulo').text(),
+                  exportOptions: {
+                      columns: ':visible',
+                      format: {
+                          body: function(data, row, column, node) {
+                              data = $('<p>' + data + '</p>').text();
+                              if ($.isNumeric(data.replace('.', '').replace(',','.'))){
+                                data = data.replace('.', '').replace(',','.');
+                                return data;
+                              }
+                              else{
+                                return data;
+                                
+                              }
+                          }
+                      }
+                  }
+                }
+              ]
+            });*/
+        });
+    </script>
 
 {% endblock %}

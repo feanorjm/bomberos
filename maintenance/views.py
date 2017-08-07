@@ -497,6 +497,21 @@ class ConductorDetailView(DetailView):
     model = Conductor
     template_name = 'conductor_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(ConductorDetailView, self).get_context_data(**kwargs)
+        conductor = self.get_object()
+        maquinas = Maquina.objects.filter(compania=conductor.compania)
+
+        maquinas_list = ""
+        for maquina in maquinas:
+            if conductor in maquina.conductor.all():
+                maquinas_list += maquina.nombre+"  "
+
+        context['maquinas_list'] = maquinas_list
+
+
+        return context
+
 
 
 @method_decorator(login_required, name='dispatch')
@@ -784,10 +799,18 @@ class DashboardListView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(DashboardListView, self).get_context_data(*args, **kwargs)
         today = datetime.now()
+        ranking_list = []
         if (self.request.user.usuariocomp.tipo in ('2','3')):
-            ranking_list = Bitacora.objects.filter(fecha__year=today.year).\
-                values('compania__nombre','conductor__nombre','conductor__ap_paterno').\
+            query = Bitacora.objects.filter(fecha__year=today.year).\
+                values('compania__nombre','conductor__nombre','conductor__ap_paterno','conductor__ap_materno').\
                 annotate(horas=Sum(F('hodometro_llegada')-F('hodometro_salida'))).order_by('compania')
+
+            for ranking in query:
+                ranking_list.append({
+                    'compania': ranking['compania__nombre'],
+                    'conductor': ranking['conductor__nombre'].split(" ")[0]+" "+ranking['conductor__ap_paterno']+" "+ranking['conductor__ap_materno'],
+                    'horas': ranking['horas'],
+                })
 
             mantencion_list = DetalleMantencion.objects.filter(tipo_mantencion__nombre='Preventiva').\
                 values('mantencion__maquina__nombre','division__nombre','subdivision__nombre',
@@ -795,9 +818,16 @@ class DashboardListView(ListView):
 
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
-            ranking_list = Bitacora.objects.filter(fecha__year=today.year,compania=user_comp). \
-                values('compania__nombre', 'conductor__nombre', 'conductor__ap_paterno'). \
+            query = Bitacora.objects.filter(fecha__year=today.year,compania=user_comp). \
+                values('compania__nombre', 'conductor__nombre', 'conductor__ap_paterno','conductor__ap_materno'). \
                 annotate(horas=Sum(F('hodometro_llegada') - F('hodometro_salida'))).order_by('compania')
+
+            for ranking in query:
+                ranking_list.append({
+                    'compania': ranking['compania__nombre'],
+                    'conductor': ranking['conductor__nombre'].split(" ")[0]+" "+ranking['conductor__ap_paterno']+" "+ranking['conductor__ap_materno'],
+                    'horas': ranking['horas'],
+                })
 
             mantencion_list = DetalleMantencion.objects.filter(tipo_mantencion__nombre='Preventiva',mantencion__compania=user_comp). \
                 values('mantencion__compania__nombre','mantencion__maquina__nombre', 'division__nombre', 'subdivision__nombre',
@@ -979,6 +1009,9 @@ class ReporteCombustibleListView(ListView):
 
             petroleo_anterior = Decimal(140)
 
+            km_diferencia_total = 0
+            consumo_motor_total = 0
+
             if len(servicios) > 0:
                 for servicio in servicios:
                     maquina = servicio.maquina
@@ -992,6 +1025,7 @@ class ReporteCombustibleListView(ListView):
                     kilometraje_anterior = servicio.kilometraje_salida
                     kilometraje_actual = servicio.kilometraje_llegada
                     kilometraje_diferencia = kilometraje_actual - kilometraje_anterior
+                    km_diferencia_total += kilometraje_diferencia
 
                     # horas motor
                     horas_motor_anterior = servicio.hodometro_salida
@@ -1012,6 +1046,8 @@ class ReporteCombustibleListView(ListView):
                     # calculo de litros
                     consumo_bomba = (horas_bomba_actual - horas_bomba_anterior) * 10
                     consumo_motor = round(float(kilometraje_diferencia) / float(1.4), 1)
+                    consumo_motor_total += consumo_motor
+
                     petroleo_consumo = Decimal(round(consumo_bomba + Decimal(consumo_motor), 1))
 
                     petroleo_actual = Decimal(round(petroleo_anterior - petroleo_consumo + petroleo_colocado, 1))
@@ -1053,12 +1089,21 @@ class ReporteCombustibleListView(ListView):
 
                     petroleo_anterior = petroleo_actual
 
+
+                rendimiento = round(float(km_diferencia_total) / float(consumo_motor_total), 1)
+                datos_list['km_diferencia_total'] = km_diferencia_total
+                datos_list['consumo_motor_total'] = consumo_motor_total
+                datos_list['rendimiento'] = rendimiento
+
+
             else:
                 list_object = []
                 if (self.request.user.usuariocomp.tipo in ('2', '3')):
                     datos_list = {'mensaje': 'No exiten datos para la Máquina solicitada','compania': compania_obj.pk, 'maquina':maquina_obj.pk, 'mes':mes}
                 else:
                     datos_list = {'mensaje': 'No exiten datos para la Máquina solicitada', 'maquina': maquina_obj.pk, 'mes':mes}
+
+
 
 
 

@@ -15,7 +15,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>MANTENCIONES </h2>
+                    <h2 id="titulo">MANTENCIONES </h2>
                       <ul class=" nav navbar-right panel_toolbox">
                         <li><button type="button" onclick="location.href='{% url 'mantencion_create_view' %}';" class="btn btn-success">nueva mantencion</button>
                         </li>
@@ -131,9 +131,37 @@
         $(document).ready(function() {
             $('#datatable-responsive').DataTable({
               'searching': false,
+              "paging":   false,
+              "ordering": false,
+              "info":     false,
+              "language": {
+                  "decimal": ",",
+                  "thousands": "."
+              },
               dom: 'lBfrtip',
               buttons: [
-                  'copy', 'csv', 'excel'
+                'copy',
+                //'excel',
+                {
+                  extend: 'excel',
+                  title : $('#titulo').text(),
+                  exportOptions: {
+                      columns: ':visible',
+                      format: {
+                          body: function(data, row, column, node) {
+                              data = $('<p>' + data + '</p>').text();
+                              if ($.isNumeric(data.replace('.', '').replace(',','.'))){
+                                data = data.replace('.', '').replace(',','.');
+                                return data;
+                              }
+                              else{
+                                return data;
+                                
+                              }
+                          }
+                      }
+                  }
+                }
               ]
             });
 

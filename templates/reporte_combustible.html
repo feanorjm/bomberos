@@ -14,7 +14,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Parte de Combustible</h2>
+                    <h2 id="titulo">Parte de Combustible</h2>
                     <div class="clearfix"></div>
                   </div>
                   
@@ -146,6 +146,66 @@
                               <td align="right">{{ object.conductor }}</td>
                             </tr>
                             {% endfor %}
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td align="right"></td>
+                              <td align="right"></td>
+                              <td align="right"></td>
+                              <td align="right"></td>
+                              <td align="right"></td>
+                              <td align="right">TOTAL</td>
+                              <td align="right">{{ datos_list.consumo_motor_total }}</td>
+                              <td></td>
+                              <td></td>
+                              <td align="right">TOTAL</td>
+                              <td align="right">{{ datos_list.km_diferencia_total }}</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td align="right"></td>
+                              <td align="right"></td>
+                              <td align="right"></td>
+                              <td align="right"></td>
+                              <td align="right"></td>
+                              <td align="right"></td>
+                              <td align="right"></td>
+                              <td></td>
+                              <td></td>
+                              <td align="right">RENDIMIENTO</td>
+                              <td align="right">{{ datos_list.rendimiento }}</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
                           </tbody>
                         </table>
                       </div>
@@ -206,22 +266,30 @@
               "paging":   false,
               "ordering": false,
               "info":     false,
+              "language": {
+                  "decimal": ",",
+                  "thousands": "."
+              },
               dom: 'lBfrtip',
               buttons: [
-                'copy', 
+                'copy',
+                //'excel',
                 {
                   extend: 'excel',
-                  extension: '.xls',
+                  title : $('#titulo').text(),
                   exportOptions: {
                       columns: ':visible',
                       format: {
                           body: function(data, row, column, node) {
                               data = $('<p>' + data + '</p>').text();
-                              return data;
-                              /*data2 = $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
-                              console.log(data2);
-
-                              return $.isNumeric(data2.replace('.', '')) ? data2.replace('.', '') : data2;*/
+                              if ($.isNumeric(data.replace('.', '').replace(',','.'))){
+                                data = data.replace('.', '').replace(',','.');
+                                return data;
+                              }
+                              else{
+                                return data;
+                                
+                              }
                           }
                       }
                   }
