@@ -91,13 +91,15 @@
                   {% if perms.maintenance.add_bitacora %}
                     <li><a><i class="fa fa-table"></i> Bitacora<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                        <li><a href="{% url 'bitacora_list' %}">Servicios</a>
+                        <li><a href="{% url 'bitacora_list' %}">Lista de Servicios</a>
                         </li>
                         <li><a href="{% url 'bitacora_create_view' %}">Nuevo servicio</a>
                         </li>
-                        <li><a href="{% url 'combustible_list' %}">Carga Combustible</a>
+                        <li><a href="{% url 'combustible_list' %}">Nueva Carga Combustible</a>
                         </li>
-                        <li><a href="{% url 'mantencion_list' %}">Mantenciones</a>
+                        <li><a href="{% url 'mantencion_create_view' %}">Nueva Mantención</a>
+                        </li>
+                        <li><a href="{% url 'mantencion_list' %}">Listado Mantenciones</a>
                         </li>
                       </ul>
                     </li>

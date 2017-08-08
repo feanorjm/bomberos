@@ -44,6 +44,7 @@
                       <thead>
                         <tr>
                           <th>#</th>
+                          <th>Servicio</th>
                           <th>Fecha</th>
                           <th>Maquina</th>
                           <th>Mantención</th>
@@ -65,6 +66,7 @@
 
                         <tr>
                             <td></td>
+                            <td align="right">{{ mantencion.servicio.id }}</td>
                             <td><a style="color: orangered;text-decoration: underline;" href="{{ mantencion.get_absolute_url }}">{{ mantencion.fecha|date:"Y-m-d" }}</a></td>
                             <td>{{ mantencion.maquina }}</td>
                             <td>{{ mantencion.cod_man }}</td>

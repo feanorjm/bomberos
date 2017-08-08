@@ -33,7 +33,7 @@ class MantencionForm(forms.ModelForm):
     class Meta:
         model = Mantencion
         fields = ['fecha', 'compania', 'maquina', 'ki_salida', 'ki_regreso', 'ho_salida', 'ho_regreso', 'cod_man',
-                  'observacion', 'num_factura', 'valor', 'taller', 'responsable']
+                  'observacion', 'num_factura', 'valor', 'taller', 'responsable', 'ho_bomba_salida','ho_bomba_regreso']
         widgets = {
             'fecha': forms.DateInput(attrs={'id': 'fecha','class': 'form-control',}),
             'compania': forms.Select(attrs={'class': 'form-control'}),
@@ -42,6 +42,8 @@ class MantencionForm(forms.ModelForm):
             'ki_regreso': forms.NumberInput(attrs={'class': 'form-control'}),
             'ho_salida': forms.NumberInput(attrs={'class': 'form-control'}),
             'ho_regreso': forms.NumberInput(attrs={'class': 'form-control'}),
+            'ho_bomba_salida': forms.NumberInput(attrs={'class': 'form-control'}),
+            'ho_bomba_regreso': forms.NumberInput(attrs={'class': 'form-control'}),
             #'tipo_mantencion': forms.Select(attrs={'class': 'form-control'}),
             'cod_man': forms.TextInput(attrs={'class': 'form-control'}),
             #'servicio': forms.Select(),
@@ -49,7 +51,7 @@ class MantencionForm(forms.ModelForm):
             'num_factura':forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
             'valor':forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
             'taller': forms.Select(attrs={'class': 'form-control'}),
-            'responsable': forms.TextInput(attrs={'class': 'form-control'})
+            #'responsable': forms.TextInput(attrs={'class': 'form-control'})
         }
 
 

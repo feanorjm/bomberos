@@ -237,12 +237,47 @@ class MantencionFormView(FormView):
         # guardar kilometraje y hodometro maquina
         kilometrajeform = form.cleaned_data['ki_regreso']
         hodometroform = form.cleaned_data['ho_regreso']
+        hm_bomba_salidaform = form.cleaned_data['ho_bomba_salida']
+        hm_bomba_regresoform = form.cleaned_data['ho_bomba_regreso']
         maquinaform = form.cleaned_data['maquina']
-        print(kilometrajeform, hodometroform, maquinaform)
         maquina = Maquina.objects.get(nombre=maquinaform)
         maquina.kilometraje = kilometrajeform
         maquina.hodometro = hodometroform
+        maquina.hodometro_bomba = hm_bomba_regresoform
         maquina.save()
+
+        # obtenemos los datos de la cabecera de la matencion
+        fechaform = form.cleaned_data['fecha']
+        km_salidaform = form.cleaned_data['ki_salida']
+        hm_salidaform = form.cleaned_data['ho_salida']
+        km_regresoform = kilometrajeform
+        hm_regresoform = hodometroform
+        cod_manform = form.cleaned_data['cod_man']
+        num_facturaform = form.cleaned_data['num_factura']
+        valorform = form.cleaned_data['valor']
+        tallerform = form.cleaned_data['taller']
+        observacionform = form.cleaned_data['observacion']
+
+        # Creamos un nuevo servicio
+        compania_id = int(self.request.POST.get('compania'))
+        conductor_id = int(self.request.POST.get('responsable'))
+        compania_obj = Compania.objects.get(pk=compania_id)
+        conductor_obj = Conductor.objects.get(pk=conductor_id)
+
+        clave_obj = Clave.objects.get(nombre='6--13')
+        servicio = Bitacora(compania=compania_obj, maquina=maquina, conductor=conductor_obj, direccion=tallerform,
+                            fecha=fechaform, hora_salida='00:00', hora_llegada='00:00', clave=clave_obj,
+                            kilometraje_salida=km_salidaform, kilometraje_llegada=km_regresoform,
+                            hodometro_salida=hm_salidaform, hodometro_llegada=hm_regresoform,
+                            ho_bomba_salida=hm_bomba_salidaform, ho_bomba_regreso=hm_bomba_regresoform,
+                            observciones='Mantencion orden de trabajo: '+ cod_manform + ', observacion:' + observacionform)
+        servicio.save()
+        self.object = form.save()
+
+        mantencion_obj = self.object
+        mantencion_obj.servicio = servicio
+        mantencion_obj.save()
+
         # devolver pk a detalleForm
         if self.request.is_ajax():
             data = {
@@ -405,6 +440,55 @@ class MantencionUpdateView(UpdateView):
     model = Mantencion
     form_class = MantencionForm
     template_name = 'mantencion_update.html'
+
+    def form_valid(self, form):
+        self.object = form.save()
+
+        mantencion_obj = self.object
+
+        # instanciamos el objeto Bitacora de referencia
+        servicio = mantencion_obj.servicio
+
+        # traemos los datos del formulario de Mantencion
+        kilometrajeform = form.cleaned_data['ki_regreso']
+        hodometroform = form.cleaned_data['ho_regreso']
+        fechaform = form.cleaned_data['fecha']
+        km_salidaform = form.cleaned_data['ki_salida']
+        hm_salidaform = form.cleaned_data['ho_salida']
+        km_regresoform = kilometrajeform
+        hm_regresoform = hodometroform
+        hm_bomba_salidaform = form.cleaned_data['ho_bomba_salida']
+        hm_bomba_regresoform = form.cleaned_data['ho_bomba_regreso']
+        cod_manform = form.cleaned_data['cod_man']
+        num_facturaform = form.cleaned_data['num_factura']
+        valorform = form.cleaned_data['valor']
+        tallerform = form.cleaned_data['taller']
+        observacionform = form.cleaned_data['observacion']
+
+
+        maquina_id = int(self.request.POST.get('maquina'))
+        maquina = Maquina.objects.get(pk=maquina_id)
+        compania_id = int(self.request.POST.get('compania'))
+        conductor_id = int(self.request.POST.get('responsable'))
+        compania_obj = Compania.objects.get(pk=compania_id)
+        conductor_obj = Conductor.objects.get(pk=conductor_id)
+
+        servicio.compania = compania_obj
+        servicio.maquina = maquina
+        servicio.conductor = conductor_obj
+        servicio.direccion = tallerform.razon_social
+        servicio.fecha = fechaform
+        servicio.kilometraje_salida = km_salidaform
+        servicio.kilometraje_llegada = km_regresoform
+        servicio.hodometro_salida = hm_salidaform
+        servicio.hodometro_llegada = hm_regresoform
+        servicio.ho_bomba_salida = hm_bomba_salidaform
+        servicio.ho_bomba_regreso = hm_bomba_regresoform
+        servicio.observciones = 'Mantencion orden de trabajo: '+ cod_manform + ', observacion:' + observacionform
+
+        servicio.save()
+
+        return super(MantencionUpdateView, self).form_valid(form)
 
 mantencion_list = MantencionListView.as_view()
 mantencion_detail = MantencionDetailView.as_view()
@@ -1045,7 +1129,7 @@ class ReporteCombustibleListView(ListView):
 
                     # calculo de litros
                     consumo_bomba = (horas_bomba_actual - horas_bomba_anterior) * 10
-                    consumo_motor = round(float(kilometraje_diferencia) / float(1.4), 1)
+                    consumo_motor = round(float(kilometraje_diferencia) / float(1.4), 2)
                     consumo_motor_total += consumo_motor
 
                     petroleo_consumo = Decimal(round(consumo_bomba + Decimal(consumo_motor), 1))
@@ -1090,7 +1174,8 @@ class ReporteCombustibleListView(ListView):
                     petroleo_anterior = petroleo_actual
 
 
-                rendimiento = round(float(km_diferencia_total) / float(consumo_motor_total), 1)
+                rendimiento = round(float(km_diferencia_total) / float(consumo_motor_total),2)
+                print(km_diferencia_total,consumo_motor_total,rendimiento)
                 datos_list['km_diferencia_total'] = km_diferencia_total
                 datos_list['consumo_motor_total'] = consumo_motor_total
                 datos_list['rendimiento'] = rendimiento

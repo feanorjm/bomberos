@@ -167,7 +167,6 @@
             $('#datatable-responsive').DataTable({
               'searching': false,
               "paging":   false,
-              "ordering": false,
               "info":     false,
               "language": {
                   "decimal": ",",
@@ -216,6 +215,7 @@
                     data: datos,
                     success: function (data) {
                         $("#maquina").empty();
+                        $("#maquina").append("<option value='0'>todas</option>");
                         for(var i in data.maquinas) {
                             if(data.maquinas[i].id !== null && data.maquinas[i].nombre !== null){
                                 $("#maquina").append("<option value="+data.maquinas[i].id+">"+data.maquinas[i].nombre+"</option>");

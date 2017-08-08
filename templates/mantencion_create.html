@@ -19,6 +19,9 @@
                     <h2>Datos nueva mantención</h2>
                     <div class="clearfix"></div>
                   </div>
+                  <div class="checkbox">
+                      <label><input type="checkbox" id="checkbox" value="">Mantención en Cuartel</label>
+                    </div>
                   <div class="x_content">
                     <form id="form_mantencion" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'mantencion_create_view' %}" method="post">{% csrf_token %}
                         {{ form.errors }}
@@ -49,17 +52,29 @@
                                 {{ form.ki_regreso }}
                                 {{ form.ki_regreso.errors }}
                             </div>
-                        </div>
-                        <div class="form-group pull-in clearfix">
                             <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ ho_salida.id_for_label }}">Horometro Salida </label>
                                 {{ form.ho_salida }}
                                 {{ form.ho_salida.errors }}
                             </div>
+                        </div>
+                        <div class="form-group pull-in clearfix">
                             <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ ho_regreso.id_for_label }}">Horometro Regreso </label>
                                 {{ form.ho_regreso }}
                                 {{ form.ho_regreso.errors }}
+                            </div>
+                            <div id="tiene_bomba">
+                                <div class="col-sm-2">
+                                    <label style="text-align:left;" class="control-label col-sm-12" for="{{ ho_bomba_salida.id_for_label }}">Ho Bomba Salida</label>
+                                    {{ form.ho_bomba_salida }}
+                                    {{ form.ho_bomba_salida.errors }}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label style="text-align:left;" class="control-label col-sm-12" for="{{ ho_bomba_regreso.id_for_label }}">Ho Bomba Regreso</label>
+                                    {{ form.ho_bomba_regreso }}
+                                    {{ form.ho_bomba_regreso.errors }}
+                                </div>
                             </div>
                             <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ cod_man.id_for_label }}">Orden de trabajo</label>
@@ -245,6 +260,7 @@
         $('#id_maquina').addClass('form-control');
         $('#id_servicio').addClass('form-control');
         $('#id_subdivision').addClass('form-control');
+        $('#id_responsable').addClass('form-control');
 
         //$('#fecha').datepicker({format: "yyyy-mm-dd",weekStart: 1});
 
@@ -255,10 +271,28 @@
 
         $("#form_mantencion_detalle").find('input, textarea, button, select').attr('disabled',true);
         $("#prox_man").hide();
+        $("#tiene_bomba").hide();
       });
     </script>
 
     <script>
+
+        $('#checkbox').click(function() {
+          if ($(this).is(':checked')) {
+            $("#id_ho_regreso").val($("#id_ho_salida").val());
+            $("#id_ki_regreso").val($("#id_ki_salida").val());
+            if ($("#tiene_bomba").css('display') == 'block'){
+                $("#id_ho_bomba_regreso").val($("#id_ho_bomba_salida").val());
+            }
+          }
+          else{
+            $("#id_ho_regreso").val("");
+            $("#id_ki_regreso").val("");
+            if ($("#tiene_bomba").css('display') == 'block'){
+                $("#id_ho_bomba_regreso").val("");
+            }
+          }
+        });
 
         $("#id_ho_regreso").on('blur',function(){
             var Hm_salida = $("#id_ho_salida").val();
@@ -316,6 +350,16 @@
     		}
     		else{
     			$("#prox_man").show();
+                if ($("#id_servicio option:selected").text() === "ENGRASE BOMBA"){
+                    var ho_bomba = $("#id_ho_bomba_regreso").val();
+                    var prox_man = parseFloat(ho_bomba) + 5;
+                    $("#id_hodometro_prox_man").val(prox_man);
+                }
+                else if ($("#id_servicio option:selected").text() === "CAMBIO ACEITE"){
+                    var ho_motor = $("#id_ho_regreso").val();
+                    var prox_man = parseFloat(ho_motor) + 400;
+                    $("#id_hodometro_prox_man").val(prox_man);
+                }
     		}
     		
     	});
@@ -343,6 +387,15 @@
                             else{
                                 $("#id_ki_salida").val("");
                                 $("#id_ho_salida").val("");
+                            }
+                            if(data.parametros[i].tiene_bomba === true){
+
+                                $("#id_ho_bomba_salida").val(data.parametros[i].hodometro_bomba);
+                                $("#tiene_bomba").show();
+                            }
+                            else{
+                                $("#id_ho_bomba_salida").val("");
+                                $("#tiene_bomba").hide();
                             }
                             
                             cant = data.ultimo_servicio.length;
@@ -377,22 +430,52 @@
 
         $("#form_mantencion").on( "submit", function( event ) {
           event.preventDefault();
-          var datos =  $( this ).serialize();
-          console.log(datos);
-          $.ajax({
-            //url: "http://localhost:8000/mantencion/add/",
-            url: "{% url 'mantencion_form_view' %}",
-            type: "POST",
-            data: datos,
-            success:function(data){
-                console.log(data);
-                $("#id_mantencion").val(data['pk']);
-                //-->NECESARIO $("#id_mantencion_detalle").val(data['pk']);
-                $("#form_mantencion").find('input, textarea, button, select').attr('disabled',true);
-                $("#form_mantencion_detalle").find('input, textarea, button, select').attr('disabled',false);
-                //$("#boton_form").attr('disabled',true);
+          if ($("#tiene_bomba").css('display') == 'block'){
+                var Hm_bomba_salida = $("#id_ho_bomba_salida").val();
+                var Hm_bomba_regreso = $("#id_ho_bomba_regreso").val();
+
+                if(Hm_bomba_salida === "" || Hm_bomba_regreso === ""){
+                    $.alert({
+                        title: 'Cuidado!',
+                        content: "Debe completar los campos HODOMETRO BOMBA",
+                    });
+                    return false;
+                }
+
+
+                else if (parseFloat(Hm_bomba_regreso) < parseFloat(Hm_bomba_salida)){
+                    $.confirm({
+                        title: 'Cuidado!',
+                        content: "El HODOMETRO BOMBA REGRESO no debe ser MENOR que el HODOMETRO BOMBA SALIDA",
+                        buttons: {
+                            aceptar: function () {
+                                $("#id_ho_bomba_regreso").focus();
+                            },
+                        }
+                    });
+                    return false;
+                }
+                else{
+                    var datos =  $( this ).serialize();
+                    console.log(datos);
+                    $.ajax({
+                    //url: "http://localhost:8000/mantencion/add/",
+                        url: "{% url 'mantencion_form_view' %}",
+                        type: "POST",
+                        data: datos,
+                        success:function(data){
+                            console.log(data);
+                            $("#id_mantencion").val(data['pk']);
+                            //-->NECESARIO $("#id_mantencion_detalle").val(data['pk']);
+                            $("#form_mantencion").find('input, textarea, button, select').attr('disabled',true);
+                            $("#form_mantencion_detalle").find('input, textarea, button, select').attr('disabled',false);
+                            //$("#boton_form").attr('disabled',true);
+                        }
+                    });
+                }
+                
             }
-          });
+          
         });
 
         $("#repuesto_add").on('click',function () {
@@ -475,7 +558,7 @@
                                         $("#tabla_detalle").append("<tr><td>"+division_text+"</td><td>"+subdivision_text+"</td><td>"+servicio_text+"</td><td>"+tipo_mantencion_text+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td></td></tr>");
                                     }
                                     else{
-                                        $("#tabla_detalle").append("<tr><td>"+division_text+"</td><td>"+subdivision_text+"</td><td>"+servicio_text+"</td><td>"+tipo_mantencion_text+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td>"+commaSeparateNumber(prox_man)+" km</td></tr>");
+                                        $("#tabla_detalle").append("<tr><td>"+division_text+"</td><td>"+subdivision_text+"</td><td>"+servicio_text+"</td><td>"+tipo_mantencion_text+"</td><td>"+des_detalle+"</td><td>"+repuestos+"</td><td>"+commaSeparateNumber(prox_man)+" </td></tr>");
                                     }
                                     $("#id_division").val("");
                                     $("#id_subdivision").val("");
@@ -504,6 +587,30 @@
         $("#finalizar").on('click',function () {
            window.location.replace("{% url 'mantencion_list' %}");
         });
+
+
+        $("#id_ho_bomba_regreso").on('blur',function(){
+            var Hm_bomba_salida = $("#id_ho_bomba_salida").val();
+            var Hm_bomba_regreso = $("#id_ho_bomba_regreso").val();
+
+            console.log(Hm_bomba_salida + ", " + Hm_bomba_regreso);
+
+            if (parseFloat(Hm_bomba_regreso) < parseFloat(Hm_bomba_salida)){
+                $.confirm({
+                    title: 'Cuidado!',
+                    content: "El HODOMETRO BOMBA REGRESO no debe ser MENOR que el HODOMETRO BOMBA SALIDA",
+                    buttons: {
+                        aceptar: function () {
+                            $("#id_ho_bomba_regreso").focus();
+                        },
+                    }
+                });
+            }
+
+        });
+
+
+    
 
     function commaSeparateNumber(valor){
         while (/(\d+)(\d{3})/.test(valor.toString())){
