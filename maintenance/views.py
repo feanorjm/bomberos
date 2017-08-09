@@ -1309,9 +1309,9 @@ class ReporteServiciosListView(ListView):
                 context['maquinas_list'] = maquinas_list
 
             if (fecha_ini == "" and fecha_fin == ""):
-                servicios = Bitacora.objects.filter(compania=compania_obj, maquina=maquina_obj,fecha__month=today.month).order_by('id')
+                servicios = Bitacora.objects.filter(compania=compania_obj, maquina=maquina_obj,fecha__month=today.month).order_by('fecha')
             else:
-                servicios = Bitacora.objects.filter(compania=compania_obj,maquina=maquina_obj, fecha__range=(fecha_ini,fecha_fin)).order_by('id')
+                servicios = Bitacora.objects.filter(compania=compania_obj,maquina=maquina_obj, fecha__range=(fecha_ini,fecha_fin)).order_by('fecha')
 
         else:
             if (self.request.user.usuariocomp.tipo in ('2', '3') and compania_id != ''):
@@ -1330,9 +1330,9 @@ class ReporteServiciosListView(ListView):
                 context['maquinas_list'] = maquinas_list
 
             if (fecha_ini == "" and fecha_fin == ""):
-                servicios = Bitacora.objects.filter(compania=compania_obj,fecha__month=today.month).order_by('id')
+                servicios = Bitacora.objects.filter(compania=compania_obj,fecha__month=today.month).order_by('fecha')
             else:
-                servicios = Bitacora.objects.filter(compania=compania_obj, fecha__range=(fecha_ini,fecha_fin)).order_by('id')
+                servicios = Bitacora.objects.filter(compania=compania_obj, fecha__range=(fecha_ini,fecha_fin)).order_by('fecha')
 
         list_object = []
 

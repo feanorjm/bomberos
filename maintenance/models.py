@@ -214,8 +214,8 @@ class Mantencion(models.Model):
     hora_llegada = models.TimeField(null=True)
     cod_man = models.CharField(max_length=45) #orden de trabajo
     observacion = models.TextField(max_length=200)
-    num_factura = models.IntegerField(null=True, blank=True)
-    valor = models.IntegerField(null=True, blank=True)
+    num_factura = models.IntegerField(default=0, blank=True)
+    valor = models.IntegerField(blank=True, default=0)
     taller = models.ForeignKey(Taller)
     responsable = ChainedForeignKey(Conductor, chained_field="maquina", chained_model_field="maquina", null=True,
                                   blank=True)
