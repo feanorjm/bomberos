@@ -41,6 +41,14 @@
                                   <td>{{ object.fecha|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
+                                  <th>Hora Salida:</th>
+                                  <td>{{ object.hora_salida|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Hora Regreso:</th>
+                                  <td>{{ object.hora_llegada|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
                                   <th>Litros:</th>
                                   <td>{{ object.litros|default_if_none:"--" }}</td>
                                 </tr>
@@ -56,14 +64,7 @@
                                   <th>Km regreso:</th>
                                   <td>{{ object.km_regreso|default_if_none:"--" }}</td>
                                 </tr>
-                                <tr>
-                                  <th>Hr motor Salida:</th>
-                                  <td>{{ object.hm_salida|default_if_none:"--" }}</td>
-                                </tr>
-                                <tr>
-                                  <th>Hr motor Regreso:</th>
-                                  <td>{{ object.hm_regreso|default_if_none:"--" }}</td>
-                                </tr>
+                                
                                 
                               </tbody>
                             </table>
@@ -73,6 +74,14 @@
                           <div class="table-responsive">
                             <table class="table table-bordered">
                               <tbody>
+                              <tr>
+                                  <th>Hr motor Salida:</th>
+                                  <td>{{ object.hm_salida|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Hr motor Regreso:</th>
+                                  <td>{{ object.hm_regreso|default_if_none:"--" }}</td>
+                                </tr>
                                 <tr>
                                   <th>Hr Bomba Salida:</th>
                                   <td>{{ object.ho_bomba_salida|default_if_none:"--" }}</td>

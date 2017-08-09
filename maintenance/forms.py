@@ -33,7 +33,7 @@ class MantencionForm(forms.ModelForm):
     class Meta:
         model = Mantencion
         fields = ['fecha', 'compania', 'maquina', 'ki_salida', 'ki_regreso', 'ho_salida', 'ho_regreso', 'cod_man',
-                  'observacion', 'num_factura', 'valor', 'taller', 'responsable', 'ho_bomba_salida','ho_bomba_regreso']
+                  'observacion', 'num_factura', 'valor', 'taller', 'responsable', 'ho_bomba_salida','ho_bomba_regreso','hora_salida','hora_llegada']
         widgets = {
             'fecha': forms.DateInput(attrs={'id': 'fecha','class': 'form-control',}),
             'compania': forms.Select(attrs={'class': 'form-control'}),
@@ -44,6 +44,8 @@ class MantencionForm(forms.ModelForm):
             'ho_regreso': forms.NumberInput(attrs={'class': 'form-control'}),
             'ho_bomba_salida': forms.NumberInput(attrs={'class': 'form-control'}),
             'ho_bomba_regreso': forms.NumberInput(attrs={'class': 'form-control'}),
+            'hora_salida': forms.TimeInput(attrs={'id': 'hora_sal', 'type': 'time', 'class': 'form-control'}),
+            'hora_llegada': forms.TimeInput(attrs={'id': 'hora_lle', 'type': 'time', 'class': 'form-control'}),
             #'tipo_mantencion': forms.Select(attrs={'class': 'form-control'}),
             'cod_man': forms.TextInput(attrs={'class': 'form-control'}),
             #'servicio': forms.Select(),
@@ -154,7 +156,7 @@ class CombustibleForm(forms.ModelForm):
     class Meta:
         model = Carguios_combustible
         fields = ['compania','maquina','litros','servicentro','km_salida','km_regreso','hm_salida','hm_regreso',
-                  'ho_bomba_salida','ho_bomba_regreso','valor','conductor','obac','fecha','tarjeta_tct']
+                  'ho_bomba_salida','ho_bomba_regreso','valor','conductor','obac','fecha','tarjeta_tct','hora_salida','hora_llegada']
         widgets = {
             'compania': forms.Select(attrs={'class': 'form-control'}),
             #'maquina': forms.Select(attrs={'class': 'form-control'}),
@@ -167,6 +169,8 @@ class CombustibleForm(forms.ModelForm):
             'hm_regreso': forms.NumberInput(attrs={'class': 'form-control'}),
             'ho_bomba_salida': forms.NumberInput(attrs={'class': 'form-control'}),
             'ho_bomba_regreso': forms.NumberInput(attrs={'class': 'form-control'}),
+            'hora_salida': forms.TimeInput(attrs={'id': 'hora_sal', 'type': 'time', 'class': 'form-control'}),
+            'hora_llegada': forms.TimeInput(attrs={'id': 'hora_lle', 'type': 'time', 'class': 'form-control'}),
             'valor': forms.TextInput(attrs={'class': 'form-control','pattern': '[0-9]*'}),
             #'conductor': forms.Select(attrs={'class': 'form-control'}),
             'obac': forms.TextInput(attrs={'class': 'form-control'}),

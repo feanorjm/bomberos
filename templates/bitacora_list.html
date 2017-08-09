@@ -57,9 +57,9 @@
                       <thead>
                         <tr>
                           <th>ID</th>
+                          <th>Fecha</th>
                           <th>Maquina</th>
                           <th>Clave</th>
-                          <th>Fecha</th>
                           <th>Dirección</th>
                           <th>Despacho</th>
                           <th>6-10</th>
@@ -78,10 +78,10 @@
                         {% for servicio in object_list %}
 
                         <tr>
-                            <td>{{ servicio.id }}</td>
-                            <td><a style="color: orangered;text-decoration: underline;" href="{{ servicio.get_absolute_url }}">{{ servicio.maquina }}</a></td>
-                            <td>{{ servicio.clave }}</td>
+                            <td><a style="color: orangered;text-decoration: underline;" href="{{ servicio.get_absolute_url }}">{{ servicio.id }}</a></td>
                             <td>{{ servicio.fecha|date:"Y-m-d" }}</td>
+                            <td>{{ servicio.maquina }}</td>
+                            <td>{{ servicio.clave }}</td>
                             <td>{{ servicio.direccion }}</td>
                             <td>{{ servicio.hora_salida|default_if_none:"--" }}</td>
                             <td>{{ servicio.hora_llegada|default_if_none:"--" }}</td>
@@ -156,7 +156,7 @@
                   "decimal": ",",
                   "thousands": "."
               },
-              dom: 'Bfrtip',
+              dom: 'TIBfrtip',
               buttons: [
                 'copy',
                 //'excel',

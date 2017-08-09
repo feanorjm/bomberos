@@ -210,6 +210,8 @@ class Mantencion(models.Model):
     ho_regreso = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     ho_bomba_salida = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
     ho_bomba_regreso = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
+    hora_salida = models.TimeField(null=True)
+    hora_llegada = models.TimeField(null=True)
     cod_man = models.CharField(max_length=45) #orden de trabajo
     observacion = models.TextField(max_length=200)
     num_factura = models.IntegerField(null=True, blank=True)
@@ -230,7 +232,7 @@ class DetalleMantencion(models.Model):
     division = models.ForeignKey(Division, null=True)
     subdivision = ChainedForeignKey(Subdivision, chained_field="division", chained_model_field="division", null=True, related_name='%(class)s_requests_created')
     tipo_mantencion = models.ForeignKey(TipoMantencion, default=1, null=True)
-    servicio = ChainedForeignKey(ServicioMantencion, chained_field="subdivision", chained_model_field="subdivision", null=True, related_name='%(class)s_requests_created')
+    servicio = ChainedForeignKey(ServicioMantencion, chained_field="subdivision", chained_model_field="subdivision", null=True, blank=True, related_name='%(class)s_requests_created')
     des_detalle = models.TextField(max_length=200, null=True, blank=True)
     hodometro_prox_man = models.DecimalField(decimal_places=1,max_digits=10, null=True, blank=True)
 
@@ -260,6 +262,8 @@ class Carguios_combustible(models.Model):
     hm_regreso = models.DecimalField(decimal_places=1,max_digits=10, null=True)
     ho_bomba_salida = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
     ho_bomba_regreso = models.DecimalField(decimal_places=1, max_digits=10, null=True, blank=True)
+    hora_salida = models.TimeField(null=True)
+    hora_llegada = models.TimeField(null=True)
     valor = models.IntegerField()
     tarjeta_tct = models.IntegerField()
     conductor = ChainedForeignKey(Conductor, chained_field="maquina", chained_model_field="maquina", null=True,

@@ -43,6 +43,18 @@
                                 {{ form.fecha.errors }}
                             </div>
                             <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ hora_salida.id_for_label }}">Hora Salida</label>
+                                {{ form.hora_salida }}
+                                {{ form.hora_salida.errors }}
+                            </div>
+                            <div class="col-sm-2">
+                                <label style="text-align:left;" class="control-label col-sm-12" for="{{ hora_llegada.id_for_label }}">Hora Regreso</label>
+                                {{ form.hora_llegada }}
+                                {{ form.hora_llegada.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group pull-in clearfix">
+                            <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ ki_salida.id_for_label }}">Kilometraje Salida </label>
                                 {{ form.ki_salida }}
                                 {{ form.ki_salida.errors }}
@@ -57,8 +69,6 @@
                                 {{ form.ho_salida }}
                                 {{ form.ho_salida.errors }}
                             </div>
-                        </div>
-                        <div class="form-group pull-in clearfix">
                             <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ ho_regreso.id_for_label }}">Horometro Regreso </label>
                                 {{ form.ho_regreso }}
@@ -76,6 +86,8 @@
                                     {{ form.ho_bomba_regreso.errors }}
                                 </div>
                             </div>
+                        </div>
+                        <div class="form-group pull-in clearfix">
                             <div class="col-sm-2">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ cod_man.id_for_label }}">Orden de trabajo</label>
                                 {{ form.cod_man }}
@@ -93,27 +105,25 @@
                                     {{ form.valor.errors }}
                                 </div>
                             {% endif %}
-                        </div>
-                        <div class="form-group pull-in clearfix">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <label style="text-align:left;" class="control-label col-md-12" for="{{ taller.id_for_label }}">Taller </label>
                                 {{ form.taller }}
                                 {{ form.taller.errors }}
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ responsable.id_for_label }}">Responsable </label>
                                 {{ form.responsable }}
                                 {{ form.responsable.errors }}
                             </div>
+                        </div>
+                        <div class="form-group pull-in clearfix">
                             <div class="col-sm-4">
                                 <label style="text-align:left;" class="control-label col-sm-12" for="{{ observacion.id_for_label }}">Observacion </label>
                                 {{ form.observacion }}
                                 {{ form.observacion.errors }}
                             </div>
-
                         </div>
                         <div class="ln_solid"></div>
-
                         <div class="form-group col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                             <button id="boton_form" type="submit" name="form" class="btn btn-success">Ingresar</button>
                         </div>

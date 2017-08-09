@@ -30,11 +30,6 @@
                           <div class="table-responsive">
                             <table class="table table-striped table-bordered">
                               <tbody>
-                              {% load l10n %}
-                                <tr>
-                                  <th style="width:50%">Fecha:</th>
-                                  <td>{{ object.fecha|date:"Y-m-d" }}</td>
-                                </tr>
                                 <tr>
                                   <th>Compañía</th>
                                   <td>{{ object.compania }}</td>
@@ -42,6 +37,19 @@
                                 <tr>
                                   <th>Maquina</th>
                                   <td>{{ object.maquina }}</td>
+                                </tr>
+                                {% load l10n %}
+                                <tr>
+                                  <th style="width:50%">Fecha:</th>
+                                  <td>{{ object.fecha|date:"Y-m-d" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Hora Salida:</th>
+                                  <td>{{ object.hora_salida|default_if_none:"--" }}</td>
+                                </tr>
+                                <tr>
+                                  <th>Hora Regreso:</th>
+                                  <td>{{ object.hora_llegada|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
                                   <th>Orden de Trabajo:</th>

@@ -40,10 +40,10 @@ class BitacoraList(ListView):
     def get_queryset(self):
         today = datetime.now()
         if (self.request.user.usuariocomp.tipo in ('2','3')):
-            queryset = Bitacora.objects.filter(fecha__month=today.month).order_by('-id')
+            queryset = Bitacora.objects.filter(fecha__month=today.month).order_by('-fecha')
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
-            queryset = Bitacora.objects.filter(compania=user_comp,fecha__month=today.month).order_by('-id')
+            queryset = Bitacora.objects.filter(compania=user_comp,fecha__month=today.month).order_by('-fecha')
 
         return queryset
 
@@ -65,35 +65,35 @@ class BitacoraList(ListView):
             datos_list = {'fecha_ini':fecha_ini, 'fecha_fin':fecha_fin,'clave':clave_obj.pk}
 
             if (self.request.user.usuariocomp.tipo in ('2','3')):
-                servicios = Bitacora.objects.filter(fecha__range=(fecha_ini,fecha_fin),clave=clave_obj).order_by('-id')
+                servicios = Bitacora.objects.filter(fecha__range=(fecha_ini,fecha_fin),clave=clave_obj).order_by('-fecha')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
-                servicios = Bitacora.objects.filter(compania=user_comp,fecha__range=(fecha_ini,fecha_fin),clave=clave_obj).order_by('-id')
+                servicios = Bitacora.objects.filter(compania=user_comp,fecha__range=(fecha_ini,fecha_fin),clave=clave_obj).order_by('-fecha')
 
         elif (fecha_ini != '' and fecha_fin != ''):
             datos_list = {'fecha_ini':fecha_ini, 'fecha_fin':fecha_fin}
             if (self.request.user.usuariocomp.tipo in ('2','3')):
-                servicios = Bitacora.objects.filter(fecha__range=(fecha_ini,fecha_fin)).order_by('-id')
+                servicios = Bitacora.objects.filter(fecha__range=(fecha_ini,fecha_fin)).order_by('-fecha')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
-                servicios = Bitacora.objects.filter(compania=user_comp,fecha__range=(fecha_ini,fecha_fin)).order_by('-id')
+                servicios = Bitacora.objects.filter(compania=user_comp,fecha__range=(fecha_ini,fecha_fin)).order_by('-fecha')
 
         elif (clave != ''):
             clave_obj = Clave.objects.get(pk=clave)
             datos_list = {'clave':clave_obj.pk}
 
             if (self.request.user.usuariocomp.tipo in ('2','3')):
-                servicios = Bitacora.objects.filter(clave=clave_obj).order_by('-id')
+                servicios = Bitacora.objects.filter(clave=clave_obj).order_by('-fecha')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
-                servicios = Bitacora.objects.filter(compania=user_comp,clave=clave_obj).order_by('-id')
+                servicios = Bitacora.objects.filter(compania=user_comp,clave=clave_obj).order_by('-fecha')
 
         else:
             if (self.request.user.usuariocomp.tipo in ('2','3')):
-                servicios = Bitacora.objects.filter(fecha__month=today.month).order_by('-id')
+                servicios = Bitacora.objects.filter(fecha__month=today.month).order_by('-fecha')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
-                servicios = Bitacora.objects.filter(compania=user_comp,fecha__month=today.month).order_by('-id')
+                servicios = Bitacora.objects.filter(compania=user_comp,fecha__month=today.month).order_by('-fecha')
 
         context = {}
         claves_list = Clave.objects.all()
@@ -257,6 +257,8 @@ class MantencionFormView(FormView):
         valorform = form.cleaned_data['valor']
         tallerform = form.cleaned_data['taller']
         observacionform = form.cleaned_data['observacion']
+        hora_salidaform = form.cleaned_data['hora_salida']
+        hora_llegadaform = form.cleaned_data['hora_llegada']
 
         # Creamos un nuevo servicio
         compania_id = int(self.request.POST.get('compania'))
@@ -266,7 +268,7 @@ class MantencionFormView(FormView):
 
         clave_obj = Clave.objects.get(nombre='6--13')
         servicio = Bitacora(compania=compania_obj, maquina=maquina, conductor=conductor_obj, direccion=tallerform,
-                            fecha=fechaform, hora_salida='00:00', hora_llegada='00:00', clave=clave_obj,
+                            fecha=fechaform, hora_salida=hora_salidaform, hora_llegada=hora_llegadaform, clave=clave_obj,
                             kilometraje_salida=km_salidaform, kilometraje_llegada=km_regresoform,
                             hodometro_salida=hm_salidaform, hodometro_llegada=hm_regresoform,
                             ho_bomba_salida=hm_bomba_salidaform, ho_bomba_regreso=hm_bomba_regresoform,
@@ -435,6 +437,17 @@ class MantencionDeleteView(DeleteView):
     template_name = 'mantencion_delete.html'
     success_url = reverse_lazy('mantencion_list')
 
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        servicio = self.object.servicio
+        print(self.object,servicio)
+        servicio.delete()
+
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
+
+
 @method_decorator(login_required, name='dispatch')
 class MantencionUpdateView(UpdateView):
     model = Mantencion
@@ -464,6 +477,8 @@ class MantencionUpdateView(UpdateView):
         valorform = form.cleaned_data['valor']
         tallerform = form.cleaned_data['taller']
         observacionform = form.cleaned_data['observacion']
+        hora_salidaform = form.cleaned_data['hora_salida']
+        hora_llegadaform = form.cleaned_data['hora_llegada']
 
 
         maquina_id = int(self.request.POST.get('maquina'))
@@ -484,6 +499,8 @@ class MantencionUpdateView(UpdateView):
         servicio.hodometro_llegada = hm_regresoform
         servicio.ho_bomba_salida = hm_bomba_salidaform
         servicio.ho_bomba_regreso = hm_bomba_regresoform
+        servicio.hora_salida = hora_salidaform
+        servicio.hora_llegada = hora_llegadaform
         servicio.observciones = 'Mantencion orden de trabajo: '+ cod_manform + ', observacion:' + observacionform
 
         servicio.save()
@@ -726,6 +743,8 @@ class CombustibleCreateView(CreateView):
         obacform  = form.cleaned_data['obac']
         fechaform  = form.cleaned_data['fecha']
         tarjeta_tctform  = form.cleaned_data['tarjeta_tct']
+        hora_salidaform = form.cleaned_data['hora_salida']
+        hora_llegadaform = form.cleaned_data['hora_llegada']
 
         # almacenamos el kilometraje y hodometro de la maquina
         maquina_id = int(self.request.POST.get('maquina'))
@@ -743,7 +762,7 @@ class CombustibleCreateView(CreateView):
 
         clave_obj = Clave.objects.get(nombre='6--14')
         servicio = Bitacora(compania=compania_obj,maquina=maquina,conductor=conductor_obj,direccion=servicentroform,
-                            fecha=fechaform,hora_salida='00:00',hora_llegada='00:00',clave=clave_obj,
+                            fecha=fechaform,hora_salida=hora_salidaform,hora_llegada=hora_llegadaform,clave=clave_obj,
                             kilometraje_salida=km_salidaform,kilometraje_llegada=km_regresoform,
                             hodometro_salida=hm_salidaform,hodometro_llegada=hm_regresoform,
                             ho_bomba_salida=hm_bomba_salidaform,ho_bomba_regreso=hm_bomba_regresoform,
@@ -776,6 +795,14 @@ class CombustibleDeleteView(DeleteView):
     model = Carguios_combustible
     template_name = 'combustible_delete.html'
     success_url = reverse_lazy('combustible_list')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        servicio = self.object.servicio
+        servicio.delete()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
 
 @method_decorator(login_required, name='dispatch')
 class CombustibleDetailView(DetailView):
@@ -823,6 +850,8 @@ class CombustibleUpdateView(UpdateView):
         obacform = form.cleaned_data['obac']
         fechaform = form.cleaned_data['fecha']
         tarjeta_tctform = form.cleaned_data['tarjeta_tct']
+        hora_salidaform = form.cleaned_data['hora_salida']
+        hora_llegadaform = form.cleaned_data['hora_llegada']
 
         maquina_id = int(self.request.POST.get('maquina'))
         maquina = Maquina.objects.get(pk=maquina_id)
@@ -842,6 +871,8 @@ class CombustibleUpdateView(UpdateView):
         servicio.hodometro_llegada = hm_regresoform
         servicio.ho_bomba_salida = hm_bomba_salidaform
         servicio.ho_bomba_regreso = hm_bomba_regresoform
+        servicio.hora_salida = hora_salidaform
+        servicio.hora_llegada = hora_llegadaform
         servicio.observciones = 'Carga combustible de ' + str(litrosform) + ' litros, valor: $' + \
                                 str(valorform) + ', obac: ' + obacform + ', boucher TCT: ' + str(tarjeta_tctform)
 
@@ -927,95 +958,11 @@ class ReporteCombustibleListView(ListView):
     template_name = 'reporte_combustible.html'
 
     def get_queryset(self):
-        today = datetime.now()
-        clave_obj = Clave.objects.get(nombre='6--14')
-        user_comp = self.request.user.usuariocomp.compania.pk
-        compania_obj = Compania.objects.get(pk=user_comp)
-        maquina_default = Maquina.objects.filter(compania=compania_obj).order_by('id')[:1]
-        #print(maquina_default)
-
-        servicios = Bitacora.objects.filter(maquina=maquina_default,fecha__month=today.month).order_by('id')
-
         list_object = []
 
-        petroleo_anterior = Decimal(140)
+        queryset = list_object
 
-        if len(servicios) > 0:
-            for servicio in servicios:
-                maquina = servicio.maquina
-                #petroleo
-                petroleo_colocado = Decimal(0)
-                if (servicio.clave.id == clave_obj.id):
-                    carga = Carguios_combustible.objects.get(servicio=servicio)
-                    petroleo_colocado = Decimal(carga.litros)
-
-                #kilometraje
-                kilometraje_anterior = servicio.kilometraje_salida
-                kilometraje_actual = servicio.kilometraje_llegada
-                kilometraje_diferencia = kilometraje_actual - kilometraje_anterior
-
-                #horas motor
-                horas_motor_anterior = servicio.hodometro_salida
-                horas_motor_actual = servicio.hodometro_llegada
-                horas_motor_diferencia = horas_motor_actual - horas_motor_anterior
-
-                #horas bomba
-                if (maquina.tiene_bomba == True):
-                    horas_bomba_anterior = servicio.ho_bomba_salida
-                    horas_bomba_actual = servicio.ho_bomba_regreso
-                    horas_bomba_diferencia = horas_bomba_actual - horas_bomba_anterior
-                else:
-                    horas_bomba_anterior = 0
-                    horas_bomba_actual = 0
-                    horas_bomba_diferencia = 0
-
-                #calculo de litros
-                consumo_bomba = (horas_bomba_actual - horas_bomba_anterior) * 10
-                consumo_motor = round(float(kilometraje_diferencia) / float(1.4),1)
-                petroleo_consumo = Decimal(round(consumo_bomba + Decimal(consumo_motor),1))
-
-                petroleo_actual = Decimal(round(petroleo_anterior - petroleo_consumo + petroleo_colocado,1))
-                rendimiento = round(float(kilometraje_diferencia) / float(consumo_motor), 1)
-
-                #otros datos
-                fecha_dia = servicio.fecha.day
-                servicio_id = servicio.id
-                clave = servicio.clave.nombre
-                direccion = servicio.direccion
-                conductor = servicio.conductor
-
-                list_query = {'num': servicio_id,
-                              'fecha_dia': fecha_dia,
-                              'clave': clave,
-                              'direccion': direccion,
-
-                              'petroleo_anterior': petroleo_anterior,
-                              'petroleo_colocado': petroleo_colocado,
-                              'petroleo_consumo': petroleo_consumo,
-                              'petroleo_actual': petroleo_actual,
-
-                              'km_anterior': kilometraje_anterior,
-                              'km_actual': kilometraje_actual,
-                              'km_dif': kilometraje_diferencia,
-
-                              'bomba_anterior': horas_bomba_anterior,
-                              'bomba_actual': horas_bomba_actual,
-                              'bomba_dif': horas_bomba_diferencia,
-
-                              'motor_anterior': horas_motor_anterior,
-                              'motor_actual': horas_motor_actual,
-                              'motor_dif': horas_motor_diferencia,
-
-                              'conductor': conductor
-                              }
-
-                list_object.append(list_query)
-
-                petroleo_anterior = petroleo_actual
-
-            queryset = list_object
-
-            return queryset
+        return queryset
 
 
     def get_context_data(self, **kwargs):
@@ -1118,6 +1065,7 @@ class ReporteCombustibleListView(ListView):
 
                     # horas bomba
                     if (maquina.tiene_bomba == True):
+                        print(maquina)
                         horas_bomba_anterior = servicio.ho_bomba_salida
                         horas_bomba_actual = servicio.ho_bomba_regreso
                         horas_bomba_diferencia = horas_bomba_actual - horas_bomba_anterior
@@ -1173,9 +1121,11 @@ class ReporteCombustibleListView(ListView):
 
                     petroleo_anterior = petroleo_actual
 
+                if (consumo_motor_total == 0):
+                    rendimiento = "Indeterminado"
+                else:
+                    rendimiento = round(float(km_diferencia_total) / float(consumo_motor_total),2)
 
-                rendimiento = round(float(km_diferencia_total) / float(consumo_motor_total),2)
-                print(km_diferencia_total,consumo_motor_total,rendimiento)
                 datos_list['km_diferencia_total'] = km_diferencia_total
                 datos_list['consumo_motor_total'] = consumo_motor_total
                 datos_list['rendimiento'] = rendimiento
@@ -1469,13 +1419,17 @@ class ReporteMantencionesListView(ListView):
 
         if len(mantenciones) > 0:
             for detalle in mantenciones:
+                if detalle.servicio == None:
+                    detalle_Servicio = "No especificado"
+                else:
+                    detalle_Servicio = detalle.servicio.nombre
                 detalle_list =  {
                     'fecha':detalle.mantencion.fecha,
                     'taller': detalle.mantencion.taller.razon_social,
                     'maquina': detalle.mantencion.maquina,
                     'division':detalle.division.nombre,
                     'subdivision':detalle.subdivision.nombre,
-                    'servicio':detalle.servicio.nombre,
+                    'servicio':detalle_Servicio,
                     'tipo_mantencion':detalle.tipo_mantencion.nombre,
                     'factura': detalle.mantencion.num_factura,
                     'valor': detalle.mantencion.valor,
