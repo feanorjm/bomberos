@@ -132,7 +132,7 @@
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <!--smart-selects-->
-    <script type="text/javascript" src="{% static 'smart-selects/admin/js/chainedfk.js' %}"></script>
+    <script id="smart" type="text/javascript" src="{% static 'smart-selects/admin/js/chainedfk.js' %}"></script>
     <script type="text/javascript" src="{% static 'smart-selects/admin/js/chainedm2m.js' %}"></script>
     <script type="text/javascript" src="{% static 'smart-selects/admin/js/bindfields.js' %}"></script>
 
@@ -180,6 +180,27 @@
     </script>
 
     <script>
+
+        /*$("#id_maquina").on( "change", function( event ) {
+            event.preventDefault();
+            if($("#id_compania").val() === "9"){
+                var datos_form = $("#form_bitacora :hidden").serialize();
+                var datos = datos_form;
+                console.log(datos);
+                $.ajax({
+                    url: "{% url 'get_all_conductores' %}",
+                    type: "POST",
+                    data: datos,
+                    success: function (data) {
+                        $("#id_conductor").empty();
+                        for(var i in data.conductores) {
+                            $("#id_conductor").append("<option value="+data.conductores[i].id+">"+data.conductores[i].nombre+"</option>");
+                            
+                        }
+                    }
+                });
+            }
+        });*/
 
     /*$("#id_maquina").change(function(){
         if($("#id_compania").val() === "9"){
@@ -263,6 +284,25 @@
                     }
 
                     
+                }
+            });
+        }
+
+        if($("#id_compania").val() === "9" && maquina !== ''){
+            //$("#smart").remove();
+            var datos_form = $("#form_bitacora :hidden").serialize();
+            var datos = datos_form;
+            console.log(datos);
+            $.ajax({
+                url: "{% url 'get_all_conductores' %}",
+                type: "POST",
+                data: datos,
+                success: function (data) {
+                    $("#id_conductor").empty();
+                    for(var i in data.conductores) {
+                        $("#id_conductor").append("<option value="+data.conductores[i].id+">"+data.conductores[i].nombre+"</option>");
+                        
+                    }
                 }
             });
         }

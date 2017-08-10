@@ -24,8 +24,8 @@
                   </div>
                     <div class="x_content">
                   </div>
-                  <div class="x_content" id="dvData">
-                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                  <div class="table-responsive" id="dvData">
+                    <table id="datatable-responsive" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
                           <th>#</th>
@@ -118,15 +118,6 @@
           
 
         });
-    </script>
-
-    <script>
-
-      $("#btnExport").click(function (e) {
-          window.open('data:application/vnd.ms-excel,' + $('#dvData').html());
-          e.preventDefault();
-      });
-
     </script>
 
     <!-- /Datatables -->

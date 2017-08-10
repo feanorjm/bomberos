@@ -65,35 +65,35 @@ class BitacoraList(ListView):
             datos_list = {'fecha_ini':fecha_ini, 'fecha_fin':fecha_fin,'clave':clave_obj.pk}
 
             if (self.request.user.usuariocomp.tipo in ('2','3')):
-                servicios = Bitacora.objects.filter(fecha__range=(fecha_ini,fecha_fin),clave=clave_obj).order_by('-fecha')
+                servicios = Bitacora.objects.filter(fecha__range=(fecha_ini,fecha_fin),clave=clave_obj).order_by('-fecha','-hora_salida')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
-                servicios = Bitacora.objects.filter(compania=user_comp,fecha__range=(fecha_ini,fecha_fin),clave=clave_obj).order_by('-fecha')
+                servicios = Bitacora.objects.filter(compania=user_comp,fecha__range=(fecha_ini,fecha_fin),clave=clave_obj).order_by('-fecha','-hora_salida')
 
         elif (fecha_ini != '' and fecha_fin != ''):
             datos_list = {'fecha_ini':fecha_ini, 'fecha_fin':fecha_fin}
             if (self.request.user.usuariocomp.tipo in ('2','3')):
-                servicios = Bitacora.objects.filter(fecha__range=(fecha_ini,fecha_fin)).order_by('-fecha')
+                servicios = Bitacora.objects.filter(fecha__range=(fecha_ini,fecha_fin)).order_by('-fecha','-hora_salida')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
-                servicios = Bitacora.objects.filter(compania=user_comp,fecha__range=(fecha_ini,fecha_fin)).order_by('-fecha')
+                servicios = Bitacora.objects.filter(compania=user_comp,fecha__range=(fecha_ini,fecha_fin)).order_by('-fecha','-hora_salida')
 
         elif (clave != ''):
             clave_obj = Clave.objects.get(pk=clave)
             datos_list = {'clave':clave_obj.pk}
 
             if (self.request.user.usuariocomp.tipo in ('2','3')):
-                servicios = Bitacora.objects.filter(clave=clave_obj).order_by('-fecha')
+                servicios = Bitacora.objects.filter(clave=clave_obj).order_by('-fecha','-hora_salida')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
-                servicios = Bitacora.objects.filter(compania=user_comp,clave=clave_obj).order_by('-fecha')
+                servicios = Bitacora.objects.filter(compania=user_comp,clave=clave_obj).order_by('-fecha','-hora_salida')
 
         else:
             if (self.request.user.usuariocomp.tipo in ('2','3')):
-                servicios = Bitacora.objects.filter(fecha__month=today.month).order_by('-fecha')
+                servicios = Bitacora.objects.filter(fecha__month=today.month).order_by('-fecha','-hora_salida')
             else:
                 user_comp = self.request.user.usuariocomp.compania.pk
-                servicios = Bitacora.objects.filter(compania=user_comp,fecha__month=today.month).order_by('-fecha')
+                servicios = Bitacora.objects.filter(compania=user_comp,fecha__month=today.month).order_by('-fecha','-hora_salida')
 
         context = {}
         claves_list = Clave.objects.all()

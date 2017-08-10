@@ -179,7 +179,7 @@ class Clave(models.Model):
 class Bitacora(models.Model):
     compania = models.ForeignKey(Compania)
     maquina = ChainedForeignKey(Maquina,chained_field="compania",chained_model_field="compania", related_name='%(class)s_requests_created')
-    conductor = ChainedForeignKey(Conductor,chained_field="maquina",chained_model_field="maquina" , null=True)
+    conductor = ChainedForeignKey(Conductor,chained_field="maquina",chained_model_field="maquina", null=True)
     direccion = models.CharField(max_length=100,null=True)
     fecha = models.DateField(auto_now=False, auto_now_add=False,null=True)
     hora_salida = models.TimeField(null=True)
