@@ -63,7 +63,7 @@
                                 </tr>
                                 <tr>
                                   <th>OBSERVACIONES:</th>
-                                  <td>{{ object.observaciones|default_if_none:"--" }}</td>
+                                  <td>{{ object.observaciones_cond|default_if_none:"--" }}</td>
                                 </tr>
                                 {% if object.foto|default_if_none:"--" %}
                                 <tr>
