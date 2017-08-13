@@ -29,7 +29,7 @@ class Conductor(models.Model):
     ap_materno = models.CharField(max_length=45, null=True)
     num_licencia = models.CharField(max_length=12, null=True,blank=True)
     venc_lic = models.DateField(null=True,blank=True)
-    #observaciones = models.TextField(max_length=1000,null=True, blank=True, default="Ninguna")
+    observaciones = models.TextField(max_length=1000,null=True, blank=True, default="Ninguna")
     foto = models.FileField(upload_to='profile',null=True,blank=True)
 
     def __str__(self):
@@ -74,7 +74,7 @@ class Maquina(models.Model):
     costo_seg_auto = models.IntegerField(null=True, blank=True)  # costo seguro automotriz
     venc_seg_auto = models.DateField(null=True, blank=True)
     prueba = models.DecimalField(decimal_places=1,max_digits=10, null=True, blank=True)
-    #procedencia = models.CharField(max_length=1, choices=TIPO_MAQUINA_CHOICES, default=1)
+    procedencia = models.CharField(max_length=1, choices=TIPO_MAQUINA_CHOICES, default=1)
 
     def __str__(self):
         return str(self.nombre)
