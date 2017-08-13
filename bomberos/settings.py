@@ -84,7 +84,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bomberos',
-        #'NAME': 'cmingenieria$qasbomberos',
+        #'NAME': 'cmingenieria$cbo_db',
         'USER': 'root',
         #'USER': 'cmingenieria',
         'PASSWORD': '',
