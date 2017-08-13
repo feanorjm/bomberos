@@ -102,12 +102,11 @@ class MaquinaForm(forms.ModelForm):
                   'tiene_bomba',
                   'hodometro_bomba',
                   'venc_patente',
-                  'costo_patente',
-                  'soap_costo',
                   'venc_rev_tec',
                   'costo_rev_tec',
                   'costo_seg_auto',
                   'venc_seg_auto',
+                  'procedencia',
         }
 
 
@@ -128,19 +127,18 @@ class MaquinaForm(forms.ModelForm):
             'tiene_bomba': forms.Select(attrs={'class': 'form-control'}),
             'hodometro_bomba': forms.NumberInput(attrs={'class': 'form-control'}),
             'venc_patente': forms.DateInput(attrs={'class': 'form-control','placeholder':'yyyy-mm-dd'}),
-            'costo_patente': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*','placeholder':'ej:30000'}),
-            'soap_costo': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*','placeholder':'ej:30000'}),
             'venc_rev_tec': forms.DateInput(attrs={'class': 'form-control','placeholder':'yyyy-mm-dd'}),
             'costo_rev_tec': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*'}),
             'costo_seg_auto': forms.TextInput(attrs={'class': 'form-control', 'pattern': '[0-9]*','placeholder':'ej:30000'}),
             'venc_seg_auto': forms.DateInput(attrs={'class': 'form-control','placeholder':'yyyy-mm-dd'}),
+            'procedencia': forms.Select(attrs={'class': 'form-control'}),
         }
 
 class ConductorForm(forms.ModelForm):
     class Meta:
         model = Conductor
         #use_required_attribute = False
-        fields = ['compania','rut', 'nombre', 'ap_paterno','ap_materno', 'num_licencia', 'venc_lic','foto']
+        fields = ['compania','rut', 'nombre', 'ap_paterno','ap_materno', 'num_licencia', 'venc_lic','foto','observaciones']
         widgets = {
             'compania': forms.Select(attrs={'class': 'form-control'}),
             'rut': forms.TextInput(attrs={'class': 'form-control'}),
@@ -149,7 +147,8 @@ class ConductorForm(forms.ModelForm):
             'ap_materno': forms.TextInput(attrs={'class': 'form-control'}),
             'num_licencia': forms.TextInput(attrs={'class': 'form-control'}),
             'venc_lic': forms.DateInput(attrs={'id': 'fecha', 'class': 'form-control'}),
-            'foto': forms.FileInput(attrs={'class': 'form-control'})
+            'foto': forms.FileInput(attrs={'class': 'form-control'}),
+            'observaciones': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
 class CombustibleForm(forms.ModelForm):

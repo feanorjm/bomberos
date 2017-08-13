@@ -8,6 +8,7 @@
 
 
         <!-- page content -->
+        <iframe id="txtArea1" style="display:none"></iframe>
         <div class="right_col" role="main">
           <div class="">
             <div class="clearfix"></div>
@@ -15,16 +16,17 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Carga de Combustible </h2>
+                    <h2 id="titulo">Cargas de Combustible </h2>
                       <ul class=" nav navbar-right panel_toolbox">
-                        <li><button type=button onclick="location.href='{% url 'combustible_create' %}';" class="btn btn-success">Nueva carga</button>
+                        <li><button type="button" onclick="location.href='{% url 'combustible_create' %}';" class="btn btn-success">nueva carga</button>
                         </li>
                       </ul>
                     <div class="clearfix"></div>
                   </div>
                     <div class="x_content">
                   </div>
-                  <div class="table-responsive" id="dvData">
+                  <button id="btnExport" class="btn btn-dark" onclick="fnExcelReport();">Exportar Excel</button>
+                  <div style="width: 100%; height: 400px; overflow-y: scroll;">
                     <table id="datatable-responsive" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
@@ -46,15 +48,14 @@
                         </tr>
                       </thead>
 
-
                       <tbody>
 
                         {% for carga in object_list %}
                         <tr>
-                            <td></td>
-                            <td>{{ carga.servicio.id }}</td>
-                            <td><a style="color: orangered;text-decoration: underline;" href="{{ carga.get_absolute_url }}">{{ carga.maquina }}</a></td>
-                            <td>{{ carga.fecha }}</td>
+                            <td><a style="color: orangered;text-decoration: underline;" href="{{ carga.get_absolute_url }}">Ver</a></td>
+                            <td align="center">{{ carga.servicio.id }}</td>
+                            <td>{{ carga.maquina }}</td>
+                            <td>{{ carga.fecha|date:"d-m-Y" }}</td>
                             <td>{{ carga.litros }}</td>
                             <td>{{ carga.servicentro }}</td>
                             <td align="right">{{ carga.km_salida }}</td>
@@ -80,24 +81,14 @@
       </div>
     </div>
     <!-- jQuery -->
-    <!-- jQuery -->
-    <script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
-    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
-    <script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
-
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
     <!-- Bootstrap -->
     <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
-    <script type="text/javascript" src="{% static 'js/datepicker/daterangepicker.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/datepicker/bootstrap-datepicker.js' %}"></script>
     <!-- Datatables -->
     <script type="text/javascript" src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
@@ -111,13 +102,60 @@
     <script>
 
         $(document).ready(function() {
-          $('#datatable-responsive').DataTable({
-            'searching':false,
-          });
-
-          
-
+            $('#datatable-responsive').DataTable({
+              'searching': false,
+              "paging":   false,
+              "info":     false,
+              "language": {
+                  "decimal": ",",
+                  "thousands": "."
+              },
+            });
         });
+    </script>
+
+    <script>
+
+       function fnExcelReport()
+      {
+          var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
+          var textRange; var j=0;
+          tab = document.getElementById('datatable-responsive'); // id of table
+
+          for(j = 0 ; j < tab.rows.length ; j++) 
+          {     
+              tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
+              //tab_text=tab_text+"</tr>";
+          }
+
+          tab_text=tab_text+"</table>";
+          tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+          tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+          tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+          var ua = window.navigator.userAgent;
+          var msie = ua.indexOf("MSIE "); 
+
+          if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+          {
+              txtArea1.document.open("txt/html","replace");
+              txtArea1.document.write(tab_text);
+              txtArea1.document.close();
+              txtArea1.focus(); 
+              sa=txtArea1.document.execCommand("SaveAs",true,"cargas_combustible.xls");
+          }  
+          else
+            //other browser not tested on IE 11
+            var a = document.createElement('a');
+            var data_type = 'data:application/vnd.ms-excel';;
+            a.href = data_type + ', ' + escape(tab_text);
+            a.download = 'cargas_combustible.xls';
+            a.click();
+
+            //sa = window.open('data:application/vnd.ms-excel,' + escape(tab_text));
+
+          //return (sa);
+      }
     </script>
 
     <!-- /Datatables -->

@@ -41,10 +41,11 @@
                     </form>
                   </div>
                   <button id="btnExport" class="btn btn-dark" onclick="fnExcelReport();">Exportar Excel</button>
-                  <div class="table-responsive">
+                  <div style="width: 100%; height: 400px; overflow-y: scroll;">
                     <table id="datatable-responsive" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
+                          <th>#</th>
                           <th>Servicio</th>
                           <th>Fecha</th>
                           <th>Maquina</th>
@@ -65,9 +66,10 @@
 
                         {% for mantencion in object_list %}
 
-                        <tr>
-                            <td align="right">{{ mantencion.servicio.id }}</td>
-                            <td><a style="color: orangered;text-decoration: underline;" href="{{ mantencion.get_absolute_url }}">{{ mantencion.fecha|date:"Y-m-d" }}</a></td>
+                        <tr> 
+                            <td><a style="color: orangered;text-decoration: underline;" href="{{ mantencion.get_absolute_url }}">Ver</a></td>
+                            <td align="center">{{ mantencion.servicio.id }}</td>
+                            <td>{{ mantencion.fecha|date:"Y-m-d" }}</td>
                             <td>{{ mantencion.maquina }}</td>
                             <td>{{ mantencion.cod_man }}</td>
                             <td> {{ mantencion.observacion }}</td>
@@ -102,30 +104,14 @@
     <!-- Datatables -->
     <script type="text/javascript" src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
     <script type="text/javascript" src="{% static 'vendors/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>
 
     <!-- Custom Theme Scripts -->
     <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
-
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.flash.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/pdfmake.min.js"></script>
-    <script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/vfs_fonts.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.print.min.js"></script>
 
     <!-- Datatables -->
     <script>
@@ -134,7 +120,6 @@
             $('#datatable-responsive').DataTable({
               'searching': false,
               "paging":   false,
-              "ordering": false,
               "info":     false,
               "language": {
                   "decimal": ",",
@@ -220,7 +205,7 @@
               txtArea1.document.write(tab_text);
               txtArea1.document.close();
               txtArea1.focus(); 
-              sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
+              sa=txtArea1.document.execCommand("SaveAs",true,"cargas_combustible.xls");
           }  
           else
             //other browser not tested on IE 11

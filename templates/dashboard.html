@@ -78,7 +78,7 @@
                                 <tr>
                                   <td>{{ ranking.compania }}</td>
                                   <td>{{ ranking.conductor}}</td>
-                                  <td>{{ ranking.horas }}</td>
+                                  <td align="right">{{ ranking.horas }}</td>
                                 </tr>
                                 {% endfor %}
                               </tbody>
@@ -102,6 +102,7 @@
                                 <tr>
                                   <th align="center">Máquina</th>
                                   <th align="center">Servicio</th>
+                                  <th align="center">Fecha</th>
                                   <th align="center">Prox. Mantención</th>
                                 </tr>
                               </thead>
@@ -109,8 +110,9 @@
                                 {% for mantencion in mantencion_list %}
                                 <tr>
                                   <td>{{ mantencion.mantencion__maquina__nombre }}</td>
-                                  <td>{{ mantencion.servicio__nombre }}</td>
-                                  <td>{{ mantencion.hodometro_prox_man }}</td>
+                                  <td>{{ mantencion.servicio__nombre|default_if_none:"No especificado" }}</td>
+                                  <td>{{ mantencion.mantencion__fecha|date:"d-m-Y" }}</td>
+                                  <td align="right">{{ mantencion.hodometro_prox_man }}</td>
                                 </tr>
                                 {% endfor %}
                               </tbody>

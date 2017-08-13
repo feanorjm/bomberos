@@ -109,12 +109,8 @@
                                   <td>{{ object.venc_patente|default_if_none:"--" }}</td>
                                 </tr>
                                 <tr>
-                                  <th>Costo Patente:</th>
-                                  <td>{{ object.costo_patente|default_if_none:"--" }}</td>
-                                </tr>
-                                <tr>
-                                  <th>SOAP Costo:</th>
-                                  <td>{{ object.soap_costo|default_if_none:"--" }}</td>
+                                  <th>Procedencia:</th>
+                                  <td>{{ object.get_procedencia_display }}</td>
                                 </tr>
                                 <tr>
                                   <th>Vencimiento revisión técnica:</th>

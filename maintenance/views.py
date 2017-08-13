@@ -783,10 +783,12 @@ class CombustibleListView(ListView):
 
     def get_queryset(self):
         if (self.request.user.usuariocomp.tipo in ('2','3')):
-            queryset = Carguios_combustible.objects.all().order_by('fecha')
+            queryset = Carguios_combustible.objects.all().order_by('-fecha')
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
             queryset = Carguios_combustible.objects.filter(compania=user_comp).order_by('-fecha')
+
+        print(queryset)
 
         return queryset
 
@@ -929,7 +931,7 @@ class DashboardListView(ListView):
 
             mantencion_list = DetalleMantencion.objects.filter(tipo_mantencion__nombre='Preventiva').\
                 values('mantencion__maquina__nombre','division__nombre','subdivision__nombre',
-                       'servicio__nombre','hodometro_prox_man')
+                       'servicio__nombre','hodometro_prox_man','mantencion__fecha')
 
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
@@ -946,7 +948,7 @@ class DashboardListView(ListView):
 
             mantencion_list = DetalleMantencion.objects.filter(tipo_mantencion__nombre='Preventiva',mantencion__compania=user_comp). \
                 values('mantencion__compania__nombre','mantencion__maquina__nombre', 'division__nombre', 'subdivision__nombre',
-                       'servicio__nombre', 'hodometro_prox_man')
+                       'servicio__nombre', 'hodometro_prox_man','mantencion__fecha')
 
         context['ranking_list'] = ranking_list
         context['mantencion_list'] = mantencion_list
