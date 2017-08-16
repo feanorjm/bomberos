@@ -1106,13 +1106,21 @@ class ReporteCombustibleListView(ListView):
                         consumo_motor = sumatoria_horas_motor * factor_por_litro
 
                         petroleo_actual = Decimal(140)
-                        rendimiento = Decimal(round(float(sumatoria_kilometraje) / float(petroleo_colocado - consumo_bomba - consumo_motor), 1))
-                        lugares.append({'cont': cont, 'serv_acum': serv_acum, 'rend':rendimiento})
-                        #print(lugares)
-                        rendimientos.append(rendimiento)
+                        consumo = float(petroleo_colocado - consumo_bomba)
+                        if consumo != 0:
+                            rendimiento = round(float(sumatoria_kilometraje) / consumo, 2)
+                            rendimiento = Decimal(format(rendimiento,'7.2f'))
+                            print(rendimiento)
+                            lugares.append({'cont': cont, 'serv_acum': serv_acum, 'rend':rendimiento})
+                            #print(lugares)
+                            rendimientos.append(rendimiento)
 
-                        petroleo_consumo = round((kilometraje_diferencia/rendimiento) + ((horas_motor_diferencia + horas_bomba_diferencia)*factor_por_litro),1)
-                        petroleo_anterior = petroleo_actual - petroleo_colocado - petroleo_consumo
+                            petroleo_consumo = round((kilometraje_diferencia/(2*rendimiento)) + ((horas_bomba_diferencia)*factor_por_litro),1)
+                            petroleo_anterior = petroleo_actual - petroleo_colocado - petroleo_consumo
+                        else:
+                            petroleo_actual = 'indeterminado'
+                            petroleo_anterior = 'indeterminado'
+                            petroleo_consumo = 'indeterminado'
 
                         kilometraje_total += sumatoria_kilometraje
                         horas_bomba_total += sumatoria_horas_bomba
@@ -1176,7 +1184,7 @@ class ReporteCombustibleListView(ListView):
                         dif_km = list_object[i]['km_dif']
                         dif_bomba = list_object[i]['bomba_dif']
                         dif_motor = list_object[i]['motor_dif']
-                        petroleo_consumo = round((dif_km/rend) - ((dif_bomba + dif_motor)*factor_por_litro),1)
+                        petroleo_consumo = round((dif_km/rend) + ((dif_bomba)*factor_por_litro),1)
                         list_object[i]['petroleo_consumo'] = round(petroleo_consumo,1)
                         petroleo_anterior = petroleo_actual + petroleo_consumo
                         list_object[i]['petroleo_anterior'] = round(petroleo_anterior,1)
@@ -1184,10 +1192,11 @@ class ReporteCombustibleListView(ListView):
 
                 if (len(rendimientos) > 0):
                     suma = 0
+                    print(rendimientos)
                     for i in rendimientos:
                         suma += i
 
-                    prom_rend = Decimal(round((suma/len(rendimientos)),1))
+                    prom_rend = Decimal(round((suma/len(rendimientos)),2))
                 else:
                     prom_rend = 'Indeterminado'
 
