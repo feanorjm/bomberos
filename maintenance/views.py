@@ -1122,9 +1122,9 @@ class ReporteCombustibleListView(ListView):
                             petroleo_anterior = 'indeterminado'
                             petroleo_consumo = 'indeterminado'
 
-                        kilometraje_total += sumatoria_kilometraje
-                        horas_bomba_total += sumatoria_horas_bomba
-                        horas_motor_total += sumatoria_horas_motor
+                        #kilometraje_total += sumatoria_kilometraje
+                        #horas_bomba_total += sumatoria_horas_bomba
+                        #horas_motor_total += sumatoria_horas_motor
 
                         sumatoria_kilometraje = 0
                         sumatoria_horas_bomba = 0
@@ -1137,6 +1137,10 @@ class ReporteCombustibleListView(ListView):
                         petroleo_actual = 0
                         petroleo_anterior = 0
                         petroleo_consumo = 0
+
+                    kilometraje_total += kilometraje_diferencia
+                    horas_bomba_total += horas_bomba_diferencia
+                    horas_motor_total += horas_motor_diferencia
 
                     cont += 1
 
