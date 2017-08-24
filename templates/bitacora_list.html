@@ -185,8 +185,14 @@
           tab_text=tab_text+"</table>";
           tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
           tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+          //solo para poder exportar bien
           tab_text= tab_text.replace(/<div[^>]*>|<\/div>/g, ""); // remove if u want div in your table
-          tab_text= tab_text.replace(/padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;/gi,"");
+          tab_text= tab_text.replace(/padding-top: 0px;/gi,"");
+          tab_text= tab_text.replace(/padding-bottom: 0px;/gi,"");
+          tab_text= tab_text.replace(/border-top-width: 0px;/gi,"");
+          tab_text= tab_text.replace(/border-bottom-width: 0px;/gi,"");
+          tab_text= tab_text.replace(/height: 0px;/gi,"");
+
           tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
           var ua = window.navigator.userAgent;
@@ -198,7 +204,7 @@
               txtArea1.document.write(tab_text);
               txtArea1.document.close();
               txtArea1.focus(); 
-              sa=txtArea1.document.execCommand("SaveAs",true,"cargas_combustible.xls");
+              sa=txtArea1.document.execCommand("SaveAs",true,"Bitacora.xls");
           }  
           else
             //other browser not tested on IE 11

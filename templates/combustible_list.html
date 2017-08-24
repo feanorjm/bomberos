@@ -129,7 +129,11 @@
           tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
           tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
           tab_text= tab_text.replace(/<div[^>]*>|<\/div>/g, ""); // remove if u want div in your table
-          tab_text= tab_text.replace(/padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;/gi,"");
+          tab_text= tab_text.replace(/padding-top: 0px;/gi,"");
+          tab_text= tab_text.replace(/padding-bottom: 0px;/gi,"");
+          tab_text= tab_text.replace(/border-top-width: 0px;/gi,"");
+          tab_text= tab_text.replace(/border-bottom-width: 0px;/gi,"");
+          tab_text= tab_text.replace(/height: 0px;/gi,"");
           tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
           var ua = window.navigator.userAgent;
