@@ -279,6 +279,20 @@
             pickTime: false,
         });
 
+        $('#hora_sal').datetimepicker({
+            format: 'HH:mm',
+            pickDate: false,
+            autoclose: true,
+            //pickTime: true,
+        });
+
+        $('#hora_lle').datetimepicker({
+            format: 'HH:mm',
+            pickDate: false,
+            autoclose: true,
+            //pickTime: true,
+        });
+
         $("#form_mantencion_detalle").find('input, textarea, button, select').attr('disabled',true);
         $("#prox_man").hide();
         $("#tiene_bomba").hide();
