@@ -26,7 +26,6 @@
                     <div class="x_content">
                   </div>
                   <button id="btnExport" class="btn btn-dark" onclick="fnExcelReport();">Exportar Excel</button>
-                  <div style="width: 100%; height: 400px; overflow-y: scroll;">
                     <table id="datatable-responsive" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
@@ -71,7 +70,6 @@
                         {% endfor %}
                       </tbody>
                     </table>
-                  </div>
                 </div>
               </div>
             </div>
@@ -106,10 +104,9 @@
               'searching': false,
               "paging":   false,
               "info":     false,
-              "language": {
-                  "decimal": ",",
-                  "thousands": "."
-              },
+              scrollY: 400,
+              scrollCollapse: true,
+              scrollX: true,
             });
         });
     </script>
@@ -118,7 +115,7 @@
 
        function fnExcelReport()
       {
-          var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
+          var tab_text="<table border='2px'><tr>";
           var textRange; var j=0;
           tab = document.getElementById('datatable-responsive'); // id of table
 
@@ -131,6 +128,8 @@
           tab_text=tab_text+"</table>";
           tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
           tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+          tab_text= tab_text.replace(/<div[^>]*>|<\/div>/g, ""); // remove if u want div in your table
+          tab_text= tab_text.replace(/padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;/gi,"");
           tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
           var ua = window.navigator.userAgent;
