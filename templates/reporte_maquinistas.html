@@ -22,7 +22,7 @@
                   <div class="x_content">
                     <div class="col-xs-12 col-md-12">
                       <div>
-                        <form id="form-busqueda" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'reporte_maquinistas_list_view' %}" method="post">{% csrf_token %}
+                        <form id="form-busqueda" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'reporte_maquinistas_list_view' %}" method="post" autocomplete="off">{% csrf_token %}
                           <div class="form-group pull-in clearfix">
                           {% if user.usuariocomp.tipo == '2' or user.usuariocomp.tipo == '3' %}
                             <div class="col-sm-1">
@@ -267,15 +267,15 @@
           }  
           else
             //other browser not tested on IE 11
-            var a = document.createElement('a');
+            /*var a = document.createElement('a');
             var data_type = 'data:application/vnd.ms-excel';;
             a.href = data_type + ', ' + escape(tab_text);
             a.download = 'Reporte_maquinistas.xls';
-            a.click();
+            a.click();*/
 
-            //sa = window.open('data:application/vnd.ms-excel,' + escape(tab_text));
+            sa = window.open('data:application/vnd.ms-excel,' + escape(tab_text));
 
-          //return (sa);
+          return (sa);
       }
 
 

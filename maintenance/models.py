@@ -224,8 +224,7 @@ class Mantencion(models.Model):
     num_factura = models.IntegerField(default=0, blank=True)
     valor = models.IntegerField(blank=True, default=0)
     taller = models.ForeignKey(Taller)
-    responsable = ChainedForeignKey(Conductor, chained_field="maquina", chained_model_field="maquina", null=True,
-                                  blank=True)
+    responsable = ChainedForeignKey(Conductor, chained_field="maquina", chained_model_field="maquina", null=True)
     servicio = models.ForeignKey(Bitacora, null=True, blank=True)
 
     def __str__(self):

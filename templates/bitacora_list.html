@@ -200,17 +200,16 @@
           }  
           else
             //other browser not tested on IE 11
-            var a = document.createElement('a');
+            /*ar a = document.createElement('a');
             var data_type = 'data:application/vnd.ms-excel';
             a.href = data_type + ', ' + escape(tab_text);
-            //setting the file name
             a.download = 'Servicios.xls';
-            //triggering the function
-            a.click();
+            a.click();*/
 
-            //sa = window.open('data:application/vnd.ms-excel,' + escape(tab_text));
+            sa = window.open('data:application/vnd.ms-excel,' + escape(tab_text));
+            //Response.AddHeader "Content-Disposition", "attachment; filename=C:\YOURFILENAME.xls;"
 
-          //return (sa);
+          return (sa);
       }
 
     </script>

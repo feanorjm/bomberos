@@ -20,7 +20,7 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <form id="form_maquina" data-parsley-validate class="form-horizontal form-label-left" action="" method="post">{% csrf_token %}
+                    <form id="form_maquina" data-parsley-validate class="form-horizontal form-label-left" action="" method="post" autocomplete="off">{% csrf_token %}
                         {{ form.errors }}
                         {{ form.non_field_errors }}
                         {{ form.errors }}

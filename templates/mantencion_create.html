@@ -23,7 +23,7 @@
                       <label><input type="checkbox" id="checkbox" value="">Mantención en Cuartel</label>
                     </div>
                   <div class="x_content">
-                    <form id="form_mantencion" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'mantencion_create_view' %}" method="post">{% csrf_token %}
+                    <form id="form_mantencion" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'mantencion_create_view' %}" method="post" autocomplete="off">{% csrf_token %}
                         {{ form.errors }}
                         {{ form.non_field_errors }}
                         <div class="form-group pull-in clearfix">
