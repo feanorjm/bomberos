@@ -40,10 +40,10 @@ class BitacoraList(ListView):
     def get_queryset(self):
         today = datetime.now()
         if (self.request.user.usuariocomp.tipo in ('2','3')):
-            queryset = Bitacora.objects.filter(fecha__month=today.month).order_by('-fecha')
+            queryset = Bitacora.objects.filter(fecha__month=today.month).order_by('-fecha','-hora_salida')
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
-            queryset = Bitacora.objects.filter(compania=user_comp,fecha__month=today.month).order_by('-fecha')
+            queryset = Bitacora.objects.filter(compania=user_comp,fecha__month=today.month).order_by('-fecha','-hora_salida')
 
         return queryset
 
