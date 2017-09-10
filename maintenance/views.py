@@ -1106,7 +1106,9 @@ class ReporteCombustibleListView(ListView):
                         consumo_motor = sumatoria_horas_motor * factor_por_litro
 
                         petroleo_actual = Decimal(140)
-                        consumo = float(petroleo_colocado - consumo_bomba)
+                        #consumo = float(petroleo_colocado - consumo_bomba)
+                        consumo = float(petroleo_colocado)
+
                         if consumo != 0:
                             rendimiento = round(float(sumatoria_kilometraje) / consumo, 2)
                             rendimiento = Decimal(format(rendimiento,'7.2f'))
@@ -1115,7 +1117,8 @@ class ReporteCombustibleListView(ListView):
                             #print(lugares)
                             rendimientos.append(rendimiento)
 
-                            petroleo_consumo = round((kilometraje_diferencia/(2*rendimiento)) + ((horas_bomba_diferencia)*factor_por_litro),1)
+                            #petroleo_consumo = round((kilometraje_diferencia/(2*rendimiento)) + ((horas_bomba_diferencia)*factor_por_litro),1)
+                            petroleo_consumo = round((kilometraje_diferencia / rendimiento), 1)
                             petroleo_anterior = petroleo_actual - petroleo_colocado - petroleo_consumo
                         else:
                             petroleo_actual = 'indeterminado'
@@ -1188,7 +1191,8 @@ class ReporteCombustibleListView(ListView):
                         dif_km = list_object[i]['km_dif']
                         dif_bomba = list_object[i]['bomba_dif']
                         dif_motor = list_object[i]['motor_dif']
-                        petroleo_consumo = round((dif_km/rend) + ((dif_bomba)*factor_por_litro),1)
+                        #petroleo_consumo = round((dif_km/rend) + ((dif_bomba)*factor_por_litro),1)
+                        petroleo_consumo = round((dif_km / rend), 1)
                         list_object[i]['petroleo_consumo'] = round(petroleo_consumo,1)
                         petroleo_anterior = petroleo_actual + petroleo_consumo
                         list_object[i]['petroleo_anterior'] = round(petroleo_anterior,1)
