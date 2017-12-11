@@ -287,9 +287,12 @@
                 else{
                     return true;
                 }
-                
+
             }
-          
+            else{
+                return true;
+            }
+
         });
 
         /*$("#id_maquina").change(function(){
@@ -316,7 +319,7 @@
                                 $("#id_ki_salida").val("");
                                 $("#id_ho_salida").val("");
                             }
-                            
+
                             cant = data.ultimo_servicio.length;
 
                             $('#fecha').data('DateTimePicker').destroy();

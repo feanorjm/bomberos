@@ -66,7 +66,7 @@
               <div class="profile_info">
                 <h2>Bienvenido Usuario:
                 {% if user.is_authenticated %}
-                  
+
                 {% endif %}
                 </h2>
               </div>
@@ -150,10 +150,8 @@
                   {% if user.usuariocomp.tipo != "1" %}
                     <li><a><i class="fa fa-area-chart"></i> Reportes <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                        {% if user.is_staff %}
-                          <li><a href="{% url 'reporte_combustible_list_view' %}">Parte de Combustible</a>
-                          </li>
-                        {% endif %}
+                        <li><a href="{% url 'reporte_combustible_list_view' %}">Parte de Combustible</a>
+                        </li>
                         <li><a href="{% url 'reporte_maquinistas_list_view' %}">Reporte Maquinistas</a>
                         </li>
                         <li><a href="{% url 'reporte_servicios_list_view' %}">Reporte Servicios</a>
