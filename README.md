@@ -1,4 +1,4 @@
-# Sistema de control de flota Bomberos Osorno
+# Sistema de control de flota Bomberos
 Sistema de gestión realizado en Django 1.11 y MariaDB, que se encarga de llevar un registro de los distintos procesos que conlleva administrar un cuerpo de bomberos.
 
 # Aplicaciones
