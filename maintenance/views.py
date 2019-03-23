@@ -40,10 +40,10 @@ class BitacoraList(ListView):
     def get_queryset(self):
         today = datetime.now()
         if (self.request.user.usuariocomp.tipo in ('2','3')):
-            queryset = Bitacora.objects.filter(fecha__month=today.month).order_by('-fecha','-hora_salida')
+            queryset = Bitacora.objects.filter(fecha__month=today.month,fecha__year=today.year).order_by('-fecha','-hora_salida')
         else:
             user_comp = self.request.user.usuariocomp.compania.pk
-            queryset = Bitacora.objects.filter(compania=user_comp,fecha__month=today.month).order_by('-fecha','-hora_salida')
+            queryset = Bitacora.objects.filter(compania=user_comp,fecha__month=today.month,fecha__year=today.year).order_by('-fecha','-hora_salida')
 
         return queryset
 
@@ -167,6 +167,35 @@ class BitacoraDelete(DeleteView):
     model = Bitacora
     template_name = 'bitacora_delete.html'
     success_url = reverse_lazy('bitacora_list')
+
+    ## CAMBIO JUAN MUNOZ 2017-12-11
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        km_llegada = self.object.kilometraje_llegada
+        km_salida = self.object.kilometraje_salida
+        hm_motor_salida = self.object.hodometro_salida
+        hm_motor_llegada = self.object.hodometro_llegada
+        ho_bomba_salida = self.object.ho_bomba_salida
+        ho_bomba_llegada = self.object.ho_bomba_regreso
+
+        maquina = self.object.maquina
+        ## RESTAS DE KILOMETRAJE, HODOMETRO MOTOR Y HODOMETRO BOMBA DE MAQUINA
+        resta_km = maquina.kilometraje - (km_llegada - km_salida)
+        resta_hm_motor = maquina.hodometro - (hm_motor_llegada - hm_motor_salida)
+        if maquina.tiene_bomba == True:
+            resta_hm_bomba= maquina.hodometro_bomba - (ho_bomba_llegada - ho_bomba_salida)
+            maquina.hodometro_bomba = resta_hm_bomba
+        #print(self.object,maquina, resta_km, resta_hm_motor, resta_hm_bomba)
+        maquina.kilometraje = resta_km
+        maquina.hodometro = resta_hm_motor
+
+
+        maquina.save()
+        #servicio.delete()
+
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
 
 bitacora_detail = BitacoraDetail.as_view()
 bitacora_list = BitacoraList.as_view()
@@ -799,12 +828,42 @@ class CombustibleDeleteView(DeleteView):
     success_url = reverse_lazy('combustible_list')
 
     def delete(self, request, *args, **kwargs):
+
         self.object = self.get_object()
         servicio = self.object.servicio
+        km_llegada = servicio.kilometraje_llegada
+        km_salida = servicio.kilometraje_salida
+        hm_motor_salida = servicio.hodometro_salida
+        hm_motor_llegada = servicio.hodometro_llegada
+        ho_bomba_salida = servicio.ho_bomba_salida
+        ho_bomba_llegada = servicio.ho_bomba_regreso
+
+        maquina = self.object.maquina
+        ## RESTAS DE KILOMETRAJE, HODOMETRO MOTOR Y HODOMETRO BOMBA DE MAQUINA
+        resta_km = maquina.kilometraje - (km_llegada - km_salida)
+        resta_hm_motor = maquina.hodometro - (hm_motor_llegada - hm_motor_salida)
+        if maquina.tiene_bomba == True:
+            resta_hm_bomba= maquina.hodometro_bomba - (ho_bomba_llegada - ho_bomba_salida)
+            maquina.hodometro_bomba = resta_hm_bomba
+            #resta_hm_bomba= maquina.hodometro_bomba - (ho_bomba_llegada - ho_bomba_salida)
+        #print(self.object, servicio,maquina, resta_km, resta_hm_motor, resta_hm_bomba)
+        maquina.kilometraje = resta_km
+        maquina.hodometro = resta_hm_motor
+
+        maquina.save()
         servicio.delete()
+
         success_url = self.get_success_url()
         self.object.delete()
         return HttpResponseRedirect(success_url)
+
+        #RESPALDO JUAN MUNOZ 2017-12-11
+        #self.object = self.get_object()
+        #servicio = self.object.servicio
+        #servicio.delete()
+        #success_url = self.get_success_url()
+        #self.object.delete()
+        #return HttpResponseRedirect(success_url)
 
 @method_decorator(login_required, name='dispatch')
 class CombustibleDetailView(DetailView):

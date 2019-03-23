@@ -201,7 +201,7 @@ class Bitacora(models.Model):
     observciones = models.TextField(max_length=300,null=True)
 
     def __str__(self):
-        return str(self.compania) +' - '+ str(self.maquina)+' - '+ str(self.fecha)+' - '+ str(self.clave)
+        return str(self.id) +' - '+ str(self.compania) +' - '+ str(self.maquina)+' - '+ str(self.fecha)+' - '+ str(self.clave)
 
     def get_absolute_url(self):
         return reverse('bitacora_detail', args=[str(self.id)])
