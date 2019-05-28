@@ -23,10 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'b(^xu%e8o!3cvayama63fvqho9&f8dkde-e6mbo$$xw!9p-w8+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-#ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['cbo.cmingenieria.cl',]
+ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = ['cbo.cmingenieria.cl',]
 
 
 # Application definition
@@ -83,14 +83,14 @@ WSGI_APPLICATION = 'bomberos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        #'NAME': 'bomberos',
-        'NAME': 'cmingenieria$cbo_db',
-        #'USER': 'root',
-        'USER': 'cmingenieria',
-        #'PASSWORD': '',
-        'PASSWORD': '4ctGZ)Ni4@=N',
-        #'HOST': 'localhost',
-        'HOST': 'cmingenieria.mysql.pythonanywhere-services.com',
+        'NAME': 'bomberos',
+        #'NAME': 'cmingenieria$cbo_db',
+        'USER': 'root',
+        #'USER': 'cmingenieria',
+        'PASSWORD': '',
+        #'PASSWORD': '4ctGZ)Ni4@=N',
+        'HOST': 'localhost',
+        #'HOST': 'cmingenieria.mysql.pythonanywhere-services.com',
         'PORT': '3306',
         'OPTIONS': {
                     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -153,9 +153,9 @@ STATIC_URL = '/static/'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 #esto descomentarlo en pythonanywhere
-STATIC_ROOT = '/home/cmingenieria/proyecto_bomberos/bomberos/static/'
+#STATIC_ROOT = '/home/cmingenieria/proyecto_bomberos/bomberos/static/'
 
 #esto comentarlo en pythonanywhere
-#STATICFILES_DIRS = (
-#    os.path.join(BASE_DIR, 'static/'),
-#)
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static/'),
+)

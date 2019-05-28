@@ -49,7 +49,8 @@ class BitacoraList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(BitacoraList, self).get_context_data(**kwargs)
-        claves_list = Clave.objects.all()
+        #claves_list = Clave.objects.all()
+        claves_list= Clave.objects.filter(habilitado=True)
         context['claves_list'] = claves_list
         return context
 
@@ -96,7 +97,8 @@ class BitacoraList(ListView):
                 servicios = Bitacora.objects.filter(compania=user_comp,fecha__month=today.month).order_by('-fecha','-hora_salida')
 
         context = {}
-        claves_list = Clave.objects.all()
+        #claves_list = Clave.objects.all()
+        claves_list = Clave.objects.filter(habilitado=True).exclude(nombre='6--14')
         context['claves_list'] = claves_list
         context['object_list'] = servicios
         context['datos_list'] = datos_list
@@ -114,7 +116,7 @@ class BitacoraCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super(BitacoraCreateView, self).get_context_data(**kwargs)
         #context['username'] = self.request.user.username
-        context['form'].fields['clave'].queryset = Clave.objects.exclude(nombre='6--14')
+        context['form'].fields['clave'].queryset = Clave.objects.filter(habilitado=True).exclude(nombre='6--14')
 
         if (self.request.user.usuariocomp.tipo in ('2','3')):
             context['form'].fields['compania'].queryset = Compania.objects.all()

@@ -179,6 +179,7 @@ class ServicioMantencion(models.Model):
 class Clave(models.Model):
     nombre = models.CharField(max_length=45)
     descripcion = models.CharField(max_length=100)
+    habilitado = models.BooleanField(default=True, choices=((True, "Si"), (False, "No")))
 
     def __str__(self):
         return str(self.nombre) + ' - ' + str(self.descripcion)

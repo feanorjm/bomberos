@@ -35,8 +35,8 @@ class ServicentroAdmin(admin.ModelAdmin):
     list_filter = ['nombre','direccion']
 
 class ClaveAdmin(admin.ModelAdmin):
-    list_display = ('nombre','descripcion')
-    list_filter = ['nombre','descripcion']
+    list_display = ('nombre','descripcion','habilitado')
+    list_filter = ['nombre','descripcion','habilitado']
 
 class TallerAdmin(admin.ModelAdmin):
     list_display = ('razon_social','tipo','telefono')
