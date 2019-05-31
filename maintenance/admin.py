@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django import forms
 from maintenance.models import *
+from django.contrib import messages
 
 class UsuarioCompAdmin(admin.ModelAdmin):
     list_display = ('user','tipo','compania')
@@ -37,6 +38,15 @@ class ServicentroAdmin(admin.ModelAdmin):
 class ClaveAdmin(admin.ModelAdmin):
     list_display = ('nombre','descripcion','habilitado')
     list_filter = ['nombre','descripcion','habilitado']
+
+    def delete_model(self, request, obj):
+        if obj.nombre == '6--14':
+            messages.add_message(request, messages.WARNING, 'Esta clave no se puede eliminar')
+        else:
+            obj.delete()
+        return
+
+
 
 class TallerAdmin(admin.ModelAdmin):
     list_display = ('razon_social','tipo','telefono')
