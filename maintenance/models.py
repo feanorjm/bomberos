@@ -3,6 +3,7 @@ from smart_selects.db_fields import ChainedForeignKey, GroupedForeignKey, Chaine
 from django.contrib.auth.models import User
 from django.urls import reverse
 import datetime
+from django.contrib import messages
 #from _overlapped import NULL
 
 
@@ -183,6 +184,7 @@ class Clave(models.Model):
 
     def __str__(self):
         return str(self.nombre) + ' - ' + str(self.descripcion)
+
 
 class Bitacora(models.Model):
     compania = models.ForeignKey(Compania)
