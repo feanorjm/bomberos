@@ -8,4 +8,4 @@ Sistema de gestión realizado en Django 1.11 y MariaDB, que se encarga de llevar
 4. Mantenimiento preventivo
 5. Reportes
 6. Bitacora diaria
-7. Carga de combustible
+7. Cargas de combustible
